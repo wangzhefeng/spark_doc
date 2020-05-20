@@ -1,0 +1,540 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spark &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spark Shell" href="Spark-shell.html" />
+    <link rel="prev" title="Spark SQL 背景" href="../spark-book/SparkSQL-core.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#header-n3">spark 核心概念</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#driver-program">驱动器程序(driver program)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sparkcontext">SparkContext对象</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rdd">RDD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n62">创建RDD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n69">调用RDD操作进行求值</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n122">RDD缓存,持久化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#executor">执行器节点(executor)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">传递函数的API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rdd-pair-rdd">键值对RDD(Pair RDD)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n157">键值对RDD转化操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n205">键值对RDD的行动操作</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n238">数据读取与保存</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n239">三种常见的数据源</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spark-sql">Spark SQL中的结构化数据源</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#json">JSON</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hivecontext">创建HiveContext对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hivecontext-jsonfile">HiveContext.jsonFile(“”)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hive-hsql">Hive查询语言(HSQL)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n288">由行组成的RDD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#apache-hive">Apache Hive</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hivecontext-hive-site-xml">创建HiveContext对象(hive-site.xml)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n291">Hive查询语言(HSQL)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n292">由行组成的RDD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n293">数据库与键值存储</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cassandra">Cassandra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hbase">HBase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elasticsearch">Elasticsearch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jdbc">JDBC源</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spark</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-apache-org/Spark.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spark">
+<span id="header-n0"></span><h1>Spark<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="header-n3">
+<span id="id1"></span><h2>spark 核心概念<a class="headerlink" href="#header-n3" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>在较高的层次上，每个Spark应用程序都包含一个<code class="docutils literal notranslate"><span class="pre">驱动程序</span></code>，该程序运行用户的main功能并在集群上执行各种并行操作。</p>
+<ul>
+<li><p>Spark提供的主要抽象是<code class="docutils literal notranslate"><span class="pre">弹性分布式数据集（RDD）</span></code>，它是跨群集节点分区的元素的集合，可以并行操作</p>
+<ul>
+<li><p>RDD是通过从Hadoop文件系统（或任何其他Hadoop支持的文件系统）中的文件或驱动程序中的现有Scala集合开始，并对其进行转换而创建的</p></li>
+<li><p>Spark 在内存中保留 RDD，允许它在并行操作中有效地重用</p></li>
+<li><p>RDD 会自动从节点故障中恢复</p></li>
+</ul>
+</li>
+<li><p>Spark中的第二个抽象是可以在并行操作中使用的<code class="docutils literal notranslate"><span class="pre">共享变量</span></code>。默认情况下，当Spark并行运行一个函数作为不同节点上的一组任务时，它会将函数中使用的每个变量的副本发送给每个任务。有时，变量需要跨任务共享，或者在任务和驱动程序之间共享</p></li>
+<li><p>Spark支持两种类型的共享变量：</p>
+<ul>
+<li><p>广播变量，可用于缓存所有节点的内存中的值;</p></li>
+<li><p>累加器，它们是仅“添加”到的变量，例如计数器和总和；</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Spark的主要抽象是一个名为Dataset的分布式项目集合。可以从Hadoop
+InputFormats（例如HDFS文件）或通过转换其他数据集来创建数据集</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="driver-program">
+<span id="header-n32"></span><h3>驱动器程序(driver program)<a class="headerlink" href="#driver-program" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>每个spark应用都由一个驱动器程序来发起集群上的并行操作</p></li>
+<li><p>包含应用的main函数</p></li>
+<li><p>定义了集群上的分布式数据集</p></li>
+<li><p>对分布式数据集应用相关操作</p></li>
+<li><p>即：spark shell</p></li>
+</ul>
+</div>
+<div class="section" id="sparkcontext">
+<span id="header-n44"></span><h3>SparkContext对象<a class="headerlink" href="#sparkcontext" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>访问spark,代表对计算集群的一个连接</p></li>
+<li><p>shell启动时已经自动创建了一个SparkContext对象,即变量sc</p></li>
+<li><p>利用SparkContext对象创建RDD</p></li>
+</ul>
+</div>
+<div class="section" id="rdd">
+<span id="header-n52"></span><h3>RDD<a class="headerlink" href="#rdd" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>RDD是一个不可变的分布式对象集合</p></li>
+<li><p>每个RDD被分为多个分区,这些分区运行在集群中的不同节点上</p></li>
+<li><p>RDD可以包含Python,Java,Scala中的任意类型的对象,甚至可以包含用户自定义的对象</p></li>
+</ul>
+</div>
+<div class="section" id="header-n62">
+<span id="id2"></span><h3>创建RDD<a class="headerlink" href="#header-n62" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>读取一个外部数据集</p></li>
+<li><p>在驱动器程序里分发驱动器程序中的对象集合(list,set)</p></li>
+</ol>
+</div>
+<div class="section" id="header-n69">
+<span id="id3"></span><h3>调用RDD操作进行求值<a class="headerlink" href="#header-n69" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>转化操作(transformation)RDD，转化操作会由一个RDD生成一个新的RDD</p>
+<ul>
+<li><p>sc.map()</p></li>
+<li><p>sc.filter()</p></li>
+<li><p>sc.flatMap()</p></li>
+<li><p>sc.union()</p></li>
+<li><p>sc.intersection()</p></li>
+<li><p>sc.distinct()</p></li>
+<li><p>sc.substract()</p></li>
+<li><p>sc.cartesian()</p></li>
+<li><p>sc.sample(withReplacement = true, fraction = 0.5, [seed])</p></li>
+</ul>
+</li>
+<li><p>行动操作(action)RDD，行动操作会对RDD计算出一个结果,
+并把结果返回到驱动器程序中,或把结果存储到外部存储系统(HDFS)中，Spark只会惰性计算RDD,
+他们只有在第一次在一个行动操作中用到时才会真正计算</p>
+<ul>
+<li><p>sc.count()</p></li>
+<li><p>sc.countByValue()</p></li>
+<li><p>sc.first()</p></li>
+<li><p>sc.reduce()</p></li>
+<li><p>sc.combine()</p></li>
+<li><p>sc.fold(init)(func)</p></li>
+<li><p>sc.aggregate(zeroValue)(seqOp, comOp)</p></li>
+<li><p>sc.collect()</p></li>
+<li><p>sc.take(n)</p></li>
+<li><p>sc.takeOrdered(n)(ordering)</p></li>
+<li><p>sc.top()</p></li>
+<li><p>sc.takeSample(withReplacement, num, seed)</p></li>
+<li><p>sc.foreach()</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="header-n122">
+<span id="id4"></span><h3>RDD缓存,持久化<a class="headerlink" href="#header-n122" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>默认情况下,Spark的RDD会在每次对他们进行行动操作时重新计算.如果想在多个行动中重用一个RDD,可以使用RDD.persist()让Spark把这个RDD缓存下来.可以让Spark把数据持久化到许多不同的地方.</p></li>
+<li><p>在第一次持久化的RDD计算之后,Spark会把RDD的内容保存到内存中(以分区方式存储到集群中的个机器上),这样在之后的行动操作中,就可以重新用这些数据了.</p></li>
+</ul>
+</div>
+<div class="section" id="executor">
+<span id="header-n129"></span><h3>执行器节点(executor)<a class="headerlink" href="#executor" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>要对RDD执行操作,驱动器程序一般需要管理多个执行器节点</p></li>
+<li><p>每个执行器节点上都有多个需要执行的任务</p></li>
+</ul>
+</div>
+<div class="section" id="api">
+<span id="header-n136"></span><h3>传递函数的API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>spark自动将对应的操作(函数)分发到各个执行器节点,</p></li>
+<li><p>即只需在单个的驱动器程序中编程,并且让代码自动运行在多个节点(集群)上</p></li>
+</ul>
+</div>
+<div class="section" id="rdd-pair-rdd">
+<span id="header-n143"></span><h3>键值对RDD(Pair RDD)<a class="headerlink" href="#rdd-pair-rdd" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>键值对RDD通常用来进行聚合计算</p></li>
+<li><p>键值对RDD提供了一些新的操作接口</p></li>
+<li><p>创建键值对RDD</p></li>
+<li><p>存储键值对的数据格式会在读取时直接返回由其键值对数据组成的pair RDD；</p></li>
+<li><p>把一个普通的RDD转换为pair
+RDD，调用map()函数，传递的函数需要返回键值对。</p></li>
+<li><p>用Scala和Python从一个内存中的数据集创建pari
+RDD时，只需要对这个二元组组成的集合调用SparkContext.parallelize()方法</p></li>
+</ul>
+<div class="section" id="header-n157">
+<span id="id5"></span><h4>键值对RDD转化操作<a class="headerlink" href="#header-n157" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>sc.map()</p></li>
+<li><p>sc.filter()</p></li>
+<li><p>sc.flatMap()</p></li>
+<li><p>sc.union()</p></li>
+<li><p>sc.intersection()</p></li>
+<li><p>sc.distinct()</p></li>
+<li><p>sc.substract()</p></li>
+<li><p>sc.cartesian()</p></li>
+<li><p>sc.sample(withReplacement = true, fraction = 0.5, [seed])</p></li>
+<li><p>sc.reduceByKey(func)</p></li>
+<li><p>sc.foldByKey(init)(func)</p></li>
+<li><p>sc.groupByKey()</p></li>
+<li><p>sc.combineByKey(createCombiner, mergeCombiners, partitioner)</p></li>
+<li><p>sc.sortByKey(ascending = True, )</p></li>
+<li><p>sc.mapValues(func)</p></li>
+<li><p>sc.flatMapValues(func)</p></li>
+<li><p>sc.keys()</p></li>
+<li><p>sc.values()</p></li>
+<li><p>sc.subtractByKey(other_sc)</p></li>
+<li><p>sc.join(other_sc)</p></li>
+<li><p>sc.leftOuterJoin(other_sc)</p></li>
+<li><p>sc.rightOuterJoin(other_sc)</p></li>
+<li><p>sc.cogroup(other_sc)</p></li>
+</ul>
+</div>
+<div class="section" id="header-n205">
+<span id="id6"></span><h4>键值对RDD的行动操作<a class="headerlink" href="#header-n205" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>sc.count()</p></li>
+<li><p>sc.countByValue()</p></li>
+<li><p>sc.first()</p></li>
+<li><p>sc.reduce()</p></li>
+<li><p>sc.fold(init)(func)</p></li>
+<li><p>sc.aggregate(zeroValue)(seqOp, comOp)</p></li>
+<li><p>sc.collect()</p></li>
+<li><p>sc.take(n)</p></li>
+<li><p>sc.takeOrdered(n)(ordering)</p></li>
+<li><p>sc.top()</p></li>
+<li><p>sc.takeSample(withReplacement, num, seed)</p></li>
+<li><p>sc.foreach()</p></li>
+<li><p>sc.countByKey()</p></li>
+<li><p>sc.collectAsMap()</p></li>
+<li><p>sc.lookup()</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="header-n238">
+<span id="id7"></span><h3>数据读取与保存<a class="headerlink" href="#header-n238" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="header-n239">
+<span id="id8"></span><h4>三种常见的数据源<a class="headerlink" href="#header-n239" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="header-n240">
+<span id="id9"></span><h5>文件格式<a class="headerlink" href="#header-n240" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>文本文件(非结构化)</p>
+<ul>
+<li><p>sc.textFile(“”)</p></li>
+<li><p>sc.wholeTextFiles(“”)</p></li>
+<li><p>sc.saveAsTextFile(“”)</p></li>
+</ul>
+</li>
+<li><p>JSON(半结构化)</p></li>
+<li><p>SequenceFile(结构化)</p></li>
+<li><p>csv(结构化)</p></li>
+<li><p>protocol buffer(结构化)</p></li>
+<li><p>对象文件(结构化)</p></li>
+</ul>
+</div>
+<div class="section" id="header-n261">
+<span id="id10"></span><h5>文件系统<a class="headerlink" href="#header-n261" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>本地文件系统</p>
+<ul>
+<li><p>sc.textFile(“<a class="reference external" href="file://">file://</a>…”)</p></li>
+</ul>
+</li>
+<li><p>分布式文件系统DFS(NFS,HDFS,Amazon S3等)</p>
+<ul>
+<li><p>NFS</p></li>
+<li><p>Amazon S3</p></li>
+<li><p>S3访问凭据AWS<em>ACCESS</em>KEY<em>ID,AWS</em>SECRET<em>ACCESS</em>KEY</p></li>
+<li><p>s3n://bucket/path-within-bucket</p></li>
+<li><p>HDFS</p></li>
+<li><p>hdfs://master:port/path(Hadoop版本)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="spark-sql">
+<span id="header-n283"></span><h4>Spark SQL中的结构化数据源<a class="headerlink" href="#spark-sql" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="json">
+<span id="header-n284"></span><h4>JSON<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="hivecontext">
+<span id="header-n285"></span><h4>创建HiveContext对象<a class="headerlink" href="#hivecontext" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="hivecontext-jsonfile">
+<span id="header-n286"></span><h4>HiveContext.jsonFile(“”)<a class="headerlink" href="#hivecontext-jsonfile" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="hive-hsql">
+<span id="header-n287"></span><h4>Hive查询语言(HSQL)<a class="headerlink" href="#hive-hsql" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="header-n288">
+<span id="id11"></span><h4>由行组成的RDD<a class="headerlink" href="#header-n288" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="apache-hive">
+<span id="header-n289"></span><h4>Apache Hive<a class="headerlink" href="#apache-hive" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="hivecontext-hive-site-xml">
+<span id="header-n290"></span><h4>创建HiveContext对象(hive-site.xml)<a class="headerlink" href="#hivecontext-hive-site-xml" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="header-n291">
+<span id="id12"></span><h4>Hive查询语言(HSQL)<a class="headerlink" href="#header-n291" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="header-n292">
+<span id="id13"></span><h4>由行组成的RDD<a class="headerlink" href="#header-n292" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="header-n293">
+<span id="id14"></span><h4>数据库与键值存储<a class="headerlink" href="#header-n293" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="cassandra">
+<span id="header-n294"></span><h4>Cassandra<a class="headerlink" href="#cassandra" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="hbase">
+<span id="header-n295"></span><h4>HBase<a class="headerlink" href="#hbase" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="elasticsearch">
+<span id="header-n296"></span><h4>Elasticsearch<a class="headerlink" href="#elasticsearch" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="jdbc">
+<span id="header-n297"></span><h4>JDBC源<a class="headerlink" href="#jdbc" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Spark-shell.html" class="btn btn-neutral float-right" title="Spark Shell" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../spark-book/SparkSQL-core.html" class="btn btn-neutral float-left" title="Spark SQL 背景" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

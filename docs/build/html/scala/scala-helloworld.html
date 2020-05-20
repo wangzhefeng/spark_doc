@@ -1,0 +1,863 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Scala 入门 &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Scala OOP" href="scala-OOP.html" />
+    <link rel="prev" title="Scala" href="scala-features.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scala-features.html">Scala</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scala 入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#header-n3">1.Scala 入门</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#header-n4">1.1 使用 Scala 解释器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n10">1.2 定义 Scala 变量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n21">1.3 定义 Scala 函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n49">1.4 编写 Scala 脚本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#while-if">1.5 用 while 做循环，用 if 做判断</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#foreach-for">1.6 用 foreach 和 for 遍历</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#array">1.7 [Array] 用类型参数化数组</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#list">1.8 [List] 使用列表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tuple">1.9 [Tuple] 使用元组</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-map">1.10 [Set, Map]使用集和映射</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#set">Set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#map">Map</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n264">1.11 识别函数式编程风格</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n274">指令式示例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n276">函数式示例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n292">1.12 从文件读取文本行</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Scala 入门</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/scala/scala-helloworld.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scala">
+<span id="header-n2"></span><h1>Scala 入门<a class="headerlink" href="#scala" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="header-n3">
+<span id="id1"></span><h2>1.Scala 入门<a class="headerlink" href="#header-n3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-n4">
+<span id="id2"></span><h3>1.1 使用 Scala 解释器<a class="headerlink" href="#header-n4" title="Permalink to this headline">¶</a></h3>
+<p>启动 Scala Shell：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala
+</pre></div>
+</div>
+<p>退出解释器：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ :quit
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ :q
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n10">
+<span id="id3"></span><h3>1.2 定义 Scala 变量<a class="headerlink" href="#header-n10" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Scala 变量分为两种：</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">val</span></code>：一旦初始化就不能被重新赋值；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">var</span></code>：在整个生命周期内可以被重新赋值；</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">msg</span> <span class="k">=</span> <span class="s">&quot;Hello world!&quot;</span>
+<span class="k">val</span> <span class="n">msg2</span><span class="k">:</span> <span class="kt">java.lang.String</span> <span class="o">=</span> <span class="s">&quot;Hello again, world!&quot;</span>
+<span class="k">val</span> <span class="n">msg3</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;Hello yet again, world!&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n21">
+<span id="id4"></span><h3>1.3 定义 Scala 函数<a class="headerlink" href="#header-n21" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>函数定义由 <code class="docutils literal notranslate"><span class="pre">def</span></code>
+开始，然后是函数名和圆括号中的以逗号隔开的参数列表；</p>
+<ul>
+<li><p>每个参数的后面都必须加上冒号(<code class="docutils literal notranslate"><span class="pre">:</span></code>)开始的类型标注。因为 Scala
+编译器并不会推断函数参数的类型；</p></li>
+</ul>
+</li>
+<li><p>可以在参数列表的后面加上以冒号开始的函数的结果类型(reslut
+type)。有时，Scala
+编译器需要给出函数的结果类型，比如：如果函数是<strong>递归的(recursive)</strong>，就必须显式地给出函数的结果类型；</p></li>
+<li><p>在函数的结果类型之后，是一个等号和用花括号括起来的函数体。</p>
+<ul>
+<li><p>函数体之前的等号有特别的含义，表示在函数式的世界观里，函数定义的是一个可以获取到结果值的表达式；</p></li>
+<li><p>如果函数只有一条语句，也可以不使用花括号；</p></li>
+<li><p>函数返回类型为 <code class="docutils literal notranslate"><span class="pre">()Unit</span></code>
+表示该函数并不返回任何有实际意义的结果</p>
+<ul>
+<li><p>Scala 的 <code class="docutils literal notranslate"><span class="pre">Unit</span></code> 类型和 Java 的 <code class="docutils literal notranslate"><span class="pre">void</span></code> 类型类似，每一个
+Java 中返回 <code class="docutils literal notranslate"><span class="pre">void</span></code> 的方法都能被映射称 Scala 中返回
+<code class="docutils literal notranslate"><span class="pre">Unit</span></code> 的方法。因此，结果类型为 <code class="docutils literal notranslate"><span class="pre">Unit</span></code>
+的方法之所以被执行，完全是为了它们的副作用；</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>一般形式：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="o">)</span>
+             <span class="n">x</span>
+     <span class="k">else</span>
+             <span class="n">y</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>最复杂形式：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+             <span class="n">x</span>
+     <span class="o">}</span>
+     <span class="k">else</span> <span class="o">{</span>
+             <span class="n">y</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>最简形式：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">x</span> <span class="k">else</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n49">
+<span id="id5"></span><h3>1.4 编写 Scala 脚本<a class="headerlink" href="#header-n49" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>脚本不过是一组依次执行的语句；</p></li>
+<li><p>命令行参数可以通过名为 <code class="docutils literal notranslate"><span class="pre">args</span></code> 的 Scala 数组 (Array) 获取；</p></li>
+</ul>
+</div></blockquote>
+<p><strong>编写脚本1,执行脚本1：</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// hello.scala</span>
+
+<span class="n">println</span><span class="o">(</span><span class="s">&quot;Hello world, from a script!&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala hello.scala
+</pre></div>
+</div>
+<p><strong>编写脚本2,执行脚本2：</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// helloarg.scala</span>
+
+<span class="cm">/* 对第一个命令行参数说hello */</span>
+<span class="n">println</span><span class="o">(</span><span class="s">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">args</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;!&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala helloarg.scala plant
+</pre></div>
+</div>
+</div>
+<div class="section" id="while-if">
+<span id="header-n62"></span><h3>1.5 用 while 做循环，用 if 做判断<a class="headerlink" href="#while-if" title="Permalink to this headline">¶</a></h3>
+<p><strong>打印命令行参数(带换行符)：</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// printargs.scala</span>
+
+<span class="k">var</span> <span class="n">i</span> <span class="k">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">println</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala printargs.scala Scala is fun
+</pre></div>
+</div>
+<p><strong>打印命令行参数(不带换行符)：</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// echoargs.scala</span>
+
+<span class="k">var</span> <span class="n">i</span> <span class="k">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+             <span class="n">print</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">)</span>
+     <span class="n">print</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="o">}</span>
+<span class="n">println</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala echoargs.scala Scala is more even fun
+</pre></div>
+</div>
+</div>
+<div class="section" id="foreach-for">
+<span id="header-n69"></span><h3>1.6 用 foreach 和 for 遍历<a class="headerlink" href="#foreach-for" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>指令式编程风格(imperative) -
+依次给出指令，通过循环来遍历，经常变更别不同函数共享的状态；</p>
+<ul>
+<li><p>函数式编程风格(functional)</p>
+<ul>
+<li><p>函数式编程语言的主要特征之一就是函数是一等的语法单元；</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>foreach:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// foreachargs.scala</span>
+
+<span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">arg</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span>
+<span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">((</span><span class="n">arg</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span>
+<span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala foreachargs.scala Concise is nice
+</pre></div>
+</div>
+<p>for:</p>
+<blockquote>
+<div><p>Scala 只支持指令式 for 语句的 <code class="docutils literal notranslate"><span class="pre">for表达式</span></code></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">forargs</span><span class="o">.</span><span class="n">scala</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">arg</span> <span class="o">&lt;-</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+     <span class="n">println</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala forargs.scala <span class="k">for</span> arg in args
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><em>注意：</em></p>
+<ul>
+<li><p>在 for 表达式中，符号 <code class="docutils literal notranslate"><span class="pre">&lt;-</span></code> 左边的 arg 是一个 <code class="docutils literal notranslate"><span class="pre">val</span></code>
+变量的名字，尽管 arg 看上去像是
+<code class="docutils literal notranslate"><span class="pre">var</span></code>，因为每一次迭代都会拿到新的值，但他确实是个
+<code class="docutils literal notranslate"><span class="pre">val</span></code>，虽然 arg 不能在 for 表达式的循环体内被重新赋值，但对于
+<code class="docutils literal notranslate"><span class="pre">&lt;-</span></code>右边的 args 数组中的每一个元素，一个新的名为 arg 的
+<code class="docutils literal notranslate"><span class="pre">val</span></code> 会被创建出来，初始化成元素的值，这时 for
+表达式的循环体才被执行；</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="array">
+<span id="header-n95"></span><h3>1.7 [Array] 用类型参数化数组<a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>用 <code class="docutils literal notranslate"><span class="pre">new</span></code> 来实例化 <code class="docutils literal notranslate"><span class="pre">对象(object)</span></code>、<code class="docutils literal notranslate"><span class="pre">类(class)</span></code> 的
+<code class="docutils literal notranslate"><span class="pre">实例(instance)</span></code>；</p></li>
+<li><p>用值来参数化一个实例，做法是在构造方法的括号中传入对象参数；</p></li>
+<li><p>用类型来参数化一个实例，做法是在方括号里给出一个或多个类型；</p>
+<ul>
+<li><p>当同时用类型和值来参数化一个实例时，先是方括号包起来的类型(参数)，然后才是用圆括号包起来的值(参数)；</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>用值来参数化一个实例：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">big</span> <span class="k">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="nc">BigInteger</span><span class="o">(</span><span class="s">&quot;12345&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>用类型来参数化一个实例：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">greetStrings</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="mi">3</span><span class="o">)</span>
+<span class="n">greetStrings</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="k">=</span> <span class="s">&quot;Hello&quot;</span>
+<span class="n">greetStrings</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="k">=</span> <span class="s">&quot;, &quot;</span>
+<span class="n">greetStrings</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span> <span class="k">=</span> <span class="s">&quot;world!\n&quot;</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">print</span><span class="o">(</span><span class="n">greetStrings</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">greetStrings</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="mi">3</span><span class="o">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><em>注意：</em></p>
+<ul>
+<li><p>当用 <code class="docutils literal notranslate"><span class="pre">val</span></code>
+定义一个变量时，变量本身不能被重新赋值，但它指向的那个对象是有可能发生变化的。可以改变
+<code class="docutils literal notranslate"><span class="pre">Array[String]</span></code> 的元素，因此 <code class="docutils literal notranslate"><span class="pre">Array</span></code> 本身是可变的；</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="list">
+<span id="header-n121"></span><h3>1.8 [List] 使用列表<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Scala 数组 <code class="docutils literal notranslate"><span class="pre">Array</span></code> 是一个拥有相同类型的对象的
+<code class="docutils literal notranslate"><span class="pre">可变序列</span></code>。虽然无法在数组实例化后改变其长度，却可以改变它的元素值，因此数组是可变的对象；</p></li>
+<li><p>对于需要拥有相同类型的对象的不可变序列的场景，可以使用 Scala 的
+<code class="docutils literal notranslate"><span class="pre">List</span></code> 类。Scala 的 <code class="docutils literal notranslate"><span class="pre">List</span></code>（即 <code class="docutils literal notranslate"><span class="pre">scala.List</span></code>）跟 Java 的
+<code class="docutils literal notranslate"><span class="pre">java.util.List</span></code> 的不同在于 Scala 的 <code class="docutils literal notranslate"><span class="pre">List</span></code> 不可变的，而 Java
+的 <code class="docutils literal notranslate"><span class="pre">List</span></code> 是可变的。更笼统的说，Scala 的 <code class="docutils literal notranslate"><span class="pre">List</span></code> 被设计为
+<code class="docutils literal notranslate"><span class="pre">允许函数是风格的编程</span></code>。</p></li>
+</ul>
+</div></blockquote>
+<p>创建并初始化列表：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">oneTwoThree</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>列表拼接方法 <code class="docutils literal notranslate"><span class="pre">:::</span></code>：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">oneTwo</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">threeFour</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">oneTwoThreeFour</span> <span class="k">=</span> <span class="n">oneTwo</span> <span class="o">:::</span> <span class="n">threeFour</span>
+<span class="n">println</span><span class="o">(</span><span class="n">oneTwo</span> <span class="o">+</span> <span class="s">&quot; and &quot;</span> <span class="o">+</span> <span class="n">threeFour</span> <span class="o">+</span> <span class="s">&quot; were not mutated.&quot;</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="s">&quot;Thus, &quot;</span> <span class="o">+</span> <span class="n">oneTwoThreeFour</span> <span class="o">+</span> <span class="s">&quot; is a new list.&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>列表增加方法 <code class="docutils literal notranslate"><span class="pre">::</span></code>：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">twoThree</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">oneTwoThree</span> <span class="k">=</span> <span class="mi">1</span> <span class="o">::</span> <span class="n">twoThree</span>
+<span class="n">println</span><span class="o">(</span><span class="n">oneTwoThree</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>空列表快捷方式 <code class="docutils literal notranslate"><span class="pre">Nil</span></code>：</p>
+<blockquote>
+<div><p>初始化一个新的列表的另一种方式是用<code class="docutils literal notranslate"><span class="pre">::</span></code>将元素串接起来，并将<code class="docutils literal notranslate"><span class="pre">Nil</span></code>作为最后一个元素；</p>
+</div></blockquote>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">oneTwoThree</span> <span class="k">=</span> <span class="mi">1</span> <span class="o">::</span> <span class="mi">2</span> <span class="o">::</span> <span class="mi">3</span> <span class="o">::</span> <span class="nc">Nil</span>
+<span class="n">println</span><span class="o">(</span><span class="n">oneTwoThree</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>列表的一些方法和用途：</p>
+<div class="line-block">
+<div class="line">| List方法 | 方法用途 |
+|:————————————————<a href="#id6"><span class="problematic" id="id7">|</span></a>:———————–|
+| <code class="docutils literal notranslate"><span class="pre">List()</span></code>, <code class="docutils literal notranslate"><span class="pre">Nil</span></code> | 空List</div>
+<div class="line">| <code class="docutils literal notranslate"><span class="pre">List(&quot;Cool&quot;,</span> <span class="pre">&quot;tools&quot;,</span> <span class="pre">&quot;rules&quot;)</span></code> | 创建一个新的List[String] |
+<code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">thril</span> <span class="pre">=</span> <span class="pre">&quot;Will&quot;</span> <span class="pre">::</span> <span class="pre">&quot;fill&quot;</span> <span class="pre">::</span> <span class="pre">&quot;until&quot;</span> <span class="pre">::</span> <span class="pre">Nil</span></code>|
+创建一个新的List[String] | <code class="docutils literal notranslate"><span class="pre">List(&quot;a&quot;,</span> <span class="pre">&quot;b&quot;)</span> <span class="pre">:::</span> <span class="pre">List(&quot;c&quot;,</span> <span class="pre">&quot;d&quot;)</span></code> |
+将两个List拼接起来 | <code class="docutils literal notranslate"><span class="pre">thril.mkString(&quot;,</span> <span class="pre">&quot;)</span></code> |
+返回一个用List的所有元素组合成的字符串</div>
+<div class="line">| <code class="docutils literal notranslate"><span class="pre">thril(2)</span></code> | 返回List中下标为2的元素 | <code class="docutils literal notranslate"><span class="pre">thril.head</span></code> |
+返回List首个元素 | <code class="docutils literal notranslate"><span class="pre">thril.init</span></code> |
+返回List除最后一个元素之外的其他元素组成的List | <code class="docutils literal notranslate"><span class="pre">thril.last</span></code> |
+返回List的最后一个元素 | <code class="docutils literal notranslate"><span class="pre">thril.tail</span></code> |
+返回List除第一个元素之外的其他元素组成的List | <code class="docutils literal notranslate"><span class="pre">thril.length</span></code> |
+返回List的元素个数 | <code class="docutils literal notranslate"><span class="pre">thril.isEmpty</span></code> | 判断List是否是空List |
+<code class="docutils literal notranslate"><span class="pre">thril.drop(2)</span></code> | 返回去掉了List的头两个元素的List |
+<code class="docutils literal notranslate"><span class="pre">thril.dropRight(2)</span></code> | 返回去掉了List的后两个元素的List |
+<code class="docutils literal notranslate"><span class="pre">thril.reverse</span></code> | 返回包含List的所有元素但顺序反转的List |
+<code class="docutils literal notranslate"><span class="pre">thril.count(s</span> <span class="pre">=&gt;</span> <span class="pre">s.length</span> <span class="pre">==</span> <span class="pre">4)</span></code> |
+对List中满足条件表达式的元素计数 |
+<code class="docutils literal notranslate"><span class="pre">thril.filter(s</span> <span class="pre">=&gt;</span> <span class="pre">s.length</span> <span class="pre">==</span> <span class="pre">4)</span></code> |
+按顺序返回List中所有长度为4的元素List |
+<code class="docutils literal notranslate"><span class="pre">thril.filterNot(s</span> <span class="pre">=&gt;</span> <span class="pre">s.length</span> <span class="pre">==</span> <span class="pre">4)</span></code> |
+按顺序返回List中所有长度不为4的元素List |
+<code class="docutils literal notranslate"><span class="pre">thril.exists(s</span> <span class="pre">=&gt;</span> <span class="pre">s</span> <span class="pre">==</span> <span class="pre">&quot;until&quot;)</span></code> |
+判断List中是否有字符串元素为”until” |
+<code class="docutils literal notranslate"><span class="pre">thril.forall(s</span> <span class="pre">=&gt;</span> <span class="pre">s.endsWith(&quot;l&quot;))</span></code> |
+判断List中是否所有元素都以字母”l”结尾 |
+<code class="docutils literal notranslate"><span class="pre">thril.foreach(s</span> <span class="pre">=&gt;</span> <span class="pre">println(s))</span></code> | 对List中的每个字符串进行print |
+<code class="docutils literal notranslate"><span class="pre">thril.foreach(println)</span></code> | 对List中的每个字符串进行print,精简版 |
+<code class="docutils literal notranslate"><span class="pre">thril.map(s</span> <span class="pre">=&gt;</span> <span class="pre">s</span> <span class="pre">+</span> <span class="pre">&quot;y&quot;)</span></code> |
+返回一个对List所有字符串元素末尾添加”y”的新字符串的List |
+<code class="docutils literal notranslate"><span class="pre">thril.sort((s,</span> <span class="pre">t)</span> <span class="pre">=&gt;</span> <span class="pre">s.charAt(0).toLower</span> <span class="pre">&lt;</span> <span class="pre">t.charAt(0).toLower)</span></code>|返回包含List的所有元素，按照首字母小写的字母顺序排列的List</div>
+</div>
+</div>
+<div class="section" id="tuple">
+<span id="header-n141"></span><h3>1.9 [Tuple] 使用元组<a class="headerlink" href="#tuple" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>元组是不可变的；</p></li>
+<li><p>元组可以容纳不同类型的元素；</p></li>
+<li><p>要实例化一个新的元组，只需要将对象放在圆括号当中，用逗号隔开即可；</p></li>
+<li><p>实例化好一个元组后，就可以用<code class="docutils literal notranslate"><span class="pre">._n</span></code>,
+<code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">2,...</span></code>来访问每一个元素；</p></li>
+<li><p>元组中的每个元素有可能是不同的类型；</p></li>
+<li><p>目前 Scala 标准类库仅定义到 Tuple22，即包含 22 个元素的数组；</p></li>
+<li><p>元组类型：<code class="docutils literal notranslate"><span class="pre">Tuplel[Type1,</span> <span class="pre">Type2,</span> <span class="pre">...]</span></code>， 比如：
+<code class="docutils literal notranslate"><span class="pre">Tuple2[Int,</span> <span class="pre">String]</span></code></p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">pair</span> <span class="k">=</span> <span class="o">(</span><span class="mi">99</span><span class="o">,</span> <span class="s">&quot;Luftballons&quot;</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">pair</span><span class="o">.</span><span class="n">_1</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">pair</span><span class="o">.</span><span class="n">_2</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="set-map">
+<span id="header-n161"></span><h3>1.10 [Set, Map]使用集和映射<a class="headerlink" href="#set-map" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Array 永远是可变的</p></li>
+<li><p>必须容纳相同类型的元素；</p></li>
+<li><p>长度不可变；</p></li>
+<li><p>元素可变；</p></li>
+<li><p>List 永远是不可变的</p></li>
+<li><p>必须容纳相同类型的元素；</p></li>
+<li><p>长度不可变；</p></li>
+<li><p>元素不可变；</p></li>
+<li><p>Tuple 永远是不可变的</p></li>
+<li><p>可以容纳不同类型的元素；</p></li>
+<li><p>长度不可变；</p></li>
+<li><p>元素不可变；</p></li>
+<li><p>Scala 通过不同的类继承关系来区分 Set、Map 的可变和不可变；</p></li>
+<li><p>Scala 的 API 包含了一个基础的<code class="docutils literal notranslate"><span class="pre">特质(trait)</span></code>来表示 Set、Map</p></li>
+<li><p>Scala 提供了两个<code class="docutils literal notranslate"><span class="pre">子特质(subtrait)</span></code></p>
+<ul>
+<li><p>一个用于表示可变 Set、可变 Map</p></li>
+<li><p>另一个用于表示不可变 Set、不可变 Map；</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<div class="section" id="set">
+<span id="header-n206"></span><h4>Set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="scala-set">
+<span id="header-n207"></span><h5>Scala Set 的类继承关系<a class="headerlink" href="#scala-set" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>scala.collection <strong>Set</strong> 《trait》</p>
+<ul>
+<li><p>scala.collection.immutable <strong>Set</strong> 《trait》</p>
+<ul>
+<li><p>scala.collection.immutable</p>
+<ul>
+<li><p><strong>HashSet</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>scala.collection.mutable <strong>Set</strong> 《trait》</p>
+<ul>
+<li><p>scala.collection.mutable</p>
+<ul>
+<li><p><strong>HashSet</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="header-n229">
+<span id="id8"></span><h5>创建、初始化一个不可变 Set<a class="headerlink" href="#header-n229" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">var</span> <span class="n">jetSet</span> <span class="k">=</span> <span class="nc">Set</span><span class="o">(</span><span class="s">&quot;Boeing&quot;</span><span class="o">,</span> <span class="s">&quot;Airbus&quot;</span><span class="o">)</span>
+<span class="n">jetSet</span> <span class="o">+=</span> <span class="s">&quot;Lear&quot;</span>
+<span class="n">println</span><span class="o">(</span><span class="n">jetSet</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">&quot;Cessna&quot;</span><span class="o">))</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.collection.immutable</span>
+
+<span class="k">var</span> <span class="n">jetSet</span> <span class="k">=</span> <span class="n">immutable</span><span class="o">.</span><span class="nc">Set</span><span class="o">(</span><span class="s">&quot;Boeing&quot;</span><span class="o">,</span> <span class="s">&quot;Airbus&quot;</span><span class="o">)</span>
+<span class="n">jetSet</span> <span class="o">+=</span> <span class="s">&quot;Lear&quot;</span>
+<span class="n">println</span><span class="o">(</span><span class="n">jetSet</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">&quot;Cessna&quot;</span><span class="o">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n232">
+<span id="id9"></span><h5>创建、初始化一个可变 Set<a class="headerlink" href="#header-n232" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.collection.mutable</span>
+
+<span class="k">val</span> <span class="n">movieSet</span> <span class="k">=</span> <span class="n">mutable</span><span class="o">.</span><span class="nc">Set</span><span class="o">(</span><span class="s">&quot;Hitch&quot;</span><span class="o">,</span> <span class="s">&quot;Poltergeist&quot;</span><span class="o">)</span>
+<span class="n">movieSet</span> <span class="o">+=</span> <span class="s">&quot;Shrek&quot;</span>
+<span class="n">println</span><span class="o">(</span><span class="n">movieSet</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hashset">
+<span id="header-n234"></span><h5>创建、初始化一个不可变 HashSet<a class="headerlink" href="#hashset" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.collection.immutable.HashSet</span>
+
+<span class="k">val</span> <span class="n">hashSet</span> <span class="k">=</span> <span class="nc">HashSet</span><span class="o">(</span><span class="s">&quot;Tomatoes&quot;</span><span class="o">,</span> <span class="s">&quot;Chilies&quot;</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">hashSet</span> <span class="o">+</span> <span class="s">&quot;Coriander&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="map">
+<span id="header-n236"></span><h4>Map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="scala-map">
+<span id="header-n237"></span><h5>Scala Map 的类继承关系<a class="headerlink" href="#scala-map" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>scala.collection <strong>Map</strong> 《trait》</p>
+<ul>
+<li><p>scala.collection.immutable <strong>Map</strong> 《trait》</p>
+<ul>
+<li><p>scala.collection.immutable</p>
+<ul>
+<li><p><strong>HashMap</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>scala.collection.mutable <strong>Map</strong> 《trait》</p>
+<ul>
+<li><p>scala.collection.mutable</p>
+<ul>
+<li><p><strong>HashMap</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="header-n259">
+<span id="id10"></span><h5>创建、初始化一个不可变 Map<a class="headerlink" href="#header-n259" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">romanNumeral</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span>
+     <span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">&quot;I&quot;</span><span class="o">,</span>
+     <span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">&quot;II&quot;</span><span class="o">,</span>
+     <span class="mi">3</span> <span class="o">-&gt;</span> <span class="s">&quot;III&quot;</span><span class="o">,</span>
+     <span class="mi">4</span> <span class="o">-&gt;</span> <span class="s">&quot;IV&quot;</span><span class="o">,</span>
+     <span class="mi">5</span> <span class="o">-&gt;</span> <span class="s">&quot;V&quot;</span>
+<span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">romanNumeral</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.colection.immutable</span>
+
+<span class="k">val</span> <span class="n">romanNumeral</span> <span class="k">=</span> <span class="n">immutable</span><span class="o">.</span><span class="nc">Map</span><span class="o">(</span>
+     <span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">&quot;I&quot;</span><span class="o">,</span>
+     <span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">&quot;II&quot;</span><span class="o">,</span>
+     <span class="mi">3</span> <span class="o">-&gt;</span> <span class="s">&quot;III&quot;</span><span class="o">,</span>
+     <span class="mi">4</span> <span class="o">-&gt;</span> <span class="s">&quot;IV&quot;</span><span class="o">,</span>
+     <span class="mi">5</span> <span class="o">-&gt;</span> <span class="s">&quot;V&quot;</span>
+<span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">romanNumeral</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hashmap">
+<span id="header-n262"></span><h5>创建、初始化一个可变 HashMap<a class="headerlink" href="#hashmap" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.collection.mutable</span>
+
+<span class="k">val</span> <span class="n">treasureMap</span> <span class="k">=</span> <span class="n">mutable</span><span class="o">.</span><span class="nc">Map</span><span class="o">[</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">String</span><span class="o">]()</span>
+<span class="n">treasureMap</span> <span class="o">+=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">&quot;Go to island.&quot;</span><span class="o">)</span>
+<span class="n">treasureMap</span> <span class="o">+=</span> <span class="o">(</span><span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">&quot;Find big X on ground.&quot;</span><span class="o">)</span>
+<span class="n">treasureMap</span> <span class="o">+=</span> <span class="o">(</span><span class="mi">3</span> <span class="o">-&gt;</span> <span class="s">&quot;Dig.&quot;</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">treasureMap</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="header-n264">
+<span id="id11"></span><h3>1.11 识别函数式编程风格<a class="headerlink" href="#header-n264" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>代码层面：</p>
+<ul>
+<li><p>一个显著的标志是：如果代码包含任何var变量，通常是指令式风格的，而如果代码完全没有var（只包含val），那么很可能是函数式风格的。因此，一个向函数式风格转变的方向是尽可能不用var；</p></li>
+</ul>
+</li>
+<li><p>每个有用的程序都会有某种形式的副作用。否则，它对外部世界就没有任何价值。倾向于使用无副作用的函数鼓励你设计出将带有副作用的代码最小化的额程序。这样做的好处之一就是让你的程序更容易测试；</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="header-n274">
+<span id="id12"></span><h4>指令式示例<a class="headerlink" href="#header-n274" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">printArgs</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+     <span class="k">var</span> <span class="n">i</span> <span class="k">=</span> <span class="mi">0</span>
+     <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="o">)</span> <span class="o">{</span>
+             <span class="n">println</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n276">
+<span id="id13"></span><h4>函数式示例<a class="headerlink" href="#header-n276" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>“不纯”的函数式：</p>
+<ul>
+<li><p>函数有副作用(向标准输出流输出打印)，带有副作用的函数的标志特征是结果类型是Unit.</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">printArgs</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+     <span class="k">for</span> <span class="o">(</span><span class="n">arg</span> <span class="k">&lt;-</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+             <span class="n">println</span><span class="o">(</span><span class="n">s</span><span class="o">)</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">printArgs</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+     <span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>“纯”函数式：</p>
+<ul>
+<li><p>函数没有副作用，没有var</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">formatArgs</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
+     <span class="n">args</span><span class="o">.</span><span class="n">mkString</span><span class="o">(</span><span class="s">&quot;\n&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="header-n292">
+<span id="id14"></span><h3>1.12 从文件读取文本行<a class="headerlink" href="#header-n292" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>日常任务的脚本处理文件中的文本行</p>
+</div></blockquote>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.io.Source</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">for</span> <span class="o">(</span><span class="n">line</span> <span class="k">&lt;-</span> <span class="nc">Source</span><span class="o">.</span><span class="n">fromFile</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="mi">0</span><span class="o">)).</span><span class="n">getLines</span><span class="o">())</span> <span class="o">{</span>
+             <span class="n">println</span><span class="o">(</span><span class="n">line</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">line</span><span class="o">)</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+<span class="k">else</span> <span class="o">{</span>
+     <span class="nc">Console</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">&quot;Please enter filename&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala countchars1.scala countchars1.scala
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.io.Source</span>
+
+<span class="k">def</span> <span class="n">widthOfLength</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+     <span class="n">s</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">toString</span><span class="o">.</span><span class="n">length</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">val</span> <span class="n">lines</span> <span class="k">=</span> <span class="nc">Source</span><span class="o">.</span><span class="n">fromFile</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="mi">0</span><span class="o">)).</span><span class="n">getLines</span><span class="o">().</span><span class="n">toList</span>
+     <span class="k">val</span> <span class="n">longestLine</span> <span class="k">=</span> <span class="n">lines</span><span class="o">.</span><span class="n">reduceLeft</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">.</span><span class="n">length</span><span class="o">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">b</span><span class="o">)</span>
+     <span class="k">val</span> <span class="n">maxWidth</span> <span class="k">=</span> <span class="n">widthOfLength</span><span class="o">(</span><span class="n">longestLine</span><span class="o">)</span>
+     <span class="k">for</span> <span class="o">(</span><span class="n">line</span> <span class="k">&lt;-</span> <span class="n">lines</span><span class="o">)</span> <span class="o">{</span>
+             <span class="k">val</span> <span class="n">numSpace</span> <span class="k">=</span> <span class="n">maxWidth</span> <span class="o">-</span> <span class="n">widthOfLength</span><span class="o">(</span><span class="n">line</span><span class="o">)</span>
+             <span class="k">val</span> <span class="n">padding</span> <span class="k">=</span> <span class="s">&quot; &quot;</span> <span class="o">*</span> <span class="n">numSpace</span>
+             <span class="n">println</span><span class="o">(</span><span class="n">padding</span> <span class="o">+</span> <span class="n">line</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="s">&quot; | &quot;</span> <span class="o">+</span> <span class="n">line</span><span class="o">)</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+<span class="k">else</span> <span class="o">{</span>
+     <span class="nc">Console</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">&quot;Please enter filename.&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ scala countchars2.scala countchars2.scala
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="scala-OOP.html" class="btn btn-neutral float-right" title="Scala OOP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="scala-features.html" class="btn btn-neutral float-left" title="Scala" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Scala &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Scala 入门" href="scala-helloworld.html" />
+    <link rel="prev" title="sbt" href="sbt.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sbt.html">sbt</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scala</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#header-n3">Scala 语言语法特点</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Scala</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/scala/scala-features.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scala">
+<span id="header-n0"></span><h1>Scala<a class="headerlink" href="#scala" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="header-n3">
+<span id="id1"></span><h2>Scala 语言语法特点<a class="headerlink" href="#header-n3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>函数式编程的最重要理念之一是方法不能有副作用。一个方法唯一要做的是计算并返回一个值；</p></li>
+<li><p>所有 Java 的基本类型在 Scala 包中都有对应的类；</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">scala.Boolean</span></code> &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">java.boolean</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scala.Int</span></code> &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">java.int</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scala.Float</span></code> &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">java.float</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scala.String</span></code> &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">java.lang.String</span></code></p></li>
+</ul>
+</li>
+<li><p>跟 java 不同，Scala
+并不是在变量名之前给出类型，而是在变量名之后，变量名和类型之间用冒号
+<code class="docutils literal notranslate"><span class="pre">:</span></code> 分开；</p></li>
+<li><p>代码快缩进 2 个空格是 Scala 推荐的缩进风格；</p></li>
+<li><p>Scala 中，<code class="docutils literal notranslate"><span class="pre">wihle</span></code> 或 <code class="docutils literal notranslate"><span class="pre">if</span></code> 语句中的 boolean
+表达式必须放在圆括号里；</p></li>
+<li><p>Scala 中也支持用分号分隔语句，只不过 Scala中 的分号通常都不是必须的；</p></li>
+<li><p>Scala 的数组的访问方式是将下标放在圆括号 <code class="docutils literal notranslate"><span class="pre">()</span></code>里，而不是方括号
+<code class="docutils literal notranslate"><span class="pre">[]</span></code> 里；</p></li>
+<li><p>Scala 从技术上讲并没有操作符重载(operator
+overloading)，因为它实际上并没有传统意义上的操作符。类似
+<code class="docutils literal notranslate"><span class="pre">+、-、*、/</span></code> 这样的字符可以被用作方法名；</p></li>
+<li><p>Scala 中所有操作符都是方法调用；</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">.apply()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.update()</span></code></p></li>
+</ul>
+</li>
+<li><p>如果一个方法被用在操作符表示法(operator
+notation)当中，比如：<span class="math notranslate nohighlight">\(a*b\)</span>，方法调用默认都发生在
+<code class="docutils literal notranslate"><span class="pre">左操作元(left</span> <span class="pre">operand)</span></code>，除非方法以冒号(:)结尾。如果方法名的最后一个字符是冒号，该方法的调用会发生在它的<code class="docutils literal notranslate"><span class="pre">右操作元</span></code>上。</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">*</span> <span class="pre">b</span></code>： <code class="docutils literal notranslate"><span class="pre">a.*(b)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">::</span> <span class="pre">b</span></code>: <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">::.(a)</span></code></p></li>
+</ul>
+</li>
+<li><p>在没有任何显式的 return 语句时，Scala
+方法返回的时该方法计算出的最后一个值；</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="scala-helloworld.html" class="btn btn-neutral float-right" title="Scala 入门" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sbt.html" class="btn btn-neutral float-left" title="sbt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

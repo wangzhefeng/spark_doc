@@ -1,0 +1,538 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spark Low-Level API &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spark Structured API" href="Spark-Structured-API.html" />
+    <link rel="prev" title="(I) Apache Spark" href="Spark-introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark Low-Level API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rdd">1.RDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n48">1.1 创建 RDD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dataframe-dataset-rdd">1.1.1 DataFrame, Dataset, RDD 交互操作</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-collection-rdd">1.1.2 从 Local Collection 创建 RDD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n65">1.1.3 从数据源创建 RDD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n68">1.2 操作 RDD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformation">1.2.1 Transformation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#distinct">distinct</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filter">filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#map">map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatmap">flatMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sort">sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#random-splits">Random Splits</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#action">1.2.2 Action</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#reduce">reduce</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#count">count</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#countapprox">countApprox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#countapproxdistinct">countApproxDistinct</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#countbyvalue">countByValue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#countbyvalueapprox">countByValueApprox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#first">first</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#max-min">max/min</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#take">take</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#saving-files">1.2.3 Saving Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#caching">1.2.4 Caching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#checkpointing">1.2.5 Checkpointing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipe-rdds-to-system-commands">1.2.6 Pipe RDDs to System Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#key-value-rdd">2.Key-Value RDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-shared-variables">3.Distributed Shared Variables(分布式共享变量)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spark Low-Level API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-book/Spark-Low-Level-API.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spark-low-level-api">
+<span id="header-n0"></span><h1>Spark Low-Level API<a class="headerlink" href="#spark-low-level-api" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p>What are the Low-Level APIs ?</p></li>
+<li><p>Resilient Distributed Dataset (RDD)</p></li>
+<li><p>Distributed Shared Variables</p>
+<ul>
+<li><p>Accumulators</p></li>
+<li><p>Broadcast Variable</p></li>
+</ul>
+</li>
+<li><p>When to Use the Low-Level APIs ?</p></li>
+<li><p>在高阶 API 中针对具体问题没有可用的函数时；</p></li>
+<li><p>Maintain some legacy codebase written using RDDs;</p></li>
+<li><p>需要进行自定义的共享变量操作时；</p></li>
+<li><p>How to Use the Low-Level APIs ?</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SparkContext</span></code> 是 Low-Level APIs 的主要入口:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">SparkSession.SparkContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.SparkContext</span></code></p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<div class="section" id="rdd">
+<span id="header-n38"></span><h2>1.RDD<a class="headerlink" href="#rdd" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>RDD 创建</p></li>
+<li><p>RDD 操作 API</p></li>
+<li><p>RDD 持久化</p></li>
+<li><p>RDD 分区</p></li>
+</ul>
+</div>
+<div class="section" id="header-n48">
+<span id="id1"></span><h2>1.1 创建 RDD<a class="headerlink" href="#header-n48" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dataframe-dataset-rdd">
+<span id="header-n49"></span><h3>1.1.1 DataFrame, Dataset, RDD 交互操作<a class="headerlink" href="#dataframe-dataset-rdd" title="Permalink to this headline">¶</a></h3>
+<p><strong>从 DataFrame 或 Dataset 创建 RDD:</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala: converts a Dataset[Long] to  RDD[Long]</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="o">(</span><span class="mi">500</span><span class="o">).</span><span class="n">rdd</span>
+
+<span class="c1">// convert Row object to correct data type or extract values</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="o">(</span><span class="mi">500</span><span class="o">).</span><span class="n">toDF</span><span class="o">().</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">rowObject</span> <span class="k">=&gt;</span> <span class="n">rowObject</span><span class="o">.</span><span class="n">getLong</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python: converts a DataFrame to RDD of type Row</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">toDF</span><span class="p">()</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>从 RDD 创建 DataFrame 和 Dataset:</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="o">(</span><span class="mi">500</span><span class="o">).</span><span class="n">rdd</span><span class="o">.</span><span class="n">toDF</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">toDF</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="local-collection-rdd">
+<span id="header-n59"></span><h3>1.1.2 从 Local Collection 创建 RDD<a class="headerlink" href="#local-collection-rdd" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SparkSession.SparkContext.parallelize()</span></code></p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">myCollection</span> <span class="k">=</span> <span class="s">&quot;Spark The Definitive Guide: Big Data Processing Made Simple&quot;</span>
+     <span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">words</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="n">myCollection</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+<span class="n">words</span><span class="o">.</span><span class="n">setName</span><span class="o">(</span><span class="s">&quot;myWords&quot;</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">words</span><span class="o">.</span><span class="n">name</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">myCollection</span> <span class="o">=</span> <span class="s2">&quot;Spark The Definitive Guide: Big Data Processing Made Simple&quot;</span> \
+     <span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="n">words</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">myCollection</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">words</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s2">&quot;myWords&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n65">
+<span id="id2"></span><h3>1.1.3 从数据源创建 RDD<a class="headerlink" href="#header-n65" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="c1">// each record in the RDD is the a line in the text file</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">textFile</span><span class="o">(</span><span class="s">&quot;/some/path/withTextFiles&quot;</span><span class="o">)</span>
+
+<span class="c1">// each text file is a single record in RDD</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">wholeTextFiles</span><span class="o">(</span><span class="s">&quot;/some/path/withTextFiles&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="c1"># each record in the RDD is the a line in the text file</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;/some/path/withTextFiles&quot;</span><span class="p">)</span>
+
+<span class="c1"># each text file is a single record in RDD</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">wholeTextFiles</span><span class="p">(</span><span class="s2">&quot;/some/path/withTextFiles&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="header-n68">
+<span id="id3"></span><h2>1.2 操作 RDD<a class="headerlink" href="#header-n68" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>操作 raw Java or Scala object instead of Spark types;</p></li>
+</ul>
+<div class="section" id="transformation">
+<span id="header-n72"></span><h3>1.2.1 Transformation<a class="headerlink" href="#transformation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="distinct">
+<span id="header-n73"></span><h4>distinct<a class="headerlink" href="#distinct" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">words</span>
+     <span class="o">.</span><span class="n">distinct</span><span class="o">()</span>
+     <span class="o">.</span><span class="n">count</span><span class="o">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filter">
+<span id="header-n75"></span><h4>filter<a class="headerlink" href="#filter" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">def</span> <span class="n">startsWithS</span><span class="o">(</span><span class="n">individual</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+     <span class="n">individual</span><span class="o">.</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;S&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">words</span>
+     <span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">word</span> <span class="k">=&gt;</span> <span class="n">startsWithS</span><span class="o">(</span><span class="n">word</span><span class="o">))</span>
+     <span class="o">.</span><span class="n">collect</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="k">def</span> <span class="nf">startsWithS</span><span class="p">(</span><span class="n">individual</span><span class="p">):</span>
+     <span class="k">return</span> <span class="n">individual</span><span class="o">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
+
+<span class="n">words</span> \
+     <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="n">startsWithS</span><span class="p">(</span><span class="n">word</span><span class="p">))</span> \
+     <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="map">
+<span id="header-n78"></span><h4>map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">words2</span> <span class="k">=</span> <span class="n">words</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">word</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="n">word</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="n">word</span><span class="o">.</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;S&quot;</span><span class="o">)))</span>
+<span class="n">words2</span>
+     <span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">record</span> <span class="k">=&gt;</span> <span class="n">record</span><span class="o">.</span><span class="n">_3</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">words2</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">word</span><span class="o">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">)))</span>
+<span class="n">words2</span> \
+     <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">record</span><span class="p">:</span> <span class="n">record</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> \
+     <span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flatmap">
+<span id="header-n81"></span><h4>flatMap<a class="headerlink" href="#flatmap" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">words</span>
+     <span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">word</span> <span class="k">=&gt;</span> <span class="n">word</span><span class="o">.</span><span class="n">toSeq</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">take</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">words</span> \
+     <span class="o">.</span><span class="n">flatMap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">))</span> \
+     <span class="o">.</span><span class="n">take</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sort">
+<span id="header-n84"></span><h4>sort<a class="headerlink" href="#sort" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">words</span>
+     <span class="o">.</span><span class="n">sortBy</span><span class="o">(</span><span class="n">word</span> <span class="k">=&gt;</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span><span class="o">()</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">words</span> \
+     <span class="o">.</span><span class="n">sortBy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span><span class="p">()</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="random-splits">
+<span id="header-n87"></span><h4>Random Splits<a class="headerlink" href="#random-splits" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">fiftyFiftySplit</span> <span class="k">=</span> <span class="n">words</span><span class="o">.</span><span class="n">randomSplit</span><span class="o">(</span><span class="nc">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">](</span><span class="mf">0.5</span><span class="o">,</span> <span class="mf">0.5</span><span class="o">))</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">fiftyFiftySplit</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="action">
+<span id="header-n91"></span><h3>1.2.2 Action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="reduce">
+<span id="header-n92"></span><h4>reduce<a class="headerlink" href="#reduce" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">20</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">reduce</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">))</span> \
+     <span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="count">
+<span id="header-n95"></span><h4>count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="countapprox">
+<span id="header-n97"></span><h4>countApprox<a class="headerlink" href="#countapprox" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="countapproxdistinct">
+<span id="header-n99"></span><h4>countApproxDistinct<a class="headerlink" href="#countapproxdistinct" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="countbyvalue">
+<span id="header-n100"></span><h4>countByValue<a class="headerlink" href="#countbyvalue" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="countbyvalueapprox">
+<span id="header-n101"></span><h4>countByValueApprox<a class="headerlink" href="#countbyvalueapprox" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="first">
+<span id="header-n102"></span><h4>first<a class="headerlink" href="#first" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">words</span><span class="o">.</span><span class="n">first</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">words</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="max-min">
+<span id="header-n105"></span><h4>max/min<a class="headerlink" href="#max-min" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="take">
+<span id="header-n106"></span><h4>take<a class="headerlink" href="#take" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="saving-files">
+<span id="header-n107"></span><h3>1.2.3 Saving Files<a class="headerlink" href="#saving-files" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="caching">
+<span id="header-n108"></span><h3>1.2.4 Caching<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="checkpointing">
+<span id="header-n109"></span><h3>1.2.5 Checkpointing<a class="headerlink" href="#checkpointing" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="pipe-rdds-to-system-commands">
+<span id="header-n110"></span><h3>1.2.6 Pipe RDDs to System Commands<a class="headerlink" href="#pipe-rdds-to-system-commands" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="key-value-rdd">
+<span id="header-n112"></span><h2>2.Key-Value RDD<a class="headerlink" href="#key-value-rdd" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distributed-shared-variables">
+<span id="header-n114"></span><h2>3.Distributed Shared Variables(分布式共享变量)<a class="headerlink" href="#distributed-shared-variables" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Spark-Structured-API.html" class="btn btn-neutral float-right" title="Spark Structured API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Spark-introduction.html" class="btn btn-neutral float-left" title="(I) Apache Spark" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

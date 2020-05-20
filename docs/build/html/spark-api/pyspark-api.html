@@ -1,0 +1,621 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyspark API &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyspark API" href="pyspark-sql-api.html" />
+    <link rel="prev" title="Spark Structured Streaming" href="../spark-apache-org/Spark-Structured-Streaming.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyspark API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#package-subpackages">Package 和 Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyspark">pyspark内容</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#class-pyspark-sparkconf">class pyspark.SparkConf()</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n75">方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n105">示例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-pyspark-sparkcontext">class pyspark.SparkContext()</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n113">方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n202">示例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-pyspark-sparkfiles">class pyspark.SparkFiles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n229">方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n235">示例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-pyspark-rdd-jrdd-ctx-jrdd-deserializer-autobatchedserializer-pickleserializer">class pyspark.RDD(jrdd, ctx, jrdd_deserializer = AutoBatchedSerializer(PickleSerializer()))</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n238">方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#class-pyspark-barriertaskinfo">class pyspark.BarrierTaskInfo()</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n249">方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n256">示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>pyspark API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-api/pyspark-api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyspark-api">
+<span id="header-n0"></span><h1>pyspark API<a class="headerlink" href="#pyspark-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="package-subpackages">
+<span id="header-n3"></span><h2>Package 和 Subpackages<a class="headerlink" href="#package-subpackages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>pyspark</p></li>
+<li><p>pyspark.sql</p></li>
+<li><p>pyspark.streaming</p></li>
+<li><p>pyspark.ml</p></li>
+<li><p>pyspark.mllib</p></li>
+</ul>
+</div>
+<div class="section" id="pyspark">
+<span id="header-n16"></span><h2>pyspark内容<a class="headerlink" href="#pyspark" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.SparkConf</span></code></p>
+<ul>
+<li><p>配置Spark</p></li>
+</ul>
+</li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.SparkContext</span></code></p>
+<ul>
+<li><p>Spark功能的主要入口</p></li>
+</ul>
+</li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.SparkFiles</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.RDD</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.StorageLevel</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.Broadcast</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.AccumulatorParam</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.MarshalSerializer</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.PickleSerializer</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.StatusTracker</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.SparkStageInfo</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.Profiler</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.BasicProfiler</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.TaskContext</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.RDDBarrier</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.BarrierTaskContext</span></code></p></li>
+<li><p>class: <code class="docutils literal notranslate"><span class="pre">pyspark.BarrierTaskInfo</span></code></p></li>
+</ul>
+<div class="section" id="class-pyspark-sparkconf">
+<span id="header-n58"></span><h3>class pyspark.SparkConf()<a class="headerlink" href="#class-pyspark-sparkconf" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>配置一个 Spark 应用，设置一系列key-value形式的 Spark 参数</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.master</span></code>: 用于连接的master URL</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.app.name</span></code>: App名称</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.ExecutorEnv</span></code>: 用于传递到Executors的环境变量</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.home</span></code>: 在工作节点上(worker nodes)Spark安装路径</p></li>
+</ul>
+</li>
+<li><p>将 SparkConf 对象传递给 Spark
+后，它将被克隆，用户无法再对其进行修改</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="header-n75">
+<span id="id1"></span><h4>方法<a class="headerlink" href="#header-n75" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>获取配置信息</p>
+<ul>
+<li><p>contains()</p></li>
+<li><p>get(key = None)</p></li>
+<li><p>getAll()</p></li>
+<li><p>toDebugString()</p></li>
+</ul>
+</li>
+<li><p>设置配置</p>
+<ul>
+<li><p>set()</p></li>
+<li><p>setAll()</p></li>
+<li><p>setAppName()</p></li>
+<li><p>setExecutorEnv()</p></li>
+<li><p>setIfMissing()</p></li>
+<li><p>setMaster()</p></li>
+<li><p>setSparkHome()</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="header-n105">
+<span id="id2"></span><h4>示例<a class="headerlink" href="#header-n105" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspark</span>
+
+<span class="c1"># 在Python中初始化Spark</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">SparkConf</span><span class="p">()</span> \
+     <span class="o">.</span><span class="n">setMaster</span><span class="p">(</span><span class="s2">&quot;local&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setAppName</span><span class="p">(</span><span class="s2">&quot;My First Spark App&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setExecutorEnv</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pairs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setSparkHome</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;D:/spark/bin&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setIfMissing</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+
+
+<span class="c1"># conf2 = SparkConf() \</span>
+<span class="c1">#    .set(key = &quot;spark.master&quot;, value = &quot;local&quot;) \</span>
+<span class="c1">#    .set(key = &quot;spark.app.name&quot;, value = &quot;My First Spark App&quot;) \</span>
+<span class="c1">#    .set(key = &quot;spark.home&quot;, value = &quot;D:/spark/bin&quot;)</span>
+
+<span class="c1"># conf3 = SparkConf() \</span>
+<span class="c1">#    .setAll([{</span>
+<span class="c1">#            &quot;spark.master&quot;: &quot;local&quot;,</span>
+<span class="c1">#            &quot;spark.app.name&quot;: &quot;My First Spark App&quot;,</span>
+<span class="c1">#    }])</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;spark.master&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;spark.app.name&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;spark.home&quot;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spark.master&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spark.app.name&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spark.home&quot;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">getAll</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">toDebugString</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>结果：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kc">True</span>
+<span class="kc">True</span>
+<span class="kc">True</span>
+
+<span class="n">local</span>
+<span class="n">My</span> <span class="n">First</span> <span class="n">Spark</span> <span class="n">App</span>
+<span class="n">D</span><span class="p">:</span><span class="o">/</span><span class="n">spark</span><span class="o">/</span><span class="nb">bin</span>
+
+<span class="n">dict_items</span><span class="p">([(</span><span class="s1">&#39;spark.master&#39;</span><span class="p">,</span> <span class="s1">&#39;local&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;spark.app.name&#39;</span><span class="p">,</span> <span class="s1">&#39;My First Spark App&#39;</span><span class="p">),</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">&#39;spark.home&#39;</span><span class="p">,</span> <span class="s1">&#39;D:/spark/bin&#39;</span><span class="p">)])</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">master</span><span class="o">=</span><span class="n">local</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">My</span> <span class="n">First</span> <span class="n">Spark</span> <span class="n">App</span>
+<span class="kc">None</span><span class="o">=</span><span class="kc">None</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">home</span><span class="o">=</span><span class="n">D</span><span class="p">:</span><span class="o">/</span><span class="n">spark</span><span class="o">/</span><span class="nb">bin</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="class-pyspark-sparkcontext">
+<span id="header-n110"></span><h3>class pyspark.SparkContext()<a class="headerlink" href="#class-pyspark-sparkcontext" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Spark功能的主要入口，SparkContext表示<code class="docutils literal notranslate"><span class="pre">Spark集群的连接</span></code>，可以用于在该集群上创建<code class="docutils literal notranslate"><span class="pre">RDD</span></code>和<code class="docutils literal notranslate"><span class="pre">广播变量</span></code></p>
+</div></blockquote>
+<div class="section" id="header-n113">
+<span id="id3"></span><h4>方法<a class="headerlink" href="#header-n113" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>PACKAGE_EXTENSIONS = (“.zip”, “.egg”, “.jar”)</p></li>
+<li><p>信息</p>
+<ul>
+<li><p>.version</p></li>
+<li><p>.applicationId</p>
+<ul>
+<li><p>Spark App 的唯一表示, 格式依赖于调度的任务类型</p></li>
+</ul>
+</li>
+<li><p>.getConf().getAll()</p></li>
+<li><p>.getConf().get(key = None)</p></li>
+<li><p>.uiWebUrl</p>
+<ul>
+<li><p>返回SparkUI实例的URL</p></li>
+</ul>
+</li>
+<li><p>.statusTracker()</p>
+<ul>
+<li><p>返回<code class="docutils literal notranslate"><span class="pre">StatusTracker</span></code>对象</p></li>
+</ul>
+</li>
+<li><p>.sparkUser()</p></li>
+<li><p>.startTime</p></li>
+<li><p>show_profiles()</p></li>
+<li></li>
+</ul>
+</li>
+<li><p>写入文件</p>
+<ul>
+<li><p>addFile(path, recursive = False)</p>
+<ul>
+<li><p>在这个Spark任务上为每个节点增加一个需要下载的文件。<code class="docutils literal notranslate"><span class="pre">path</span></code>可以是一个本地文件，也可以是一个HDFS文件，或者一个HTTP、HTTPS、FTP
+URL</p></li>
+</ul>
+</li>
+<li><p>addPyFile(path)</p>
+<ul>
+<li><p>为将来在这个Spark任务上运行的所有任务增加一个.py或者.zip依赖。<code class="docutils literal notranslate"><span class="pre">path</span></code>可以是一个本地文件，也可以是一个HDFS文件，或者一个HTTP、HTTPS、FTP
+URL</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>读取文件</p>
+<ul>
+<li><p>.textFile(name, minPartitions = None, use_unicode = True)</p>
+<ul>
+<li><p>读取一个文件，返回一个字符串的RDD</p></li>
+</ul>
+</li>
+<li><p>.wholeTextFiles(path, minPartitions = None, use_unicode = True)</p>
+<ul>
+<li><p>读取一个路径下的所有文本文件，每个文件将被都读取为一条单独的记录，键为每个文件的路径，值为文件的内容</p></li>
+</ul>
+</li>
+<li><p>binaryFiles(path, minPartitions = None)</p>
+<ul>
+<li><p>读取一个来自HDFS或者本地文件系统中目录下的binary文件</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>classmethod .setSystemProperty(key, value)</p></li>
+<li><p>.setLocalProperty(key, value)</p></li>
+<li><p>.setLogLevel(logLevel)</p>
+<ul>
+<li><p>logLevel: ALL, DEBUG, ERROR, FATAL, INFO, OFF, TRACE, WARN</p></li>
+</ul>
+</li>
+<li><p>accumulator()</p></li>
+<li><p>binaryRecords(path, recordLength)</p></li>
+<li><p>.union()</p></li>
+<li><p>stop()</p></li>
+</ul>
+</div>
+<div class="section" id="header-n202">
+<span id="id4"></span><h4>示例<a class="headerlink" href="#header-n202" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>建立对集群的连接</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspark</span>
+
+<span class="n">conf</span> <span class="o">=</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">SparkConf</span><span class="p">()</span> \
+     <span class="o">.</span><span class="n">setMaster</span><span class="p">(</span><span class="s2">&quot;local&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setAppName</span><span class="p">(</span><span class="s2">&quot;My First Spark App&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setExecutorEnv</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pairs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setSparkHome</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;D:/spark/bin&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setIfMissing</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="n">sc</span> <span class="o">=</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">SparkContext</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">getConf</span><span class="p">()</span><span class="o">.</span><span class="n">getAll</span><span class="p">())</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>addFile()</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkFiles</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempdir</span><span class="p">,</span> <span class="s2">&quot;test.txt&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">testFile</span><span class="p">:</span>
+     <span class="n">_</span> <span class="o">=</span> <span class="n">testFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;100&quot;</span><span class="p">)</span>
+
+<span class="n">sc</span><span class="o">.</span><span class="n">addFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">SparkFiles</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test.txt&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">testFile</span><span class="p">:</span>
+             <span class="n">fileVal</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">testFile</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
+             <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">fileVal</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">]</span>
+
+<span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">mapPartitions</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>textFile()</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempdir</span><span class="p">,</span> <span class="s2">&quot;sample-text.txt&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">testFile</span><span class="p">:</span>
+     <span class="n">_</span> <span class="o">=</span> <span class="n">testFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Hello World!&quot;</span><span class="p">)</span>
+
+<span class="n">textFile</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">textFile</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>wholeTextFiles()</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dirPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempdir</span><span class="p">,</span> <span class="s2">&quot;files&quot;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dirPath</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="s2">&quot;1.txt&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+     <span class="n">_</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">wirte</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="s2">&quot;2.txt&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file2</span><span class="p">:</span>
+     <span class="n">_</span> <span class="o">=</span> <span class="n">file2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span>
+
+<span class="n">textFiles</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">wholeTextFiles</span><span class="p">(</span><span class="n">dirPath</span><span class="p">)</span>
+<span class="nb">sorted</span><span class="p">(</span><span class="n">textFiles</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>union()</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempdir</span><span class="p">,</span> <span class="s2">&quot;union-text.txt&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">testFile</span><span class="p">:</span>
+     <span class="n">_</span> <span class="o">=</span> <span class="n">testFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+
+<span class="n">textFile</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">parallelized</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="s2">&quot;Wold!&quot;</span><span class="p">])</span>
+
+<span class="nb">sorted</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">union</span><span class="p">([</span><span class="n">textFile</span><span class="p">,</span> <span class="n">parallelized</span><span class="p">])</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="class-pyspark-sparkfiles">
+<span id="header-n226"></span><h3>class pyspark.SparkFiles<a class="headerlink" href="#class-pyspark-sparkfiles" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>解析通过<code class="docutils literal notranslate"><span class="pre">L{SparkContext.addFile()&lt;pyspark.context.SparkContext.addFile&gt;}</span></code>添加的文件的路径</p>
+</div></blockquote>
+<div class="section" id="header-n229">
+<span id="id5"></span><h4>方法<a class="headerlink" href="#header-n229" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>.get(“filename”)</p></li>
+<li><p>.getRootDirectory()</p></li>
+</ul>
+</div>
+<div class="section" id="header-n235">
+<span id="id6"></span><h4>示例<a class="headerlink" href="#header-n235" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">addFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">fileAbsDir</span> <span class="o">=</span> <span class="n">SparkFiles</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test.txt&quot;</span><span class="p">)</span>
+<span class="n">rootDir</span> <span class="o">=</span> <span class="n">SparkFiles</span><span class="o">.</span><span class="n">getRootDirectory</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="class-pyspark-rdd-jrdd-ctx-jrdd-deserializer-autobatchedserializer-pickleserializer">
+<span id="header-n237"></span><h3>class pyspark.RDD(jrdd, ctx, jrdd_deserializer = AutoBatchedSerializer(PickleSerializer()))<a class="headerlink" href="#class-pyspark-rdd-jrdd-ctx-jrdd-deserializer-autobatchedserializer-pickleserializer" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="header-n238">
+<span id="id7"></span><h3>方法<a class="headerlink" href="#header-n238" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>aggregate(zeroValue, seqOp, combOp)</p></li>
+</ul>
+</div>
+<div class="section" id="class-pyspark-barriertaskinfo">
+<span id="header-n246"></span><h3>class pyspark.BarrierTaskInfo()<a class="headerlink" href="#class-pyspark-barriertaskinfo" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>携带屏障任务的所有任务信息</p>
+</div></blockquote>
+<div class="section" id="header-n249">
+<span id="id8"></span><h4>方法<a class="headerlink" href="#header-n249" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>.address</p>
+<ul>
+<li><p>IPv4地址(host:port)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="header-n256">
+<span id="id9"></span><h4>示例<a class="headerlink" href="#header-n256" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">barrierTaskInfos</span> <span class="o">=</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">BarrierTaskInfo</span><span class="p">()</span>
+<span class="n">barrierTaskInfos</span><span class="o">.</span><span class="n">address</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pyspark-sql-api.html" class="btn btn-neutral float-right" title="pyspark API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../spark-apache-org/Spark-Structured-Streaming.html" class="btn btn-neutral float-left" title="Spark Structured Streaming" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

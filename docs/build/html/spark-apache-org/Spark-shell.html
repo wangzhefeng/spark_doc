@@ -1,0 +1,492 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spark Shell &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spark SQL" href="Spark-SQL.html" />
+    <link rel="prev" title="Spark" href="Spark.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Spark.html">Spark</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark Shell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#header-n7">1.spark shell</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#header-n8">1.1 进入spark shell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n14">1.2 Spark Shell默认环境</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#python">2.运行python脚本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-coremaven">添加一个对于spark-core工件的Maven依赖</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n28">基本操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python-version">Python Version</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n30">python基本操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-app">Python App</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#scala-version">Scala Version</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scala">Scala基本操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scala-app">Scala App</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n46">运行示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spark Shell</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-apache-org/Spark-shell.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spark-shell">
+<span id="header-n0"></span><h1>Spark Shell<a class="headerlink" href="#spark-shell" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://spark.apache.org/docs/latest/submitting-applications.html">Submitting
+Applications</a></p></li>
+</ul>
+<div class="section" id="header-n7">
+<span id="id1"></span><h2>1.spark shell<a class="headerlink" href="#header-n7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-n8">
+<span id="id2"></span><h3>1.1 进入spark shell<a class="headerlink" href="#header-n8" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> usr/lib/spark/bin <span class="c1"># linux</span>
+$ <span class="nb">cd</span> D:/spark/bin      <span class="c1"># windows</span>
+</pre></div>
+</div>
+<p><strong>Python version:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ pyspark --help
+$ pyspark --master --py-files --packages -- repositories
+$ pyspark
+$ <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3.6 pyspark
+$ <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span>ipython pyspark
+$ <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span>jupyter <span class="nv">PYSPARK_DRIVER_PYTHON_OPTS</span><span class="o">=</span>notebook pyspark
+</pre></div>
+</div>
+<p><strong>Scala version:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ spark-shell --help
+$ spark-shell --master --jars --packages --repositories
+$ spark-shell
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n14">
+<span id="id3"></span><h3>1.2 Spark Shell默认环境<a class="headerlink" href="#header-n14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Spark context Web UI: <a class="reference external" href="http://192.168.0.111:4040">http://192.168.0.111:4040</a></p></li>
+<li><p>Spark context:
+<code class="docutils literal notranslate"><span class="pre">sc</span> <span class="pre">(master</span> <span class="pre">=</span> <span class="pre">local[*],</span> <span class="pre">app</span> <span class="pre">id</span> <span class="pre">=</span> <span class="pre">local-1556297140303)</span></code></p></li>
+<li><p>Spark session: <code class="docutils literal notranslate"><span class="pre">spark</span></code></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="python">
+<span id="header-n23"></span><h2>2.运行python脚本<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># run Spark application in python without pip install PySpark(pip install pyspark)</span>
+$ /bin/spark-submit my_script.py                          <span class="c1"># python</span>
+$ <span class="nv">PYSPARK_PYTHOH</span><span class="o">=</span>python3.6 /bin/spark-submit my_scrity.py <span class="c1"># python with specify version</span>
+
+<span class="c1"># run Spark application in python with pip install PySpark(pip install pyspark)</span>
+$ python my_script.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="spark-coremaven">
+<span id="header-n26"></span><h2>添加一个对于spark-core工件的Maven依赖<a class="headerlink" href="#spark-coremaven" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">java</span> <span class="o">&amp;</span> <span class="n">scala</span>
+<span class="n">groupId</span> <span class="o">=</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span>
+<span class="n">artifactid</span> <span class="o">=</span> <span class="n">spark</span><span class="o">-</span><span class="n">core_2</span><span class="o">.</span><span class="mi">10</span>
+<span class="n">version</span> <span class="o">=</span> <span class="mf">2.3</span><span class="o">.</span><span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n28">
+<span id="id4"></span><h2>基本操作<a class="headerlink" href="#header-n28" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-version">
+<span id="header-n29"></span><h3>Python Version<a class="headerlink" href="#python-version" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="header-n30">
+<span id="id5"></span><h4>python基本操作<a class="headerlink" href="#header-n30" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 创建一个DataFrame</span>
+<span class="n">textFile</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;README.md&quot;</span><span class="p">)</span>
+
+<span class="c1"># action, transformations</span>
+<span class="n">textFile</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">textFile</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+<span class="c1"># 转换为一个新的DataFrame</span>
+<span class="n">lineWithSpark</span> <span class="o">=</span> <span class="n">textFile</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">textFile</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Spark&#39;</span><span class="p">))</span>
+<span class="n">lineWithSpark</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="c1"># or</span>
+<span class="n">textFile</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">textFile</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Spark&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="c1"># Dataset Transform</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">wordCounts</span> <span class="o">=</span> <span class="n">textFile</span>
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="n">textFile</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="s2">&quot;numWords&quot;</span><span class="p">))</span> \
+     <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;numWords&quot;</span><span class="p">)))</span> \
+     <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="c1"># MapReduce</span>
+<span class="n">wordCounts</span> <span class="o">=</span> <span class="n">textFile</span> \
+     <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">explode</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="n">textFile</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;word&quot;</span><span class="p">))</span> \
+     <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&quot;word&quot;</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">wordCounts</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="c1"># 缓存</span>
+<span class="n">lineWithSpark</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+<span class="n">lineWithSpark</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">lineWithSpark</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="python-app">
+<span id="header-n32"></span><h4>Python App<a class="headerlink" href="#python-app" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># setup.py</span>
+<span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;pyspark==</span><span class="si">{site.SPARK_VERSION}</span><span class="s1">&#39;</span>
+<span class="p">]</span>
+
+
+<span class="c1"># SimpleApp.py</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">logFile</span> <span class="o">=</span> <span class="s2">&quot;D:/spark/README.md&quot;</span>  <span class="c1"># Should be some file on your system</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
+     <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;SimpleApp&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="n">logData</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">logFile</span><span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+
+<span class="n">numAs</span> <span class="o">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">logData</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">numBs</span> <span class="o">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">logData</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lines with a: </span><span class="si">%i</span><span class="s2">, lines with b: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">numAs</span><span class="p">,</span> <span class="n">numBs</span><span class="p">))</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use spark-submit to run your application</span>
+$ D:/spark/bin/spark-submit --master local<span class="o">[</span><span class="m">4</span><span class="o">]</span> SimpleApp.py
+
+<span class="c1"># Use the Python interpreter to run your application(安装了PySpark pip: pip install pyspark)</span>
+$ python SimpleApp.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="scala-version">
+<span id="header-n35"></span><h3>Scala Version<a class="headerlink" href="#scala-version" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="scala">
+<span id="header-n36"></span><h4>Scala基本操作<a class="headerlink" href="#scala" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建一个Dataset</span>
+<span class="k">val</span> <span class="n">textFile</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">textFile</span><span class="o">(</span><span class="s">&quot;README.md&quot;</span><span class="o">)</span>
+
+<span class="c1">// action, transformations</span>
+<span class="n">textFile</span><span class="o">.</span><span class="n">count</span><span class="o">()</span>
+<span class="n">textFile</span><span class="o">.</span><span class="n">first</span><span class="o">()</span>
+
+
+<span class="c1">// 转换为一个新的Dataset</span>
+<span class="k">val</span> <span class="n">linesWithSpark</span> <span class="k">=</span> <span class="n">textFile</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">&quot;Spark&quot;</span><span class="o">))</span>
+
+<span class="c1">// or</span>
+
+<span class="n">textFile</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">&quot;Spark&quot;</span><span class="o">)).</span><span class="n">count</span><span class="o">()</span>
+
+
+<span class="c1">// Dataset transform</span>
+<span class="n">textFile</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">).</span><span class="n">size</span><span class="o">).</span><span class="n">reduce</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">b</span><span class="o">)</span>
+
+<span class="c1">// or</span>
+
+<span class="k">import</span> <span class="nn">java.lang.Math</span>
+<span class="n">textFile</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">).</span><span class="n">size</span><span class="o">).</span><span class="n">reduce</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Math</span><span class="o">.</span><span class="n">max</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">))</span>
+
+
+
+<span class="c1">// MapReduce</span>
+<span class="k">val</span> <span class="n">wordCounts</span> <span class="k">=</span> <span class="n">textFile</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">)).</span><span class="n">groupByKey</span><span class="o">(</span><span class="n">identity</span><span class="o">).</span><span class="n">count</span><span class="o">()</span>
+<span class="n">wordCounts</span><span class="o">.</span><span class="n">collect</span><span class="o">()</span>
+
+<span class="n">lineWithSpark</span><span class="o">.</span><span class="n">cache</span><span class="o">()</span>
+<span class="n">lineWithSpark</span><span class="o">.</span><span class="n">count</span><span class="o">()</span>
+<span class="n">lineWithSpark</span><span class="o">.</span><span class="n">count</span><span class="o">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scala-app">
+<span id="header-n39"></span><h4>Scala App<a class="headerlink" href="#scala-app" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="cm">/* SimpleApp.scala */</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+
+<span class="k">object</span> <span class="nc">SimpleApp</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">logFile</span> <span class="k">=</span> <span class="s">&quot;D:/spark/README.md&quot;</span> <span class="c1">// Should be some file on your system</span>
+    <span class="k">val</span> <span class="n">spark</span> <span class="k">=</span> <span class="nc">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="o">(</span><span class="s">&quot;Simple Application&quot;</span><span class="o">).</span><span class="n">getOrCreate</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">logData</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">textFile</span><span class="o">(</span><span class="n">logFile</span><span class="o">).</span><span class="n">cache</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">numAs</span> <span class="k">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">)).</span><span class="n">count</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">numBs</span> <span class="k">=</span> <span class="n">logData</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">line</span> <span class="k">=&gt;</span> <span class="n">line</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="s">&quot;b&quot;</span><span class="o">)).</span><span class="n">count</span><span class="o">()</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">s&quot;Lines with a: </span><span class="si">$numAs</span><span class="s">, Lines with b: </span><span class="si">$numBs</span><span class="s">&quot;</span><span class="o">)</span>
+    <span class="n">spark</span><span class="o">.</span><span class="n">stop</span><span class="o">()</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>sbt configuration file: build.sbt</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">:=</span> <span class="s2">&quot;Simple Project&quot;</span>
+
+<span class="n">version</span> <span class="o">:=</span> <span class="s2">&quot;1.0&quot;</span>
+
+<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s2">&quot;2.11.12&quot;</span>
+
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s2">&quot;org.apache.spark&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spark-sql&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.4.0&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your directory layout should look like this</span>
+$ find .
+.
+./build.sbt
+./src
+./src/main
+./src/main/scala
+./src/main/scala/SimpleApp.scala
+
+<span class="c1"># Package a jar containing your application</span>
+$ sbt package
+
+<span class="c1"># Use spark-submit to run your application</span>
+$ YOUR_SPARK_HOME/bin/spark-submit --class <span class="s2">&quot;SimpleApp&quot;</span> --master local<span class="o">[</span><span class="m">4</span><span class="o">]</span> target/scala-2.11/simple-project_2.11-1.0.jar
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="header-n46">
+<span id="id6"></span><h2>运行示例<a class="headerlink" href="#header-n46" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># For Scala and Java, use run-example:</span>
+./bin/run-example SparkPi
+
+<span class="c1"># For Python examples, use spark-submit directly:</span>
+./bin/spark-submit examples/src/main/python/pi.py
+
+<span class="c1"># For R examples, use spark-submit directly:</span>
+./bin/spark-submit examples/src/main/r/dataframe.R
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Spark-SQL.html" class="btn btn-neutral float-right" title="Spark SQL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Spark.html" class="btn btn-neutral float-left" title="Spark" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

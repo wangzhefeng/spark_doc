@@ -1,0 +1,711 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>(I) Apache Spark &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spark Low-Level API" href="Spark-Low-Level-API.html" />
+    <link rel="prev" title="Spark 数据源 (Data Sources) I/O" href="Spark-Data-Source.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">(I) Apache Spark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spark">1.Spark 的哲学和历史</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n73">2.Spark 开发环境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-s-interactive-consoles">3.Spark’s Interactive Consoles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n114">4.云平台、数据</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#ii-spark">(II) Spark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spark-s-architecture">1.Spark’s Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cluster"><strong>Cluster</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-application"><strong>Spark Application</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-s-language-api">2.Spark’s Language API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-s-api">3.Spark’s API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n265">4.开始 Spark</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sparksession">4.1 SparkSession</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataframes">4.2 DataFrames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#partitions">4.3 Partitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformation">4.4 Transformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lazy-evaluation">4.5 Lazy Evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#action">4.6 Action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-ui">4.7 Spark UI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>(I) Apache Spark</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-book/Spark-introduction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="i-apache-spark">
+<span id="header-n0"></span><h1>(I) Apache Spark<a class="headerlink" href="#i-apache-spark" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="spark">
+<span id="header-n3"></span><h2>1.Spark 的哲学和历史<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h2>
+<p>Apache Spark is <strong>a unified computing engine</strong> and <strong>a set of libraries
+for parallel data processing(big data) on computer cluster</strong>, and Spark
+<strong>support multiple widely used programming language</strong> (Python, Java,
+Scala, and R), and Spark <strong>runs anywhere</strong> from a laptop to a cluster of
+thousand of servers. This makes it an easy system to start with and
+scale-up to big data processing or incredibly large scale.</p>
+<ul class="simple">
+<li><p><strong>A Unified Computing Engine</strong></p>
+<ul>
+<li><p>[Unified]</p>
+<ul>
+<li><p>Spark’s key driving goal is to offer a unified platform for
+writing big data applications. Spark is designed to support a
+wide range of data analytics tasks, range from simple data
+loading and SQL queries to machine learning and streaming
+computation, over the same computing engine and with a
+consistent set of APIs.</p></li>
+</ul>
+</li>
+<li><p>[Computing Engine]</p>
+<ul>
+<li><p>Spark handles loading data from storage system and performing
+computation on it, not permanent storage as the end itself, you
+can use Spark with a wide variety of persistent storage
+systems.</p>
+<ul>
+<li><p>cloud storage system</p>
+<ul>
+<li><p>Azure Stroage</p></li>
+<li><p>Amazon S3</p></li>
+</ul>
+</li>
+<li><p>distributed file systems</p>
+<ul>
+<li><p>Apache Hadoop</p></li>
+</ul>
+</li>
+<li><p>key-value stroes</p>
+<ul>
+<li><p>Apache Cassandra</p></li>
+</ul>
+</li>
+<li><p>message buses</p>
+<ul>
+<li><p>Apache Kafka</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>A set of libraries for parallel data processing on computer
+cluster</strong></p>
+<ul>
+<li><p>Standard Libraries</p>
+<ul>
+<li><p>SQL and sturctured data</p>
+<ul>
+<li><p>SparkSQL</p></li>
+</ul>
+</li>
+<li><p>machine learning</p>
+<ul>
+<li><p>MLlib</p></li>
+</ul>
+</li>
+<li><p>stream processing</p>
+<ul>
+<li><p>Spark Streaming</p></li>
+<li><p>Structured Streaming</p></li>
+</ul>
+</li>
+<li><p>graph analytics</p>
+<ul>
+<li><p>GraphX</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://spark-packages.org/">External Libraries</a> published as
+third-party packages by open source communities</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="header-n73">
+<span id="id1"></span><h2>2.Spark 开发环境<a class="headerlink" href="#header-n73" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Language API</p>
+<ul>
+<li><p>Python</p></li>
+<li><p>Java</p></li>
+<li><p>Scala</p></li>
+<li><p>R</p></li>
+<li><p>SQL</p></li>
+</ul>
+</li>
+<li><p>Dev Env</p>
+<ul>
+<li><p>local</p>
+<ul>
+<li><p><a class="reference external" href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Java(JVM)</a></p></li>
+<li><p><a class="reference external" href="https://www.scala-lang.org/download/">Scala</a></p></li>
+<li><p><a class="reference external" href="https://repo.continuum.io/archive/">Python interpreter(version 2.7 or
+later)</a></p></li>
+<li><p><a class="reference external" href="https://www.r-project.org/">R</a></p></li>
+<li><p><a class="reference external" href="https://spark.apache.org/downloads.html">Spark</a></p></li>
+</ul>
+</li>
+<li><p>web-based version in <a class="reference external" href="https://community.cloud.databricks.com/">Databricks Community
+Edition</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="spark-s-interactive-consoles">
+<span id="header-n107"></span><h2>3.Spark’s Interactive Consoles<a class="headerlink" href="#spark-s-interactive-consoles" title="Permalink to this headline">¶</a></h2>
+<p>Python:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/pyspark
+</pre></div>
+</div>
+<p>Scala:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/spark-shell
+</pre></div>
+</div>
+<p>SQL:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/spark-sql
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n114">
+<span id="id2"></span><h2>4.云平台、数据<a class="headerlink" href="#header-n114" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/databricks/Spark-The-Definitive-Guide">Project’s
+Github</a></p></li>
+<li><p><a class="reference external" href="https://community.cloud.databricks.com/">Databricks</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="ii-spark">
+<span id="header-n121"></span><h1>(II) Spark<a class="headerlink" href="#ii-spark" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="spark-s-architecture">
+<span id="header-n122"></span><h2>1.Spark’s Architecture<a class="headerlink" href="#spark-s-architecture" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cluster">
+<span id="header-n123"></span><h3><strong>Cluster</strong><a class="headerlink" href="#cluster" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Challenging: data processing</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Cluser(集群)</strong>:</p>
+<ul>
+<li><p>Single machine do not have enough power and resources to perform
+computations on huge amounts of information, or the user probably
+dose not have the time to wait for the computationto finish;</p></li>
+<li><p>A cluster, or group, of computers, pools the resources of many
+machines together, giving us the ability to use all the cumulative
+resources as if they were a single computer.</p></li>
+<li><p>A group of machines alone is not powerful, you need a framework to
+coordinate work across them. Spark dose just that, managing and
+coordinating the execution of task on data across a cluster of
+computers.</p></li>
+</ul>
+</li>
+<li><p><strong>Cluster manager(集群管理器)</strong>:</p>
+<ul>
+<li><p>Spark’s standalone cluster manager</p></li>
+<li><p>YARN</p></li>
+<li><p>Mesos</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="spark-application">
+<span id="header-n145"></span><h3><strong>Spark Application</strong><a class="headerlink" href="#spark-application" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Cluster Manager</strong></p>
+<ul>
+<li><p>A <strong>Driver</strong> process</p>
+<ul>
+<li><p>the heart of a Spark Appliction and maintains all relevant
+information during the lifetime of the application;</p></li>
+<li><p>runs <code class="docutils literal notranslate"><span class="pre">main()</span></code> functions;</p></li>
+<li><p>sits on a node in the cluster;</p></li>
+<li><p>responsible for:</p>
+<ul>
+<li><p>maintaining information about the Spark Application</p></li>
+<li><p>responding to user’s program or input</p></li>
+<li><p>analyzing, distributing and scheduling work across the
+<strong>executors</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>A Set of <strong>Executor</strong> process</p>
+<ul>
+<li><p>responsible for actually carrying out the work that the
+<strong>driver</strong> assigns them</p></li>
+<li><p>repsonsible for :</p>
+<ul>
+<li><p>executing code assigned to it by the driver</p></li>
+<li><p>reporting the state of the computation on that executor back
+to the dirver node</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Spark Application</strong></p>
+<ul>
+<li><p>Spark employs a <strong>cluster manager</strong> that keeps track of the
+<strong>resources</strong> available;</p></li>
+<li><p>The <strong>dirver</strong> process is responsible for executing the <strong>dirver
+program’s commands</strong> across the <strong>executors</strong> to complete a given
+task;</p>
+<ul>
+<li><p>The executors will be running Spark code</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="spark-s-language-api">
+<span id="header-n193"></span><h2>2.Spark’s Language API<a class="headerlink" href="#spark-s-language-api" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Scala</p>
+<ul>
+<li><p>Spark’s “default” language.</p></li>
+</ul>
+</li>
+<li><p>Java</p></li>
+<li><p>Python</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyspark</span></code></p></li>
+</ul>
+</li>
+<li><p>SQL</p>
+<ul>
+<li><p>Spark support a subset of the ANSI SQL 2003 standard.</p></li>
+</ul>
+</li>
+<li><p>R</p>
+<ul>
+<li><p>Spark core</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">SparkR</span></code></p></li>
+</ul>
+</li>
+<li><p>R community-driven package</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">sparklyr</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="spark-s-api">
+<span id="header-n225"></span><h2>3.Spark’s API<a class="headerlink" href="#spark-s-api" title="Permalink to this headline">¶</a></h2>
+<p><strong>Spark has two fundamental sets of APIS:</strong></p>
+<ul class="simple">
+<li><p>Low-level “unstructured” APIs</p>
+<ul>
+<li><p>RDD</p></li>
+<li><p>Streaming</p></li>
+</ul>
+</li>
+<li><p>Higher-level structured APIs</p>
+<ul>
+<li><p>Dataset</p></li>
+<li><p>DataFrame</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">org.apache.spark.sql.functions</span></code></p></li>
+<li><p>Partitions</p></li>
+<li><p>DataFrame(Dataset) Methods</p>
+<ul>
+<li><p>DataFrameStatFunctions</p></li>
+<li><p>DataFrameNaFunctions</p></li>
+</ul>
+</li>
+<li><p>Column Methods</p>
+<ul>
+<li><p>alias</p></li>
+<li><p>contains</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Spark SQL</p></li>
+<li><p>Structured Streaming</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="header-n265">
+<span id="id3"></span><h2>4.开始 Spark<a class="headerlink" href="#header-n265" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>启动 Spark’s local mode、</p>
+<ul>
+<li><p>交互模式</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">./bin/spark-shell</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./bin/pyspark</span></code></p></li>
+</ul>
+</li>
+<li><p>提交预编译的 Spark Application</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">./bin/spark-submit</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>创建 <code class="docutils literal notranslate"><span class="pre">SparkSession</span></code></p>
+<ul>
+<li><p>交互模式，已创建</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark</span></code></p></li>
+</ul>
+</li>
+<li><p>独立的 APP</p>
+<ul>
+<li><p>Scala:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">spark</span> <span class="pre">=</span> <span class="pre">SparkSession.builder().master().appName().config().getOrCreate()</span></code></p></li>
+</ul>
+</li>
+<li><p>Python:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark</span> <span class="pre">=</span> <span class="pre">SparkSession.builder().master().appName().config().getOrCreate()</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="section" id="sparksession">
+<span id="header-n304"></span><h3>4.1 SparkSession<a class="headerlink" href="#sparksession" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Spark Application</strong> controled by a <strong>Driver</strong> process called the
+<strong>SparkSession</strong>；</p></li>
+<li><p><strong>SparkSession</strong> instance is the way Spark executes user-defined
+manipulations across the cluster, and there is a one-to-one
+correspondence between a <strong>SparkSession</strong> and a <strong>Spark
+Application</strong>;</p></li>
+</ul>
+</div></blockquote>
+<p>示例：</p>
+<p>Scala 交互模式：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># in shell</span>
+$ spark-shell
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">myRange</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="o">(</span><span class="mi">1000</span><span class="o">).</span><span class="n">toDF</span><span class="o">(</span><span class="s">&quot;number&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Scala APP 模式：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.SparkSession</span>
+<span class="k">val</span> <span class="n">spark</span> <span class="k">=</span> <span class="nc">SparkSession</span>
+     <span class="o">.</span><span class="n">builder</span><span class="o">()</span>
+     <span class="o">.</span><span class="n">master</span><span class="o">()</span>
+     <span class="o">.</span><span class="n">appName</span><span class="o">()</span>
+     <span class="o">.</span><span class="n">config</span><span class="o">()</span>
+     <span class="o">.</span><span class="n">getOrCreate</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>Python 交互模式：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># in shell</span>
+$ pyspark
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Pyton</span>
+<span class="n">myRange</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Python APP 模式：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+     <span class="o">.</span><span class="n">builder</span><span class="p">()</span> \
+     <span class="o">.</span><span class="n">master</span><span class="p">()</span> \
+     <span class="o">.</span><span class="n">appName</span><span class="p">()</span> \
+     <span class="o">.</span><span class="n">config</span><span class="p">()</span> \
+     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dataframes">
+<span id="header-n325"></span><h3>4.2 DataFrames<a class="headerlink" href="#dataframes" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>A DataFrame is the most common Structured API;</p></li>
+<li><p>A DataFrame represents a table of data with rows and columns;</p></li>
+<li><p>The list of DataFrame defines the columns, the types within those
+columns is called the schema;</p></li>
+<li><p>Spark DataFrame can span thousands of computers:</p></li>
+<li><p>the data is too large to fit on one machine</p></li>
+<li><p>the data would simply take too long to perform that computation on
+one machine</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="partitions">
+<span id="header-n344"></span><h3>4.3 Partitions<a class="headerlink" href="#partitions" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="transformation">
+<span id="header-n347"></span><h3>4.4 Transformation<a class="headerlink" href="#transformation" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="lazy-evaluation">
+<span id="header-n348"></span><h3>4.5 Lazy Evaluation<a class="headerlink" href="#lazy-evaluation" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="action">
+<span id="header-n349"></span><h3>4.6 Action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="spark-ui">
+<span id="header-n350"></span><h3>4.7 Spark UI<a class="headerlink" href="#spark-ui" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Spark job</strong> represents <strong>a set of transformations</strong> triggered by
+<strong>an individual action</strong>, and can monitor the Spark job from the
+Spark UI;</p></li>
+<li><p>User can monitor the progress of a Spark job through the <strong>Spark
+web UI</strong>:</p></li>
+<li><p>Spark UI is available on port <code class="docutils literal notranslate"><span class="pre">4040</span></code> of the <strong>dirver node</strong>;</p>
+<ul>
+<li><p>Local Mode: <code class="docutils literal notranslate"><span class="pre">http://localhost:4040</span></code></p></li>
+</ul>
+</li>
+<li><p>Spark UI displays information on the state of:</p>
+<ul>
+<li><p>Spark jobs</p></li>
+<li><p>Spark environment</p></li>
+<li><p>cluster state</p></li>
+<li><p>tunning</p></li>
+<li><p>debugging</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Spark-Low-Level-API.html" class="btn btn-neutral float-right" title="Spark Low-Level API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Spark-Data-Source.html" class="btn btn-neutral float-left" title="Spark 数据源 (Data Sources) I/O" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

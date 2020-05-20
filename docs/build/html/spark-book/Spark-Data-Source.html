@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spark 数据源 (Data Sources) I/O &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="(I) Apache Spark" href="Spark-introduction.html" />
+    <link rel="prev" title="Spark 应用程序" href="Spark-APP.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark 数据源 (Data Sources) I/O</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spark-api">1.Spark 数据源 API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#read-api-structure">1.1 Read API Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#write-api-structure">1.2 Write API Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-csv">2.Spark 读取 CSV 文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#csv-read-options">2.1 CSV Read Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-reading-csv">2.2 Spark Reading CSV 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#csv-write-options">2.3 CSV Write Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-writing-csv">2.4 Spark Writing CSV 文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-json">3.Spark 读取 JSON 文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-parquet">4.Spark 读取 Parquet 文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-orc">5.Spark 读取 ORC 文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-sql-database">6.Spark 读取 SQL Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-text">7.Spark 读取 Text 文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-o">8.高级 I/O</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spark 数据源 (Data Sources) I/O</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-book/Spark-Data-Source.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spark-data-sources-i-o">
+<span id="header-n0"></span><h1>Spark 数据源 (Data Sources) I/O<a class="headerlink" href="#spark-data-sources-i-o" title="Permalink to this headline">¶</a></h1>
+<p>Spark 核心数据源:</p>
+<ul class="simple">
+<li><p>CSV</p></li>
+<li><p>JSON</p></li>
+<li><p>Parquet</p></li>
+<li><p>ORC</p></li>
+<li><p>JDBC/ODBC connection</p></li>
+<li><p>Plain-text file</p></li>
+</ul>
+<p>其他数据源(Spark Community):</p>
+<ul class="simple">
+<li><p>Cassandra</p></li>
+<li><p>HBase</p></li>
+<li><p>MongoDB</p></li>
+<li><p>AWS Redshift</p></li>
+<li><p>XML</p></li>
+<li><p>others…</p></li>
+</ul>
+<div class="section" id="spark-api">
+<span id="header-n31"></span><h2>1.Spark 数据源 API<a class="headerlink" href="#spark-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read-api-structure">
+<span id="header-n32"></span><h3>1.1 Read API Structure<a class="headerlink" href="#read-api-structure" title="Permalink to this headline">¶</a></h3>
+<p><strong>(1) 核心结构：</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DataFrameReader</span><span class="o">.</span><span class="n">format</span><span class="p">()</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">schema</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code> 是可选的，因为 Spark 默认读取 Parquet 格式的文件；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code>
+可以设置很多自定义配置参数，不同的数据源格式都有自己的一些可选配置参数可以手动设置；</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inferSchema</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">schema</span></code> 是可选的，有些数据文件提供了schema，可以使用模式推断
+(schema inference) 进行自动推断；也可以设置自定义的 schema 配置；</p></li>
+</ul>
+<p><strong>(2) Spark 读取数据的基本操作：</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;FAILFAST&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;inferSchema&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;path&quot;</span><span class="o">,</span> <span class="s">&quot;path/to/file(s)&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">schema</span><span class="o">(</span><span class="n">someSchema</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">load</span><span class="o">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DataFrameReader</span></code> 是 Spark 读取数据的基本接口，可以通过
+<code class="docutils literal notranslate"><span class="pre">spark.read</span></code> 获取；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code> 选项的设置还可以通过创建一个配置项的映射结构来设置；</p></li>
+<li><p>读取模式(read modes):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;permissive&quot;)</span></code></p>
+<ul>
+<li><p>默认选项</p></li>
+<li><p>Set all fields to <code class="docutils literal notranslate"><span class="pre">null</span></code> when it encounters a corrupted
+record and places all corrupted records in a string column
+called <code class="docutils literal notranslate"><span class="pre">_corrupt_record</span></code>;</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;dropMalformed&quot;)</span></code></p>
+<ul>
+<li><p>Drop the row that contains malformed records;</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;failFast&quot;)</span></code></p>
+<ul>
+<li><p>Fails immediately upon encountering malformed malformed
+records;</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="write-api-structure">
+<span id="header-n76"></span><h3>1.2 Write API Structure<a class="headerlink" href="#write-api-structure" title="Permalink to this headline">¶</a></h3>
+<p><strong>(1) 核心结构：</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DataFrameWriter</span><span class="o">.</span><span class="n">format</span><span class="p">()</span><span class="o">.</span><span class="n">option</span><span class="p">()</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">()</span><span class="o">.</span><span class="n">bucketBy</span><span class="p">()</span><span class="o">.</span><span class="n">sortBy</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code> 是可选的，因为 Spark 默认会将数据保存为 Parquet 文件格式；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code>
+可以设置很多自定义配置参数，不同的数据源格式都有自己的一些可选配置参数可以手动设置；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">partitionBy</span></code>, <code class="docutils literal notranslate"><span class="pre">bucketBy</span></code>, <code class="docutils literal notranslate"><span class="pre">sortBy</span></code>
+只对文件格式的数据起作用，可以通过设置这些配置对文件在目标位置存放数据的结构进行配置；</p></li>
+</ul>
+<p><strong>(2) Spark 读取数据的基本操作：</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dataframe</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;OVERWRITE&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;dataFormat&quot;</span><span class="o">,</span> <span class="s">&quot;yyyy-MM-dd&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;path&quot;</span><span class="o">,</span> <span class="s">&quot;path/to/file(s)&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">save</span><span class="o">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DataFrameWriter</span></code> 是 Spark 写出数据的基本接口，可以通过
+<code class="docutils literal notranslate"><span class="pre">dataframe.write</span></code> 获取；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code> 选项的设置还可以通过创建一个配置项的映射结构来设置；</p></li>
+<li><p>读取模式(read modes):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;append&quot;)</span></code></p>
+<ul>
+<li><p>Appends the output files to the list of files that already
+exist at that location;</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;overwrite&quot;)</span></code></p>
+<ul>
+<li><p>Will completely overwrite any data that already exists there;</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;errorIfExists&quot;)</span></code></p>
+<ul>
+<li><p>默认选项</p></li>
+<li><p>Throw an error and fails the write if data or files already
+exists at the specified location;</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;ignore&quot;)</span></code></p>
+<ul>
+<li><p>If data or files exist at the location, do nothing with the
+current DataFrame;</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="spark-csv">
+<span id="header-n119"></span><h2>2.Spark 读取 CSV 文件<a class="headerlink" href="#spark-csv" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="csv-read-options">
+<span id="header-n120"></span><h3>2.1 CSV Read Options<a class="headerlink" href="#csv-read-options" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 40%" />
+<col style="width: 15%" />
+<col style="width: 8%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>可选项</p></th>
+<th class="head"><p>默认值</p></th>
+<th class="head"><p>含义</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sep</p></td>
+<td><p>Any single string character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">,</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>header</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>escape</p></td>
+<td><p>Any string character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">\</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>inferSchema</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>ignoreLeadingWhiteSpace</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>ignoreTrailingWhiteSpace</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>nullValue</p></td>
+<td><p>Any string character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>nanValue</p></td>
+<td><p>Any string character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>positiveInf</p></td>
+<td><p>Any string or character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Inf</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>negativeInf</p></td>
+<td><p>Any String or character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-Inf</span></code></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="spark-reading-csv">
+<span id="header-n178"></span><h3>2.2 Spark Reading CSV 文件<a class="headerlink" href="#spark-reading-csv" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="csv-write-options">
+<span id="header-n179"></span><h3>2.3 CSV Write Options<a class="headerlink" href="#csv-write-options" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 49%" />
+<col style="width: 19%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>可选项</p></th>
+<th class="head"><p>默认值</p></th>
+<th class="head"><p>含义</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sep</p></td>
+<td><p>Any single string character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">,</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>header</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>nullValue</p></td>
+<td><p>Any string character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>nanValue</p></td>
+<td><p>Any string character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>positiveInf</p></td>
+<td><p>Any string or character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Inf</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>negativeInf</p></td>
+<td><p>Any String or character</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-Inf</span></code></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="spark-writing-csv">
+<span id="header-n216"></span><h3>2.4 Spark Writing CSV 文件<a class="headerlink" href="#spark-writing-csv" title="Permalink to this headline">¶</a></h3>
+<p>读取 CSV 文件：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">myManualSchema</span> <span class="k">=</span>
+<span class="k">val</span> <span class="n">csvFile</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;csv&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;header&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;FAILFAST&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">schema</span><span class="o">(</span><span class="n">myManualSchema</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/csv/2010-summary.csv&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">csvFile</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;FAILFAST&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;inferSchema&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/csv/2010-summary.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>写入 CSV 文件：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;csv&quot;</span><span class="o">)</span>
+     <span class="c1">// .mode(&quot;overwrite&quot;)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;overwrite&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;sep&quot;</span><span class="o">,</span> <span class="s">&quot;\t&quot;</span><span class="o">)</span>
+     <span class="o">.</span><span class="n">save</span><span class="o">(</span><span class="s">&quot;/tmp/my-tsv-file.tsv&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> \
+     <span class="c1"># .mode(&quot;overwrite&quot;) \</span>
+     <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;overwrite&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;sep&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span> \
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="spark-json">
+<span id="header-n224"></span><h2>3.Spark 读取 JSON 文件<a class="headerlink" href="#spark-json" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="spark-parquet">
+<span id="header-n226"></span><h2>4.Spark 读取 Parquet 文件<a class="headerlink" href="#spark-parquet" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="spark-orc">
+<span id="header-n228"></span><h2>5.Spark 读取 ORC 文件<a class="headerlink" href="#spark-orc" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="spark-sql-database">
+<span id="header-n230"></span><h2>6.Spark 读取 SQL Database<a class="headerlink" href="#spark-sql-database" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="spark-text">
+<span id="header-n232"></span><h2>7.Spark 读取 Text 文件<a class="headerlink" href="#spark-text" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="i-o">
+<span id="header-n234"></span><h2>8.高级 I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Spark-introduction.html" class="btn btn-neutral float-right" title="(I) Apache Spark" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Spark-APP.html" class="btn btn-neutral float-left" title="Spark 应用程序" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

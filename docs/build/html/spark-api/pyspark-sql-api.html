@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyspark API &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="spark(scala) API" href="spark-api-scala.html" />
+    <link rel="prev" title="pyspark API" href="pyspark-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyspark API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#package-subpackages">Package 和 Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyspark-sql">pyspark.sql内容</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#class-pyspark-sparksession">class pyspark.SparkSession()</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n77">类、方法、属性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n138">示例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-pyspark-sql-types">class pyspark.sql.types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>pyspark API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-api/pyspark-sql-api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyspark-api">
+<span id="header-n0"></span><h1>pyspark API<a class="headerlink" href="#pyspark-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="package-subpackages">
+<span id="header-n3"></span><h2>Package 和 Subpackages<a class="headerlink" href="#package-subpackages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>pyspark</p></li>
+<li><p>pyspark.sql</p></li>
+<li><p>pyspark.streaming</p></li>
+<li><p>pyspark.ml</p></li>
+<li><p>pyspark.mllib</p></li>
+</ul>
+</div>
+<div class="section" id="pyspark-sql">
+<span id="header-n16"></span><h2>pyspark.sql内容<a class="headerlink" href="#pyspark-sql" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.SparkSession</span></code></p>
+<ul>
+<li><p>DataFrame和Spark SQL功能的主要入口</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></p>
+<ul>
+<li><p>以列组织的分布式数据集</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.Column</span></code></p>
+<ul>
+<li><p>DataFrame中的一列</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.Row</span></code></p>
+<ul>
+<li><p>DataFrame中的一行</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.GroupedData</span></code></p>
+<ul>
+<li><p>聚合函数，DataFrame.groupBy()</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.DataFrameNaFunctions</span></code></p>
+<ul>
+<li><p>处理缺失数据的函数</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.DataFrameStatFunctions</span></code></p>
+<ul>
+<li><p>统计函数</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.function</span></code></p>
+<ul>
+<li><p>处理DataFrame内置函数</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.types</span></code></p>
+<ul>
+<li><p>可用的数据类型</p></li>
+</ul>
+</li>
+<li><p>class <code class="docutils literal notranslate"><span class="pre">pyspark.sql.Window</span></code></p>
+<ul>
+<li><p>窗口函数</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="class-pyspark-sparksession">
+<span id="header-n70"></span><h3>class pyspark.SparkSession()<a class="headerlink" href="#class-pyspark-sparksession" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>用Dataset和DataFrame API进行Spark编程的接口</p></li>
+<li><p>可以创建DataFrame，将DataFrame注册为表，在表上执行SQL，缓存表以及读取parquet文件</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="header-n77">
+<span id="id1"></span><h4>类、方法、属性<a class="headerlink" href="#header-n77" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>.builder</p></li>
+<li><p>class Builder</p>
+<ul>
+<li><p>.master(“”)</p></li>
+<li><p>.appName(“”)</p></li>
+<li><p>.config(key = None, value = None, conf = None)</p></li>
+<li><p>.getOrCreate()</p></li>
+<li><p>.enableHiveSupport()</p></li>
+</ul>
+</li>
+<li><p>.version</p></li>
+<li><p>.catalog</p></li>
+<li><p>.conf</p></li>
+<li><p>.udf</p></li>
+<li><p>.sparkContext</p></li>
+<li><p>createDataFrame(data, schema = None, samplingRatio = None,
+verifySchema = True)</p>
+<ul>
+<li><p>从一个RDD、list、pandas.DataFrame创建一个DataFrame</p></li>
+</ul>
+</li>
+<li><p>newSession</p></li>
+<li><p>range(start, end = None, step = 1, numPartitions = None)</p>
+<ul>
+<li><p>创建一个类型为pyspark.sql.types.LongType的单列DataFrame</p></li>
+</ul>
+</li>
+<li><p>read</p>
+<ul>
+<li><p>DataFrameReader,作为一个DataFrame来读取数据</p></li>
+</ul>
+</li>
+<li><p>readSteam</p></li>
+<li><p>sql(“SELECT * FROM t”)</p>
+<ul>
+<li><p>返回一个DataFrame</p></li>
+</ul>
+</li>
+<li><p>table(tableName)</p></li>
+<li></li>
+<li><p>streams</p></li>
+<li><p>stop()</p></li>
+</ul>
+</div>
+<div class="section" id="header-n138">
+<span id="id2"></span><h4>示例<a class="headerlink" href="#header-n138" title="Permalink to this headline">¶</a></h4>
+<p><strong>创建spark编程(DataFrame, Spark SQL)的接口:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
+     <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">&quot;local[4]&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Word Count&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;some-value&quot;</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>利用已存在的config创建接口:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkConf</span><span class="p">,</span> <span class="n">SparkContext</span>
+
+<span class="n">conf</span> <span class="o">=</span> <span class="n">SparkConf</span><span class="p">()</span> \
+     <span class="o">.</span><span class="n">setMaster</span><span class="p">(</span><span class="s2">&quot;local&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setAppName</span><span class="p">(</span><span class="s2">&quot;My First Spark App&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setExecutorEnv</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pairs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setSparkHome</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;D:/spark/bin&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">setIfMissing</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">(</span><span class="n">conf</span> <span class="o">=</span> <span class="n">conf</span><span class="p">)</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
+     <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">&quot;local&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Word Count&quot;</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">conf</span> <span class="o">=</span> <span class="n">conf</span><span class="p">)</span> \
+     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>如果返回现有SparkSession，则此构建器中指定的配置选项将应用于现有SparkSession：</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">s1</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;v1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s1">&#39;k2&#39;</span><span class="p">,</span> <span class="s1">&#39;v2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="n">s1</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">s2</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">)</span>
+<span class="n">s1</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;k2&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">s2</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;k2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>输出结果：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kc">True</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
+<p><strong>创建DataFrame:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># list</span>
+<span class="n">L</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">schema</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># dict</span>
+<span class="n">D</span> <span class="o">=</span> <span class="p">[{</span>
+     <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Alice&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}]</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># RDD</span>
+<span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">RDD</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>.range()</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>.sql()</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;table1&quot;</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT field1 as f1, field2 as f2 from table1&quot;</span><span class="p">)</span>
+<span class="n">df2</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>.table()</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;table1&quot;</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;table1&quot;</span><span class="p">)</span>
+<span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span> <span class="o">==</span> <span class="n">df2</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="class-pyspark-sql-types">
+<span id="header-n158"></span><h3>class pyspark.sql.types<a class="headerlink" href="#class-pyspark-sql-types" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>pyspark.sql.types.DataType</p>
+<ul>
+<li><p>fromInternal(obj)</p>
+<ul>
+<li><p>将一个SQL对象转换为一个Python对象</p></li>
+</ul>
+</li>
+<li><p>toInternal(obj)</p>
+<ul>
+<li><p>将一个SQL对象转换为一个Python对象</p></li>
+</ul>
+</li>
+<li><p>json()</p></li>
+<li><p>jsonVale()</p></li>
+<li><p>needConversion()</p></li>
+<li><p>simpleString()</p></li>
+<li><p>classmethod .typeName()</p></li>
+</ul>
+</li>
+<li><p>pyspark.sql.types.NullType</p></li>
+<li><p>pyspark.sql.types.StringType</p></li>
+<li><p>pyspark.sql.types.BinaryType</p></li>
+<li><p>pyspark.sql.types.BooleanType</p></li>
+<li><p>pyspark.sql.types.DataType</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="spark-api-scala.html" class="btn btn-neutral float-right" title="spark(scala) API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pyspark-api.html" class="btn btn-neutral float-left" title="pyspark API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

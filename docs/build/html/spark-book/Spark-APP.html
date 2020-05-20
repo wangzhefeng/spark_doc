@@ -1,0 +1,542 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spark 应用程序 &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spark 数据源 (Data Sources) I/O" href="Spark-Data-Source.html" />
+    <link rel="prev" title="Scala Array" href="../scala/scala.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark 应用程序</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spark-run-on-cluster">1 Spark Run on cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n5">2 开发 Spark 应用程序</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spark-app">2.1 Spark App</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scala-app">2.1.1 Scala App</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#python-app">2.1.2 Python App</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#java-app">2.1.3 Java App</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#testing-spark-app">2.2 Testing Spark App</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n93">2.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuring-spark-app">2.4 Configuring Spark App</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n96">3 部署 Spark 应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-debug-monitoring-and-debugging">4 Spark 应用程序监控和Debug(Monitoring and Debugging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n100">5 Spark 应用程序性能调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spark 应用程序</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-book/Spark-APP.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spark">
+<span id="header-n0"></span><h1>Spark 应用程序<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="spark-run-on-cluster">
+<span id="header-n3"></span><h2>1 Spark Run on cluster<a class="headerlink" href="#spark-run-on-cluster" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="header-n5">
+<span id="id1"></span><h2>2 开发 Spark 应用程序<a class="headerlink" href="#header-n5" title="Permalink to this headline">¶</a></h2>
+<p>Spark 应用程序：</p>
+<ul class="simple">
+<li><p>a Spark cluster</p></li>
+<li><p>application code</p></li>
+</ul>
+<div class="section" id="spark-app">
+<span id="header-n12"></span><h3>2.1 Spark App<a class="headerlink" href="#spark-app" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="scala-app">
+<span id="header-n13"></span><h4>2.1.1 Scala App<a class="headerlink" href="#scala-app" title="Permalink to this headline">¶</a></h4>
+<p>Build applications using Java Virtual Machine(JVM) based build tools:</p>
+<ul class="simple">
+<li><p>sbt</p></li>
+<li><p>Apache Maven</p></li>
+</ul>
+<p><strong>1.Build applications using sbt</strong></p>
+<ul class="simple">
+<li><p>Configure an sbt build for Scala application with a <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>
+file to manage the package information:</p>
+<ul>
+<li><p>Project metadata(package name, package versioning information,
+etc.)</p></li>
+<li><p>Where to resolve dependencies</p></li>
+<li><p>Dependencies needed for your library</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-sbt notranslate"><div class="highlight"><pre><span></span>// build.stb
+
+name := &quot;example&quot;
+organization := &quot;com.databricks&quot;
+scalaVersion := &quot;2.11.8&quot;
+
+// Spark Information
+val sparkVersion = &quot;2.2.0&quot;
+
+// allows us to include spark packages
+resolvers += &quot;bintray-spark-packages&quot; at
+     &quot;https://dl.bintray.com/spark-package/maven/&quot;
+
+resolvers += &quot;Typesafe Simple Repository&quot; at
+     &quot;http://repo.typesafe.com/typesafe/simple/maven-releases/&quot;
+
+resolvers += &quot;MavenRepository&quot; at
+     &quot;https://mvnrepository.com/&quot;
+
+libraryDependencies ++= Seq(
+     // Spark core
+     &quot;org.apache.spark&quot; %% &quot;spark-core&quot; % sparkVersion,
+     &quot;org.apache.spark&quot; %% &quot;spark-sql&quot; % sparkVersion,
+     // the rest of the file is omitted for brevity
+)
+</pre></div>
+</div>
+<p><strong>2.Build the Project directories using standard Scala project
+structure</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>src/
+     main/
+             resources/
+                     &lt;files to include in main jar here&gt;
+             scala/
+                     &lt;main Scala sources&gt;
+             java/
+                     &lt;main Java sources&gt;
+     test/
+             resources/
+                     &lt;files to include in <span class="nb">test</span> jar here&gt;
+             scala/
+                     &lt;<span class="nb">test</span> Scala sources&gt;
+             java/
+                     &lt;<span class="nb">test</span> Java sources&gt;
+</pre></div>
+</div>
+<p><strong>3.Put the source code in the Scala and Java directories</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="c1">// src/main/scala/DataFrameExample.scala</span>
+
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+
+<span class="k">object</span> <span class="nc">DataFrameExample</span> <span class="k">extends</span> <span class="nc">Seriallizable</span> <span class="o">{</span>
+     <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
+
+             <span class="c1">// data source path</span>
+             <span class="k">val</span> <span class="n">pathToDataFolder</span> <span class="k">=</span> <span class="n">args</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+
+             <span class="c1">// start up the SparkSession along with explicitly setting a given config</span>
+             <span class="k">val</span> <span class="n">spark</span> <span class="k">=</span> <span class="nc">SparkSession</span>
+                     <span class="o">.</span><span class="n">builder</span><span class="o">()</span>
+                     <span class="o">.</span><span class="n">appName</span><span class="o">(</span><span class="s">&quot;Spark Example&quot;</span><span class="o">)</span>
+                     <span class="o">.</span><span class="n">config</span><span class="o">(</span><span class="s">&quot;spark.sql.warehouse.dir&quot;</span><span class="o">,</span> <span class="s">&quot;/user/hive/warehouse&quot;</span><span class="o">)</span>
+                     <span class="o">.</span><span class="n">getOrCreate</span><span class="o">()</span>
+
+             <span class="c1">// udf registration</span>
+             <span class="n">spark</span><span class="o">.</span><span class="n">udf</span><span class="o">.</span><span class="n">register</span><span class="o">(</span>
+                     <span class="s">&quot;myUDF&quot;</span><span class="o">,</span> <span class="n">someUDF</span><span class="o">(</span><span class="k">_:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span>
+             <span class="o">)</span>
+
+             <span class="c1">// create DataFrame</span>
+             <span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span>
+                     <span class="o">.</span><span class="n">read</span>
+                     <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
+                     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;path&quot;</span><span class="o">,</span> <span class="n">pathToDataFolder</span> <span class="o">+</span> <span class="s">&quot;data.json&quot;</span><span class="o">)</span>
+
+             <span class="c1">// DataFrame transformations an actions</span>
+             <span class="k">val</span> <span class="n">manipulated</span> <span class="k">=</span> <span class="n">df</span>
+                     <span class="o">.</span><span class="n">groupBy</span><span class="o">(</span><span class="n">expr</span><span class="o">(</span><span class="s">&quot;myUDF(group&quot;</span><span class="o">))</span>
+                     <span class="o">.</span><span class="n">sum</span><span class="o">()</span>
+                     <span class="o">.</span><span class="n">collect</span><span class="o">()</span>
+                     <span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p><strong>4.Build Project</strong></p>
+<ul>
+<li><ol class="arabic simple">
+<li><p>run <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">assemble</span></code></p></li>
+</ol>
+<ul class="simple">
+<li><p>build an <code class="docutils literal notranslate"><span class="pre">uber-jar</span></code> or <code class="docutils literal notranslate"><span class="pre">fat-jar</span></code> that contains all of the
+dependencies in one JAR</p></li>
+<li><p>Simple</p></li>
+<li><p>cause complications(especially dependency conflicts) for others</p></li>
+</ul>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>run <code class="docutils literal notranslate"><span class="pre">sbt</span> <span class="pre">package</span></code></p></li>
+</ol>
+<ul class="simple">
+<li><p>gather all of dependencies into the target folder</p></li>
+<li><p>not package all of them into one big JAR</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>5.Run the application</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Shell</span>
+$ SPARK_HOME/bin/spark-submit <span class="se">\</span>
+     --class com.databricks.example.DataFrameExample<span class="se">\</span>
+     --master <span class="nb">local</span> <span class="se">\</span>
+     target/scala-2.11/example_2.11-0.1-SNAPSHOT.jar <span class="s2">&quot;hello&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="python-app">
+<span id="header-n56"></span><h3>2.1.2 Python App<a class="headerlink" href="#python-app" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>build Python scripts;</p></li>
+<li><p>package multiple Python files into egg or ZIP files of Spark code;</p></li>
+<li><p>use the <code class="docutils literal notranslate"><span class="pre">--py-files</span></code> argument of <code class="docutils literal notranslate"><span class="pre">spark-submit</span></code> to add
+<code class="docutils literal notranslate"><span class="pre">.py,</span> <span class="pre">.zip,</span> <span class="pre">.egg</span></code> files to be distributed with application;</p></li>
+</ul>
+<p><strong>1.Build Python scripts of Spark code</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in python</span>
+<span class="c1"># pyspark_template/main.py</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+     <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+     <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+             <span class="o">.</span><span class="n">builder</span> \
+             <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">&quot;local&quot;</span><span class="p">)</span> \
+             <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Word Count&quot;</span><span class="p">)</span> \
+             <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+             <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+     <span class="n">result</span> <span class="o">=</span> <span class="n">spark</span> \
+             <span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span> \
+             <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;id &gt; 500&quot;</span><span class="p">)</span> \
+             <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;sum(id)&quot;</span><span class="p">)</span> \
+             <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+     <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>2.Running the application</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Shell</span>
+<span class="nv">$SPARK_HOME</span>/bin/spark-submit --master <span class="nb">local</span> pyspark_template/main.py
+</pre></div>
+</div>
+<div class="section" id="java-app">
+<span id="header-n69"></span><h4>2.1.3 Java App<a class="headerlink" href="#java-app" title="Permalink to this headline">¶</a></h4>
+<p><strong>1.Build applications using mvn</strong></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="c">&lt;!-- pom.xml --&gt;</span>
+<span class="c">&lt;!-- in XML --&gt;</span>
+<span class="nt">&lt;dependencies&gt;</span>
+     <span class="nt">&lt;dependency&gt;</span>
+             <span class="nt">&lt;groupId&gt;</span>org.apache.spark<span class="nt">&lt;/groupId&gt;</span>
+             <span class="nt">&lt;artifactId&gt;</span>spark-core_2.11<span class="nt">&lt;/artifactId&gt;</span>
+             <span class="nt">&lt;version&gt;</span>2.1.0<span class="nt">&lt;/version&gt;</span>
+     <span class="nt">&lt;/dependency&gt;</span>
+     <span class="nt">&lt;dependency&gt;</span>
+             <span class="nt">&lt;groupId&gt;</span>org.apahce.spark<span class="nt">&lt;/groupId&gt;</span>
+             <span class="nt">&lt;artifactId&gt;</span>spark-sql_2.11<span class="nt">&lt;/artifactId&gt;</span>
+             <span class="nt">&lt;version&gt;</span>2.1.0<span class="nt">&lt;/version&gt;</span>
+     <span class="nt">&lt;/dependency&gt;</span>
+     <span class="nt">&lt;dependency&gt;</span>
+             <span class="nt">&lt;groupId&gt;</span>org.apache.spark<span class="nt">&lt;/groupId&gt;</span>
+             <span class="nt">&lt;artifactId&gt;</span>graphframes<span class="nt">&lt;/artifactId&gt;</span>
+             <span class="nt">&lt;version&gt;</span>0.4.0-spark2.1-s_2.11<span class="nt">&lt;/version&gt;</span>
+     <span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;repositories&gt;</span>
+     <span class="c">&lt;!-- list of other repositores --&gt;</span>
+     <span class="nt">&lt;repository&gt;</span>
+             <span class="nt">&lt;id&gt;</span>SparkPackageRepo<span class="nt">&lt;/id&gt;</span>
+             <span class="nt">&lt;url&gt;</span>http://dl.bintray.com/spark-packages/maven<span class="nt">&lt;/url&gt;</span>
+     <span class="nt">&lt;/repository&gt;</span>
+<span class="nt">&lt;/repositories&gt;</span>
+</pre></div>
+</div>
+<p><strong>2.Build the Project directories using standard Scala project
+structure</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span>
+     <span class="n">main</span><span class="o">/</span>
+             <span class="n">resources</span><span class="o">/</span>
+                     <span class="o">&lt;</span><span class="n">files</span> <span class="n">to</span> <span class="n">include</span> <span class="ow">in</span> <span class="n">main</span> <span class="n">jar</span> <span class="n">here</span><span class="o">&gt;</span>
+             <span class="n">scala</span><span class="o">/</span>
+                     <span class="o">&lt;</span><span class="n">main</span> <span class="n">Scala</span> <span class="n">sources</span><span class="o">&gt;</span>
+             <span class="n">java</span><span class="o">/</span>
+                     <span class="o">&lt;</span><span class="n">main</span> <span class="n">Java</span> <span class="n">sources</span><span class="o">&gt;</span>
+     <span class="n">test</span><span class="o">/</span>
+             <span class="n">resources</span><span class="o">/</span>
+                     <span class="o">&lt;</span><span class="n">files</span> <span class="n">to</span> <span class="n">include</span> <span class="ow">in</span> <span class="n">test</span> <span class="n">jar</span> <span class="n">here</span><span class="o">&gt;</span>
+             <span class="n">scala</span><span class="o">/</span>
+                     <span class="o">&lt;</span><span class="n">test</span> <span class="n">Scala</span> <span class="n">sources</span><span class="o">&gt;</span>
+             <span class="n">java</span><span class="o">/</span>
+                     <span class="o">&lt;</span><span class="n">test</span> <span class="n">Java</span> <span class="n">sources</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><strong>3.Put the source code in the Scala and Java directories</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Java</span>
+<span class="kn">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span><span class="p">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleExample</span> <span class="p">{</span>
+     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+             <span class="n">SparkSession</span> <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span>
+                     <span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+                     <span class="p">.</span><span class="na">getOrCreate</span><span class="p">();</span>
+             <span class="n">spark</span><span class="p">.</span><span class="na">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2000</span><span class="p">).</span><span class="na">count</span><span class="p">();</span>
+     <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>4.Build Project</strong></p>
+<ul class="simple">
+<li><p>Package the source code by using <code class="docutils literal notranslate"><span class="pre">mvn</span></code> package;</p></li>
+</ul>
+<p><strong>5.Running the application</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Shell</span>
+<span class="nv">$SPARK_HOME</span>/bin/spark-submit <span class="se">\</span>
+     --class com.databricks.example.SimpleExample <span class="se">\</span>
+     --master <span class="nb">local</span> <span class="se">\</span>
+     target/spark-example-0.1-SNAPSHOT.jar <span class="s2">&quot;Hello&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="testing-spark-app">
+<span id="header-n82"></span><h3>2.2 Testing Spark App<a class="headerlink" href="#testing-spark-app" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Strategic Principles</p></li>
+<li><p>Tactial Takeaways</p></li>
+<li><p>Connecting to Unit Testing Frameworks</p></li>
+<li><p>Connecting to Data Source</p></li>
+</ul>
+</div>
+<div class="section" id="header-n93">
+<span id="id2"></span><h3>2.3<a class="headerlink" href="#header-n93" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="configuring-spark-app">
+<span id="header-n94"></span><h3>2.4 Configuring Spark App<a class="headerlink" href="#configuring-spark-app" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="header-n96">
+<span id="id3"></span><h2>3 部署 Spark 应用程序<a class="headerlink" href="#header-n96" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="spark-debug-monitoring-and-debugging">
+<span id="header-n98"></span><h2>4 Spark 应用程序监控和Debug(Monitoring and Debugging)<a class="headerlink" href="#spark-debug-monitoring-and-debugging" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="header-n100">
+<span id="id4"></span><h2>5 Spark 应用程序性能调优<a class="headerlink" href="#header-n100" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Spark-Data-Source.html" class="btn btn-neutral float-right" title="Spark 数据源 (Data Sources) I/O" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../scala/scala.html" class="btn btn-neutral float-left" title="Scala Array" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

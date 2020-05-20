@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spark SQL &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="spark(scala) API" href="spark-api-scala.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html">(I) Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-introduction.html#ii-spark">(II) Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-book/SparkSQL-core.html">Spark SQL 背景</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark SQL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#package">package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dataframe-api">DataFrame 操作函数 API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#header-n21">1.1内置函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataframe">1.2 DataFrame 操作函数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n32">基本操作函数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aggregate-functions">聚合函数(Aggregate functions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#collection-functions">集合函数(Collection functions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#date-time-functions">日期时间函数(Date Time functions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#math-functions">数学函数(Math functions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-aggregate-functions">非聚合函数(Non-aggregate functions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sorting-functions">排序函数(Sorting functions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#string-functions">字符函数(String functions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#udf-udf-functions">UDF函数(UDF functions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#window-functions">窗口函数(Window functions)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dataset-api">Dataset API</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spark SQL</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-api/sparksql-api-scala.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spark-sql">
+<span id="header-n2"></span><h1>Spark SQL<a class="headerlink" href="#spark-sql" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="package">
+<span id="header-n3"></span><h2>package<a class="headerlink" href="#package" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>org.apache.spark.sql</p>
+<ul>
+<li><p>org.apache.spark.sql.SparkSession</p>
+<ul>
+<li><p>使用Dataset和DataFrame API进行Spark编程的主要入口</p></li>
+</ul>
+</li>
+<li><p>org.apache.spark.sql.Dataset</p></li>
+<li><p>org.apache.spark.sql.DataFrame</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="dataframe-api">
+<span id="header-n20"></span><h2>DataFrame 操作函数 API<a class="headerlink" href="#dataframe-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-n21">
+<span id="id1"></span><h3>1.1内置函数<a class="headerlink" href="#header-n21" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// API</span>
+<span class="n">function</span><span class="o">.</span><span class="n">expr</span><span class="o">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dataframe">
+<span id="header-n23"></span><h3>1.2 DataFrame 操作函数<a class="headerlink" href="#dataframe" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Annotations: &#64;Stable()</p></li>
+<li><p>Source: functions.scala</p></li>
+<li><p>Since: 1.3.0</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="header-n32">
+<span id="id2"></span><h4>基本操作函数<a class="headerlink" href="#header-n32" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>.show()</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+
+<span class="k">object</span> <span class="nc">SparkSQLAggregateFunc</span> <span class="o">{</span>
+     <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+             <span class="k">val</span> <span class="n">spark</span> <span class="k">=</span> <span class="nc">SparkSession</span>
+                     <span class="o">.</span><span class="n">builder</span>
+                     <span class="o">.</span><span class="n">appName</span><span class="o">(</span><span class="s">&quot;Spark SQL Aggregate Functions&quot;</span><span class="o">)</span>
+                     <span class="o">.</span><span class="n">config</span><span class="o">()</span>
+                     <span class="o">.</span><span class="n">getOrCreate</span><span class="o">()</span>
+
+             <span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">)</span>
+
+             <span class="c1">// -------------------------------------------------</span>
+             <span class="c1">// functions</span>
+             <span class="c1">// -------------------------------------------------</span>
+             <span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="o">()</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="aggregate-functions">
+<span id="header-n39"></span><h4>聚合函数(Aggregate functions)<a class="headerlink" href="#aggregate-functions" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+
+<span class="k">object</span> <span class="nc">SparkSQLAggregateFunc</span> <span class="o">{</span>
+     <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+             <span class="k">val</span> <span class="n">spark</span> <span class="k">=</span> <span class="nc">SparkSession</span>
+                     <span class="o">.</span><span class="n">builder</span>
+                     <span class="o">.</span><span class="n">appName</span><span class="o">(</span><span class="s">&quot;Spark SQL Aggregate Functions&quot;</span><span class="o">)</span>
+                     <span class="o">.</span><span class="n">config</span><span class="o">()</span>
+                     <span class="o">.</span><span class="n">getOrCreate</span><span class="o">()</span>
+
+             <span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">)</span>
+
+             <span class="c1">// -------------------------------------------------</span>
+             <span class="c1">// functions</span>
+             <span class="c1">// -------------------------------------------------</span>
+             <span class="c1">// count()</span>
+             <span class="c1">// countDistinct()</span>
+             <span class="c1">// approx_count_distinct()</span>
+             <span class="n">df</span><span class="o">..</span><span class="n">select</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">).</span><span class="n">filter</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">).</span><span class="n">groupBy</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">).</span><span class="n">count</span><span class="o">().</span><span class="n">show</span><span class="o">()</span>
+             <span class="c1">// sum()</span>
+             <span class="c1">// sumDistinct()</span>
+             <span class="c1">// avg()</span>
+             <span class="c1">// collect_list()</span>
+             <span class="c1">// collect_set()</span>
+             <span class="c1">// first()</span>
+             <span class="c1">// last()</span>
+             <span class="c1">// max()</span>
+             <span class="c1">// min()</span>
+             <span class="c1">// mean()</span>
+             <span class="c1">// variance()</span>
+             <span class="c1">// var_pop()</span>
+             <span class="c1">// var_samp()</span>
+             <span class="c1">// skewness()</span>
+             <span class="c1">// kurotsis()</span>
+             <span class="c1">// stddev()</span>
+             <span class="c1">// stddev_pop()</span>
+             <span class="c1">// stddev_samp()</span>
+             <span class="c1">// corr()</span>
+             <span class="c1">// covar_pop()</span>
+             <span class="c1">// covar_samp()</span>
+             <span class="c1">// grouping()</span>
+             <span class="c1">// grouping_id()</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="collection-functions">
+<span id="header-n41"></span><h4>集合函数(Collection functions)<a class="headerlink" href="#collection-functions" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+
+<span class="k">object</span> <span class="nc">SparkSQLAggregateFunc</span> <span class="o">{</span>
+     <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+             <span class="k">val</span> <span class="n">spark</span> <span class="k">=</span> <span class="nc">SparkSession</span>
+                     <span class="o">.</span><span class="n">builder</span>
+                     <span class="o">.</span><span class="n">appName</span><span class="o">(</span><span class="s">&quot;Spark SQL Aggregate Functions&quot;</span><span class="o">)</span>
+                     <span class="o">.</span><span class="n">config</span><span class="o">()</span>
+                     <span class="o">.</span><span class="n">getOrCreate</span><span class="o">()</span>
+
+             <span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">)</span>
+
+             <span class="c1">// -------------------------------------------------</span>
+             <span class="c1">// functions</span>
+             <span class="c1">// -------------------------------------------------</span>
+             <span class="c1">// array_contains()</span>
+
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="date-time-functions">
+<span id="header-n44"></span><h4>日期时间函数(Date Time functions)<a class="headerlink" href="#date-time-functions" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="math-functions">
+<span id="header-n46"></span><h4>数学函数(Math functions)<a class="headerlink" href="#math-functions" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>abs()</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+
+<span class="k">object</span> <span class="nc">SparkSQLMathFunc</span> <span class="o">{</span>
+     <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+             <span class="k">val</span> <span class="n">spark</span> <span class="k">=</span> <span class="nc">SparkSession</span>
+                     <span class="o">.</span><span class="n">builder</span>
+                     <span class="o">.</span><span class="n">appName</span><span class="o">(</span><span class="s">&quot;Spark SQL Math Functions&quot;</span><span class="o">)</span>
+                     <span class="o">.</span><span class="n">config</span><span class="o">()</span>
+                     <span class="o">.</span><span class="n">getOrCreate</span><span class="o">()</span>
+
+             <span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">)</span>
+
+             <span class="c1">// abs()</span>
+             <span class="n">df</span><span class="o">..</span><span class="n">select</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">).</span><span class="n">abs</span><span class="o">()</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="non-aggregate-functions">
+<span id="header-n53"></span><h4>非聚合函数(Non-aggregate functions)<a class="headerlink" href="#non-aggregate-functions" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="sorting-functions">
+<span id="header-n55"></span><h4>排序函数(Sorting functions)<a class="headerlink" href="#sorting-functions" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="string-functions">
+<span id="header-n57"></span><h4>字符函数(String functions)<a class="headerlink" href="#string-functions" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="udf-udf-functions">
+<span id="header-n59"></span><h4>UDF函数(UDF functions)<a class="headerlink" href="#udf-udf-functions" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="window-functions">
+<span id="header-n61"></span><h4>窗口函数(Window functions)<a class="headerlink" href="#window-functions" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>rank()</p></li>
+<li><p>dense_rank()</p></li>
+<li><p>percent_rank()</p></li>
+<li><p>row_number()</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="dataset-api">
+<span id="header-n72"></span><h2>Dataset API<a class="headerlink" href="#dataset-api" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>A Dataset is a strongly typed collection of domain-specific objects
+that can be transformed in parallel using functional or relational
+operations. Each Dataset also has an untyped view called a DataFrame,
+which is a Dataset of Row.</p>
+</div></blockquote>
+<p>Dataset操作：</p>
+<ul class="simple">
+<li><p>transformations</p>
+<ul>
+<li><p>map</p></li>
+<li><p>filter</p></li>
+<li><p>select</p></li>
+<li><p>aggregate</p>
+<ul>
+<li><p>groupBy</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>actions</p>
+<ul>
+<li><p>count</p></li>
+<li><p>show</p></li>
+<li><p>writting data out to file systems</p></li>
+</ul>
+</li>
+<li><p>Dataset是惰性的(lazy)</p>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="spark-api-scala.html" class="btn btn-neutral float-left" title="spark(scala) API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
