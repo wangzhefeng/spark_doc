@@ -23,7 +23,7 @@ Welcome to Spark's documentation!
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: spark-book
 
    spark-book/Spark-introduction
@@ -47,8 +47,6 @@ Welcome to Spark's documentation!
    spark-apache-org/Spark-Structured-Streaming
    
 
-
-
 .. toctree::
    :maxdepth: 2
    :caption: spark-api
@@ -60,3 +58,11 @@ Welcome to Spark's documentation!
 
 
 
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: spark-topic
+
+   spark-dependence
+   spark-partitions

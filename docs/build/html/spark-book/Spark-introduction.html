@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>(I) Apache Spark &mdash; Spark 1.0 documentation</title>
+  <title>Spark 介绍 &mdash; Spark 1.0 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Spark Low-Level API" href="Spark-Low-Level-API.html" />
-    <link rel="prev" title="Spark 数据源 (Data Sources) I/O" href="Spark-Data-Source.html" /> 
+    <link rel="next" title="Spark Structured API" href="Spark-Structured-API.html" />
+    <link rel="prev" title="sbt" href="../scala/sbt.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,48 +83,57 @@
             
               <p class="caption"><span class="caption-text">Scala</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala 特点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
 </ul>
 <p class="caption"><span class="caption-text">spark-book</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">(I) Apache Spark</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#spark">1.Spark 的哲学和历史</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#header-n73">2.Spark 开发环境</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spark-s-interactive-consoles">3.Spark’s Interactive Consoles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#header-n114">4.云平台、数据</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark 介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#apache-spark">Apache Spark</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#header-n3">1.Spark 的设计哲学和历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n73">2.Spark 开发环境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-s-interactive-consoles">3.Spark’s Interactive Consoles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n114">4.云平台、数据</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#ii-spark">(II) Spark</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#spark-s-architecture">1.Spark’s Architecture</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#cluster"><strong>Cluster</strong></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#spark-application"><strong>Spark Application</strong></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#spark-s-language-api">2.Spark’s Language API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spark-s-api">3.Spark’s API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#header-n265">4.开始 Spark</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#sparksession">4.1 SparkSession</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#dataframes">4.2 DataFrames</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#partitions">4.3 Partitions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformation">4.4 Transformation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#lazy-evaluation">4.5 Lazy Evaluation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#action">4.6 Action</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#spark-ui">4.7 Spark UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n121">Spark</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spark-s-architecture">1.Spark’s Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-s-language-api">2.Spark’s Language API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-s-api">3.Spark’s API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n265">4.开始 Spark</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sparksession">4.1 SparkSession</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dataframes">4.2 DataFrames</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#partitions">4.3 Partitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformation">4.4 Transformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#action">4.5 Action</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spark-ui">4.6 Spark UI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">4.7 一个 🌰</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Spark 工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">1.Spark 应用程序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataset">2.Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-structured-streaming">3.Spark Structured Streaming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">4.Spark 机器学习和高级数据分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-api">5.Spark 低阶 API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sparkr">6.SparkR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">7.Spark 生态系统和工具包</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SparkSQL-core.html">Spark SQL 背景</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
 </ul>
 <p class="caption"><span class="caption-text">spark-apache-org</span></p>
 <ul>
@@ -141,6 +150,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-topic</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-dependence.html">Spark 依赖</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-partitions.html">Spark 分区</a></li>
 </ul>
 
             
@@ -186,7 +200,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>(I) Apache Spark</li>
+      <li>Spark 介绍</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -205,10 +219,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="i-apache-spark">
-<span id="header-n0"></span><h1>(I) Apache Spark<a class="headerlink" href="#i-apache-spark" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="spark">
-<span id="header-n3"></span><h2>1.Spark 的哲学和历史<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="spark">
+<span id="header-n0"></span><h1>Spark 介绍<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="apache-spark">
+<h2>Apache Spark<a class="headerlink" href="#apache-spark" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-n3">
+<span id="id1"></span><h3>1.Spark 的设计哲学和历史<a class="headerlink" href="#header-n3" title="Permalink to this headline">¶</a></h3>
 <p>Apache Spark is <strong>a unified computing engine</strong> and <strong>a set of libraries
 for parallel data processing(big data) on computer cluster</strong>, and Spark
 <strong>support multiple widely used programming language</strong> (Python, Java,
@@ -297,7 +313,7 @@ third-party packages by open source communities</p></li>
 </ul>
 </div>
 <div class="section" id="header-n73">
-<span id="id1"></span><h2>2.Spark 开发环境<a class="headerlink" href="#header-n73" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h3>2.Spark 开发环境<a class="headerlink" href="#header-n73" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Language API</p>
 <ul>
@@ -327,7 +343,7 @@ Edition</a></p></li>
 </ul>
 </div>
 <div class="section" id="spark-s-interactive-consoles">
-<span id="header-n107"></span><h2>3.Spark’s Interactive Consoles<a class="headerlink" href="#spark-s-interactive-consoles" title="Permalink to this headline">¶</a></h2>
+<span id="header-n107"></span><h3>3.Spark’s Interactive Consoles<a class="headerlink" href="#spark-s-interactive-consoles" title="Permalink to this headline">¶</a></h3>
 <p>Python:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/pyspark
 </pre></div>
@@ -342,7 +358,7 @@ Edition</a></p></li>
 </div>
 </div>
 <div class="section" id="header-n114">
-<span id="id2"></span><h2>4.云平台、数据<a class="headerlink" href="#header-n114" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h3>4.云平台、数据<a class="headerlink" href="#header-n114" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/databricks/Spark-The-Definitive-Guide">Project’s
 Github</a></p></li>
@@ -350,12 +366,11 @@ Github</a></p></li>
 </ul>
 </div>
 </div>
-<div class="section" id="ii-spark">
-<span id="header-n121"></span><h1>(II) Spark<a class="headerlink" href="#ii-spark" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="header-n121">
+<span id="id4"></span><h2>Spark<a class="headerlink" href="#header-n121" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="spark-s-architecture">
-<span id="header-n122"></span><h2>1.Spark’s Architecture<a class="headerlink" href="#spark-s-architecture" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="cluster">
-<span id="header-n123"></span><h3><strong>Cluster</strong><a class="headerlink" href="#cluster" title="Permalink to this headline">¶</a></h3>
+<span id="header-n122"></span><h3>1.Spark’s Architecture<a class="headerlink" href="#spark-s-architecture" title="Permalink to this headline">¶</a></h3>
+<p id="header-n123"><strong>Cluster</strong></p>
 <blockquote>
 <div><p>Challenging: data processing</p>
 </div></blockquote>
@@ -382,9 +397,7 @@ computers.</p></li>
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="spark-application">
-<span id="header-n145"></span><h3><strong>Spark Application</strong><a class="headerlink" href="#spark-application" title="Permalink to this headline">¶</a></h3>
+<p id="header-n145"><strong>Spark Application</strong></p>
 <ul class="simple">
 <li><p><strong>Cluster Manager</strong></p>
 <ul>
@@ -434,9 +447,8 @@ task;</p>
 </li>
 </ul>
 </div>
-</div>
 <div class="section" id="spark-s-language-api">
-<span id="header-n193"></span><h2>2.Spark’s Language API<a class="headerlink" href="#spark-s-language-api" title="Permalink to this headline">¶</a></h2>
+<span id="header-n193"></span><h3>2.Spark’s Language API<a class="headerlink" href="#spark-s-language-api" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Scala</p>
 <ul>
@@ -471,7 +483,7 @@ task;</p>
 </ul>
 </div>
 <div class="section" id="spark-s-api">
-<span id="header-n225"></span><h2>3.Spark’s API<a class="headerlink" href="#spark-s-api" title="Permalink to this headline">¶</a></h2>
+<span id="header-n225"></span><h3>3.Spark’s API<a class="headerlink" href="#spark-s-api" title="Permalink to this headline">¶</a></h3>
 <p><strong>Spark has two fundamental sets of APIS:</strong></p>
 <ul class="simple">
 <li><p>Low-level “unstructured” APIs</p>
@@ -508,7 +520,7 @@ task;</p>
 </ul>
 </div>
 <div class="section" id="header-n265">
-<span id="id3"></span><h2>4.开始 Spark<a class="headerlink" href="#header-n265" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h3>4.开始 Spark<a class="headerlink" href="#header-n265" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>启动 Spark’s local mode、</p>
 <ul>
@@ -550,7 +562,7 @@ task;</p>
 </li>
 </ul>
 <div class="section" id="sparksession">
-<span id="header-n304"></span><h3>4.1 SparkSession<a class="headerlink" href="#sparksession" title="Permalink to this headline">¶</a></h3>
+<span id="header-n304"></span><h4>4.1 SparkSession<a class="headerlink" href="#sparksession" title="Permalink to this headline">¶</a></h4>
 <blockquote>
 <div><ul class="simple">
 <li><p><strong>Spark Application</strong> controled by a <strong>Driver</strong> process called the
@@ -604,7 +616,7 @@ $ pyspark
 </div>
 </div>
 <div class="section" id="dataframes">
-<span id="header-n325"></span><h3>4.2 DataFrames<a class="headerlink" href="#dataframes" title="Permalink to this headline">¶</a></h3>
+<span id="header-n325"></span><h4>4.2 DataFrames<a class="headerlink" href="#dataframes" title="Permalink to this headline">¶</a></h4>
 <blockquote>
 <div><ul class="simple">
 <li><p>A DataFrame is the most common Structured API;</p></li>
@@ -619,26 +631,23 @@ one machine</p></li>
 </div></blockquote>
 </div>
 <div class="section" id="partitions">
-<span id="header-n344"></span><h3>4.3 Partitions<a class="headerlink" href="#partitions" title="Permalink to this headline">¶</a></h3>
+<span id="header-n344"></span><h4>4.3 Partitions<a class="headerlink" href="#partitions" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="transformation">
-<span id="header-n347"></span><h3>4.4 Transformation<a class="headerlink" href="#transformation" title="Permalink to this headline">¶</a></h3>
-</div>
+<span id="header-n347"></span><h4>4.4 Transformation<a class="headerlink" href="#transformation" title="Permalink to this headline">¶</a></h4>
 <div class="section" id="lazy-evaluation">
-<span id="header-n348"></span><h3>4.5 Lazy Evaluation<a class="headerlink" href="#lazy-evaluation" title="Permalink to this headline">¶</a></h3>
+<span id="header-n348"></span><h5>4.4.1 Lazy Evaluation<a class="headerlink" href="#lazy-evaluation" title="Permalink to this headline">¶</a></h5>
+</div>
 </div>
 <div class="section" id="action">
-<span id="header-n349"></span><h3>4.6 Action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h3>
+<span id="header-n349"></span><h4>4.5 Action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h4>
+<p>转换操作能够建立逻辑转换计划，为了触发计算，需要运行一个动作操作(action)。一个动作指示 Spark 在一系列转换操作后计算一个结果。</p>
 </div>
 <div class="section" id="spark-ui">
-<span id="header-n350"></span><h3>4.7 Spark UI<a class="headerlink" href="#spark-ui" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><p><strong>Spark job</strong> represents <strong>a set of transformations</strong> triggered by
-<strong>an individual action</strong>, and can monitor the Spark job from the
-Spark UI;</p></li>
-<li><p>User can monitor the progress of a Spark job through the <strong>Spark
-web UI</strong>:</p></li>
+<span id="header-n350"></span><h4>4.6 Spark UI<a class="headerlink" href="#spark-ui" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><strong>Spark job</strong> represents <strong>a set of transformations</strong> triggered by <strong>an individual action</strong>, and can monitor the Spark job from the Spark UI;</p></li>
+<li><p>User can monitor the progress of a Spark job through the <strong>Spark web UI</strong>:</p></li>
 <li><p>Spark UI is available on port <code class="docutils literal notranslate"><span class="pre">4040</span></code> of the <strong>dirver node</strong>;</p>
 <ul>
 <li><p>Local Mode: <code class="docutils literal notranslate"><span class="pre">http://localhost:4040</span></code></p></li>
@@ -654,7 +663,139 @@ web UI</strong>:</p></li>
 </ul>
 </li>
 </ul>
-</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h4>4.7 一个 🌰<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>查看数据集</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ head /data/flight-data/csv/2015-summary.csv
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>读取数据集</p></li>
+</ol>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">flightData2015</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;inferSchema&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;header&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">&quot;/data/flight-data/csv/2015-summary.csv&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">flightData2015</span> <span class="o">=</span> <span class="n">spark</span> \
+   <span class="o">.</span><span class="n">read</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;inferSchema&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/csv/2015-summary.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>在数据上执行转换操作并查看 Spark 执行计划</p></li>
+</ol>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="c1">// 转换操作 .sort()</span>
+<span class="n">flightData2015</span><span class="o">.</span><span class="n">sort</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">).</span><span class="n">explain</span><span class="o">()</span>
+<span class="n">flightData2015</span><span class="o">.</span><span class="n">sort</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>在数据上指定动作操作执行技术</p></li>
+</ol>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="c1">// 配置 Spark shuffle</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="o">(</span><span class="s">&quot;spark.sql.shuffle.partitions&quot;</span><span class="o">,</span> <span class="s">&quot;5&quot;</span><span class="o">)</span>
+<span class="c1">// 动作操作 .take(n)</span>
+<span class="n">flightData2015</span><span class="o">.</span><span class="n">sort</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">).</span><span class="n">take</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>DataFrame 和 SQL</p></li>
+</ol>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">flightData2015</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="o">(</span><span class="s">&quot;flight_data_2015&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">sqlWay</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">   SELECT DEST_COUNTRY_NAME, count(1)</span>
+<span class="s">   FROM flight_data_2015</span>
+<span class="s">   GROUP BY DEST_COUNTRY_NAME</span>
+<span class="s">   &quot;&quot;&quot;</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">dataFrameWay</span> <span class="k">=</span> <span class="n">flightData2015</span>
+   <span class="o">.</span><span class="n">groupBy</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">count</span><span class="o">()</span>
+
+<span class="n">sqlWay</span><span class="o">.</span><span class="n">explain</span><span class="o">()</span>
+<span class="n">dataFrameWay</span><span class="o">.</span><span class="n">explain</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">sqlWay</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">   SELECT DEST_COUNTRY_NAME, count(1)</span>
+<span class="s2">   FROM flight_data_2015</span>
+<span class="s2">   GROUP BY DEST_COUNTRY_NAME</span>
+<span class="s2">   &quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">dataFrameWay</span> <span class="o">=</span> <span class="n">flightData2015</span> \
+   <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="n">sqlWay</span><span class="o">.</span><span class="n">explain</span><span class="p">()</span>
+<span class="n">dataFrameWay</span><span class="o">.</span><span class="n">explain</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">   SELECT max(count)</span>
+<span class="s">   FROM flight_data_2015</span>
+<span class="s">   &quot;&quot;&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.max</span>
+<span class="n">flightData2015</span>
+   <span class="o">.</span><span class="n">select</span><span class="o">(</span><span class="n">max</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">))</span>
+   <span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="ow">in</span> <span class="n">Python</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">   SELECT max(count)</span>
+<span class="s2">   FROM flight_data_2015</span>
+<span class="s2">   &quot;&quot;&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="nb">max</span>
+<span class="n">flightData2015</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>Spark 工具<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>1.Spark 应用程序<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="dataset">
+<h3>2.Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="spark-structured-streaming">
+<h3>3.Spark Structured Streaming<a class="headerlink" href="#spark-structured-streaming" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id9">
+<h3>4.Spark 机器学习和高级数据分析<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="spark-api">
+<h3>5.Spark 低阶 API<a class="headerlink" href="#spark-api" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="sparkr">
+<h3>6.SparkR<a class="headerlink" href="#sparkr" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id10">
+<h3>7.Spark 生态系统和工具包<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>
@@ -667,10 +808,10 @@ web UI</strong>:</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Spark-Low-Level-API.html" class="btn btn-neutral float-right" title="Spark Low-Level API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Spark-Structured-API.html" class="btn btn-neutral float-right" title="Spark Structured API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Spark-Data-Source.html" class="btn btn-neutral float-left" title="Spark 数据源 (Data Sources) I/O" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../scala/sbt.html" class="btn btn-neutral float-left" title="sbt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

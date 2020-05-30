@@ -1,12 +1,18 @@
 .. _header-n0:
 
-(I) Apache Spark
-================
+=========
+Spark 介绍
+=========
+
+
+----------------
+Apache Spark
+----------------
 
 .. _header-n3:
 
-1.Spark 的哲学和历史
---------------------
+1.Spark 的设计哲学和历史
+=====================
 
 Apache Spark is **a unified computing engine** and **a set of libraries
 for parallel data processing(big data) on computer cluster**, and Spark
@@ -80,7 +86,7 @@ scale-up to big data processing or incredibly large scale.
 .. _header-n73:
 
 2.Spark 开发环境
-----------------
+=====================
 
 -  Language API
 
@@ -115,7 +121,7 @@ scale-up to big data processing or incredibly large scale.
 .. _header-n107:
 
 3.Spark's Interactive Consoles
-------------------------------
+=====================
 
 Python:
 
@@ -138,7 +144,7 @@ SQL:
 .. _header-n114:
 
 4.云平台、数据
---------------
+=====================
 
 -  `Project's
    Github <https://github.com/databricks/Spark-The-Definitive-Guide>`__
@@ -147,18 +153,22 @@ SQL:
 
 .. _header-n121:
 
-(II) Spark
-==========
+
+
+
+
+----------
+Spark
+----------
 
 .. _header-n122:
 
 1.Spark's Architecture
-----------------------
+=======================
 
 .. _header-n123:
 
 **Cluster**
-~~~~~~~~~~~
 
    Challenging: data processing
 
@@ -188,7 +198,6 @@ SQL:
 .. _header-n145:
 
 **Spark Application**
-~~~~~~~~~~~~~~~~~~~~~
 
 -  **Cluster Manager**
 
@@ -236,7 +245,7 @@ SQL:
 .. _header-n193:
 
 2.Spark's Language API
-----------------------
+=======================
 
 -  Scala
 
@@ -265,7 +274,7 @@ SQL:
 .. _header-n225:
 
 3.Spark's API
--------------
+=======================
 
 **Spark has two fundamental sets of APIS:**
 
@@ -304,7 +313,7 @@ SQL:
 .. _header-n265:
 
 4.开始 Spark
-------------
+=======================
 
 -  启动 Spark's local mode、
 
@@ -337,7 +346,7 @@ SQL:
 .. _header-n304:
 
 4.1 SparkSession
-~~~~~~~~~~~~~~~~
+-----------------
 
    -  **Spark Application** controled by a **Driver** process called the
       **SparkSession**\ ；
@@ -402,7 +411,7 @@ Python APP 模式：
 .. _header-n325:
 
 4.2 DataFrames
-~~~~~~~~~~~~~~
+-----------------
 
    -  A DataFrame is the most common Structured API;
 
@@ -421,47 +430,204 @@ Python APP 模式：
 .. _header-n344:
 
 4.3 Partitions
-~~~~~~~~~~~~~~
+-----------------
 
 .. _header-n347:
 
 4.4 Transformation
-~~~~~~~~~~~~~~~~~~
+-------------------
 
 .. _header-n348:
 
-4.5 Lazy Evaluation
-~~~~~~~~~~~~~~~~~~~
+4.4.1 Lazy Evaluation
+`````````````````````
 
 .. _header-n349:
 
-4.6 Action
-~~~~~~~~~~
+4.5 Action
+-------------------
+
+转换操作能够建立逻辑转换计划，为了触发计算，需要运行一个动作操作(action)。一个动作指示 Spark 在一系列转换操作后计算一个结果。
+
+
+
+
 
 .. _header-n350:
 
-4.7 Spark UI
-~~~~~~~~~~~~
+4.6 Spark UI
+-------------------
 
-   -  **Spark job** represents **a set of transformations** triggered by
-      **an individual action**, and can monitor the Spark job from the
-      Spark UI;
 
-   -  User can monitor the progress of a Spark job through the **Spark
-      web UI**:
+-  **Spark job** represents **a set of transformations** triggered by **an individual action**, and can monitor the Spark job from the Spark UI;
+-  User can monitor the progress of a Spark job through the **Spark web UI**:
+-  Spark UI is available on port ``4040`` of the **dirver node**;
 
-   -  Spark UI is available on port ``4040`` of the **dirver node**;
+   -  Local Mode: ``http://localhost:4040``
 
-      -  Local Mode: ``http://localhost:4040``
+-  Spark UI displays information on the state of:
 
-   -  Spark UI displays information on the state of:
+   -  Spark jobs
 
-      -  Spark jobs
+   -  Spark environment
 
-      -  Spark environment
+   -  cluster state
 
-      -  cluster state
+   -  tunning
 
-      -  tunning
+   -  debugging
 
-      -  debugging
+
+
+4.7 一个 🌰
+-------------
+
+(1) 查看数据集
+
+.. code-block:: shell
+
+   $ head /data/flight-data/csv/2015-summary.csv
+
+(2) 读取数据集
+
+.. code-block:: scala
+
+   // in Scala
+   val flightData2015 = spark
+      .read
+      .option("inferSchema", "true")
+      .option("header", "true")
+      .csv("/data/flight-data/csv/2015-summary.csv")
+
+.. code-block:: python
+
+   # in Python
+   flightData2015 = spark \
+      .read \
+      .option("inferSchema", "true") \
+      .option("header", "true") \
+      .csv("/data/flight-data/csv/2015-summary.csv")
+
+(3) 在数据上执行转换操作并查看 Spark 执行计划
+
+.. code-block:: scala
+   
+   // in Scala
+   // 转换操作 .sort()
+   flightData2015.sort("count").explain()
+   flightData2015.sort("count")
+
+
+(4) 在数据上指定动作操作执行技术
+
+.. code-block:: scala
+
+   // in Scala
+   // 配置 Spark shuffle
+   spark.conf.set("spark.sql.shuffle.partitions", "5")
+   // 动作操作 .take(n)
+   flightData2015.sort("count").take(2)
+
+
+(5) DataFrame 和 SQL
+
+.. code-block:: scala
+
+   // in Scala
+   flightData2015.createOrReplaceTempView("flight_data_2015")
+
+
+.. code-block:: scala
+   
+   // in Scala
+   val sqlWay = spark.sql("""
+      SELECT DEST_COUNTRY_NAME, count(1)
+      FROM flight_data_2015
+      GROUP BY DEST_COUNTRY_NAME
+      """)
+
+   val dataFrameWay = flightData2015
+      .groupBy("DEST_COUNTRY_NAME")
+      .count()
+   
+   sqlWay.explain()
+   dataFrameWay.explain()
+
+
+.. code-block:: python
+
+   # in Python
+   sqlWay = spark.sql("""
+      SELECT DEST_COUNTRY_NAME, count(1)
+      FROM flight_data_2015
+      GROUP BY DEST_COUNTRY_NAME
+      """)
+   
+   dataFrameWay = flightData2015 \
+      .groupBy("DEST_COUNTRY_NAME") \
+      .count()
+
+   sqlWay.explain()
+   dataFrameWay.explain()
+
+
+
+.. code-block:: scala
+
+   // in Scala
+   spark.sql("""
+      SELECT max(count) 
+      FROM flight_data_2015
+      """)
+      .take(1)
+   
+   import org.apache.spark.sql.functions.max
+   flightData2015
+      .select(max("count"))
+      .take(1)
+
+
+.. code-block:: python
+
+   // in Python
+   spark.sql("""
+      SELECT max(count)
+      FROM flight_data_2015
+      """) \
+      .take(1)
+
+   from pyspark.sql.functions import max
+   flightData2015.select(max("count")).take(1)
+
+
+
+----------------
+Spark 工具
+----------------
+
+
+1.Spark 应用程序
+=====================
+
+
+2.Dataset
+=====================
+
+
+3.Spark Structured Streaming
+=============================
+
+
+4.Spark 机器学习和高级数据分析
+===========================
+
+
+5.Spark 低阶 API
+===========================
+
+
+6.SparkR
+===========================
+
+7.Spark 生态系统和工具包
+===========================

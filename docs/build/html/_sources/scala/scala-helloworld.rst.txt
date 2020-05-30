@@ -3,15 +3,10 @@
 Scala 入门
 ==========
 
-.. _header-n3:
-
-1.Scala 入门
-------------
-
 .. _header-n4:
 
 1.1 使用 Scala 解释器
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 启动 Scala Shell：
 
@@ -32,7 +27,7 @@ Scala 入门
 .. _header-n10:
 
 1.2 定义 Scala 变量
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
    -  Scala 变量分为两种：
 
@@ -49,7 +44,7 @@ Scala 入门
 .. _header-n21:
 
 1.3 定义 Scala 函数
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
    -  函数定义由 ``def``
       开始，然后是函数名和圆括号中的以逗号隔开的参数列表；
@@ -80,10 +75,10 @@ Scala 入门
 .. code:: scala
 
    def max(x: Int, y: Int): Int = {
-   	if (x > y) 
-   		x
-   	else 
-   		y
+    if (x > y) 
+        x
+    else 
+        y
    }
 
 最复杂形式：
@@ -91,12 +86,12 @@ Scala 入门
 .. code:: scala
 
    def max(x: Int, y: Int): Int = {
-   	if (x > y) {
-   		x
-   	}
-   	else {
-   		y
-   	}
+    if (x > y) {
+        x
+    }
+    else {
+        y
+    }
    }
 
 最简形式：
@@ -108,7 +103,7 @@ Scala 入门
 .. _header-n49:
 
 1.4 编写 Scala 脚本
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
    -  脚本不过是一组依次执行的语句；
 
@@ -142,7 +137,7 @@ Scala 入门
 .. _header-n62:
 
 1.5 用 while 做循环，用 if 做判断
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 **打印命令行参数(带换行符)：**
 
@@ -152,8 +147,8 @@ Scala 入门
 
    var i = 0
    while (i < args.length) {
-   	println(args(i))
-   	i += 1
+    println(args(i))
+    i += 1
    }
 
 .. code:: shell
@@ -168,10 +163,10 @@ Scala 入门
 
    var i = 0
    while (i < args.length) {
-   	if (i != 0)
-   		print(" ")
-   	print(args(i))
-   	i += 1
+    if (i != 0)
+        print(" ")
+    print(args(i))
+    i += 1
    }
    println()
 
@@ -182,7 +177,7 @@ Scala 入门
 .. _header-n69:
 
 1.6 用 foreach 和 for 遍历
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
    -  指令式编程风格(imperative) -
       依次给出指令，通过循环来遍历，经常变更别不同函数共享的状态；
@@ -214,7 +209,7 @@ for:
    // forargs.scala
 
    for (arg <- args) {
-   	println(arg)
+    println(arg)
    }
 
 .. code:: shell
@@ -234,7 +229,7 @@ for:
 .. _header-n95:
 
 1.7 [Array] 用类型参数化数组
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
    -  用 ``new`` 来实例化 ``对象(object)``\ 、\ ``类(class)`` 的
       ``实例(instance)``\ ；
@@ -260,7 +255,7 @@ for:
    greetStrings(1) = ", "
    greetStrings(2) = "world!\n"
    for (i <- 0 to 2) {
-   	print(greetStrings(i))
+    print(greetStrings(i))
    }
 
 .. code:: scala
@@ -276,7 +271,7 @@ for:
 .. _header-n121:
 
 1.8 [List] 使用列表
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
    -  Scala 数组 ``Array`` 是一个拥有相同类型的对象的
       ``可变序列``\ 。虽然无法在数组实例化后改变其长度，却可以改变它的元素值，因此数组是可变的对象；
@@ -358,7 +353,7 @@ for:
 .. _header-n141:
 
 1.9 [Tuple] 使用元组
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
    -  元组是不可变的；
 
@@ -385,7 +380,7 @@ for:
 .. _header-n161:
 
 1.10 [Set, Map]使用集和映射
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
    -  Array 永远是可变的
 
@@ -521,11 +516,11 @@ Scala Map 的类继承关系
 .. code:: scala
 
    val romanNumeral = Map(
-   	1 -> "I",
-   	2 -> "II",
-   	3 -> "III",
-   	4 -> "IV",
-   	5 -> "V"
+    1 -> "I",
+    2 -> "II",
+    3 -> "III",
+    4 -> "IV",
+    5 -> "V"
    )
    println(romanNumeral)
 
@@ -534,11 +529,11 @@ Scala Map 的类继承关系
    import scala.colection.immutable
 
    val romanNumeral = immutable.Map(
-   	1 -> "I",
-   	2 -> "II",
-   	3 -> "III",
-   	4 -> "IV",
-   	5 -> "V"
+    1 -> "I",
+    2 -> "II",
+    3 -> "III",
+    4 -> "IV",
+    5 -> "V"
    )
    println(romanNumeral)
 
@@ -560,7 +555,7 @@ Scala Map 的类继承关系
 .. _header-n264:
 
 1.11 识别函数式编程风格
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
    -  代码层面：
 
@@ -576,11 +571,11 @@ Scala Map 的类继承关系
 .. code:: scala
 
    def printArgs(args: Array[String]): Unit = {
-   	var i = 0
-   	while (i < args.length) {
-   		println(args(i))
-   		i += 1
-   	}
+    var i = 0
+    while (i < args.length) {
+        println(args(i))
+        i += 1
+    }
    }
 
 .. _header-n276:
@@ -595,15 +590,15 @@ Scala Map 的类继承关系
 .. code:: scala
 
    def printArgs(args: Array[String]): Unit = {
-   	for (arg <- args) {
-   		println(s)
-   	}
+    for (arg <- args) {
+        println(s)
+    }
    }
 
 .. code:: scala
 
    def printArgs(args: Array[String]): Unit = {
-   	args.foreach(println)
+    args.foreach(println)
    }
 
 -  “纯”函数式：
@@ -613,13 +608,13 @@ Scala Map 的类继承关系
 .. code:: scala
 
    def formatArgs(args: Array[String]) = {
-   	args.mkString("\n")
+    args.mkString("\n")
    }
 
 .. _header-n292:
 
 1.12 从文件读取文本行
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
    日常任务的脚本处理文件中的文本行
 
@@ -628,12 +623,12 @@ Scala Map 的类继承关系
    import scala.io.Source
 
    if (args.length > 0) {
-   	for (line <- Source.fromFile(args(0)).getLines()) {
-   		println(line.length + " " + line)
-   	}
+    for (line <- Source.fromFile(args(0)).getLines()) {
+        println(line.length + " " + line)
+    }
    }
    else {
-   	Console.err.println("Please enter filename")
+    Console.err.println("Please enter filename")
    }
 
 .. code:: shell
@@ -645,21 +640,21 @@ Scala Map 的类继承关系
    import scala.io.Source
 
    def widthOfLength(s: String) = {
-   	s.length.toString.length
+    s.length.toString.length
    }
 
    if (args.length > 0) {
-   	val lines = Source.fromFile(args(0)).getLines().toList
-   	val longestLine = lines.reduceLeft((a, b) => if (a.length > b.length) a else b)
-   	val maxWidth = widthOfLength(longestLine)
-   	for (line <- lines) {
-   		val numSpace = maxWidth - widthOfLength(line)
-   		val padding = " " * numSpace
-   		println(padding + line.length + " | " + line)
-   	}
+    val lines = Source.fromFile(args(0)).getLines().toList
+    val longestLine = lines.reduceLeft((a, b) => if (a.length > b.length) a else b)
+    val maxWidth = widthOfLength(longestLine)
+    for (line <- lines) {
+        val numSpace = maxWidth - widthOfLength(line)
+        val padding = " " * numSpace
+        println(padding + line.length + " | " + line)
+    }
    }
    else {
-   	Console.err.println("Please enter filename.")
+    Console.err.println("Please enter filename.")
    }
 
 .. code:: shell
