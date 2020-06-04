@@ -23,7 +23,7 @@ Welcome to Spark's documentation!
 
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 2
    :caption: spark-book
 
    spark-book/Spark-Introduction
