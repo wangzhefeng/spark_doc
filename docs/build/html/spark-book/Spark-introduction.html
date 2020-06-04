@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Spark 介绍 &mdash; Spark 1.0 documentation</title>
+  <title>Spark Introduction &mdash; Spark 1.0 documentation</title>
   
 
   
@@ -93,9 +93,9 @@
 </ul>
 <p class="caption"><span class="caption-text">spark-book</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark 介绍</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#apache-spark">Apache Spark</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#header-n3">1.Spark 的设计哲学和历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark">1.Spark 的设计哲学和历史</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#header-n73">2.Spark 开发环境</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spark-s-interactive-consoles">3.Spark’s Interactive Consoles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#header-n114">4.云平台、数据</a></li>
@@ -112,40 +112,40 @@
 <li class="toctree-l4"><a class="reference internal" href="#transformation">4.4 Transformation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#action">4.5 Action</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#spark-ui">4.6 Spark UI</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id6">4.7 一个 🌰</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">4.7 一个 🌰</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">Spark 工具</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">1.Spark 应用程序</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id9">示例 1：</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id10">示例 2：</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Spark 工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">1.Spark 应用程序</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">示例 1：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">示例 2：</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#dataset-api">2.Dataset: 类型安全的结果化 API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id11">示例:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">示例:</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#spark-structured-streaming">3.Spark Structured Streaming</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dataframe-schema">1.创建一个静态数据集 DataFrame 以及 Schema</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id12">2.对数据进行分组和聚合操作</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">3.设置本地模型运行参数配置</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id14">4.将批处理代码转换为流处理代码</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">2.对数据进行分组和聚合操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">3.设置本地模型运行参数配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">4.将批处理代码转换为流处理代码</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">4.Spark 机器学习和高级数据分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">4.Spark 机器学习和高级数据分析</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spark-api">5.Spark 低阶 API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id16">示例 1:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id17">示例 2:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">示例 1:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">示例 2:</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#sparkr">6.SparkR</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id18">示例 1:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id19">示例 2:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">示例 1:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">示例 2:</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id20">7.Spark 生态系统和工具包</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">7.Spark 生态系统和工具包</a></li>
 </ul>
 </li>
 </ul>
@@ -223,7 +223,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Spark 介绍</li>
+      <li>Spark Introduction</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -242,12 +242,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="spark">
-<h1>Spark 介绍<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="spark-introduction">
+<h1>Spark Introduction<a class="headerlink" href="#spark-introduction" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="apache-spark">
 <h2>Apache Spark<a class="headerlink" href="#apache-spark" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="header-n3">
-<span id="id1"></span><h3>1.Spark 的设计哲学和历史<a class="headerlink" href="#header-n3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="spark">
+<h3>1.Spark 的设计哲学和历史<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h3>
 <p>Apache Spark is <strong>a unified computing engine</strong> and <strong>a set of libraries
 for parallel data processing(big data) on computer cluster</strong>, and Spark
 <strong>support multiple widely used programming language</strong> (Python, Java,
@@ -336,7 +336,7 @@ third-party packages by open source communities</p></li>
 </ul>
 </div>
 <div class="section" id="header-n73">
-<span id="id2"></span><h3>2.Spark 开发环境<a class="headerlink" href="#header-n73" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h3>2.Spark 开发环境<a class="headerlink" href="#header-n73" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Language API</p>
 <ul>
@@ -381,7 +381,7 @@ Edition</a></p></li>
 </div>
 </div>
 <div class="section" id="header-n114">
-<span id="id3"></span><h3>4.云平台、数据<a class="headerlink" href="#header-n114" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>4.云平台、数据<a class="headerlink" href="#header-n114" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/databricks/Spark-The-Definitive-Guide">Project’s
 Github</a></p></li>
@@ -390,7 +390,7 @@ Github</a></p></li>
 </div>
 </div>
 <div class="section" id="header-n121">
-<span id="id4"></span><h2>Spark<a class="headerlink" href="#header-n121" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Spark<a class="headerlink" href="#header-n121" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="spark-s-architecture">
 <span id="header-n122"></span><h3>1.Spark’s Architecture<a class="headerlink" href="#spark-s-architecture" title="Permalink to this headline">¶</a></h3>
 <p id="header-n123"><strong>Cluster</strong></p>
@@ -543,7 +543,7 @@ task;</p>
 </ul>
 </div>
 <div class="section" id="header-n265">
-<span id="id5"></span><h3>4.开始 Spark<a class="headerlink" href="#header-n265" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3>4.开始 Spark<a class="headerlink" href="#header-n265" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>启动 Spark’s local mode、</p>
 <ul>
@@ -687,8 +687,8 @@ one machine</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h4>4.7 一个 🌰<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id5">
+<h4>4.7 一个 🌰<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>查看数据集</p></li>
 </ol>
@@ -797,14 +797,14 @@ one machine</p></li>
 </div>
 </div>
 </div>
+<div class="section" id="id6">
+<h2>Spark 工具<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id7">
-<h2>Spark 工具<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id8">
-<h3>1.Spark 应用程序<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>1.Spark 应用程序<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>Spark 可以通过内置的命令行工具 <code class="docutils literal notranslate"><span class="pre">spark-submit</span></code> 轻松地将测试级别的交互程序转化为生产级别的应用程序.</p>
 <p>通过修改 <code class="docutils literal notranslate"><span class="pre">spark-submit</span></code> 的 <code class="docutils literal notranslate"><span class="pre">master</span></code> 参数，可以将将应用程序代码发送到一个集群并在那里执行，应用程序将一直运行，直到正确退出或遇到错误。应用程序需要在集群管理器的支持下进行，常见的集群管理器有 Standalone，Mesos 和 YARN 等.</p>
-<div class="section" id="id9">
-<h4>示例 1：<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id8">
+<h4>示例 1：<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/spark-submit <span class="se">\</span>
    --class org.apache.spark.examples.SparkPi <span class="se">\ </span>     <span class="c1"># 运行的类</span>
    --master <span class="nb">local</span> <span class="se">\ </span>                                <span class="c1"># 在本地机器上运行程序</span>
@@ -812,8 +812,8 @@ one machine</p></li>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id10">
-<h4>示例 2：<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id9">
+<h4>示例 2：<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/spark-submit <span class="se">\</span>
    -- master <span class="nb">local</span> <span class="se">\</span>
    ./examples/src/main/python/pi.py <span class="m">10</span>
@@ -823,8 +823,8 @@ one machine</p></li>
 </div>
 <div class="section" id="dataset-api">
 <h3>2.Dataset: 类型安全的结果化 API<a class="headerlink" href="#dataset-api" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id11">
-<h4>示例:<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id10">
+<h4>示例:<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Flight</span><span class="o">(</span><span class="nc">DEST_COUNTRY_NAME</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
                   <span class="nc">ORIGIN_COUNTRY_NAME</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
                   <span class="n">count</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">)</span>
@@ -883,8 +883,8 @@ one machine</p></li>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id12">
-<h4>2.对数据进行分组和聚合操作<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id11">
+<h4>2.对数据进行分组和聚合操作<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.</span><span class="o">{</span><span class="n">window</span><span class="o">,</span> <span class="n">column</span><span class="o">,</span> <span class="n">desc</span><span class="o">,</span> <span class="n">col</span><span class="o">}</span>
 <span class="n">staticDataFrame</span>
@@ -918,8 +918,8 @@ one machine</p></li>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id13">
-<h4>3.设置本地模型运行参数配置<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id12">
+<h4>3.设置本地模型运行参数配置<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="o">(</span><span class="s">&quot;spark.sql.shuffle.partitions&quot;</span><span class="o">,</span> <span class="s">&quot;5&quot;</span><span class="o">)</span>
 </pre></div>
@@ -929,8 +929,8 @@ one machine</p></li>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id14">
-<h4>4.将批处理代码转换为流处理代码<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id13">
+<h4>4.将批处理代码转换为流处理代码<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
 <p>(1)读取流式数据：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">val</span> <span class="n">streamingDataFrame</span> <span class="k">=</span> <span class="n">spark</span>
@@ -1046,22 +1046,22 @@ one machine</p></li>
 </div>
 </div>
 </div>
-<div class="section" id="id15">
-<h3>4.Spark 机器学习和高级数据分析<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>4.Spark 机器学习和高级数据分析<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="spark-api">
 <h3>5.Spark 低阶 API<a class="headerlink" href="#spark-api" title="Permalink to this headline">¶</a></h3>
 <p>Spark 中的所有对象都是建立在 RDD 之上的. Spark 的高阶 API 及所支持的高级操作都会被编译到较低级的 RDD 上执行，以方便和实现其较高效的分布式执行. 使用 RDD 可以并行化已经存储在驱动器机器内存中的原始数据.</p>
 <p>大多数情况下用户只需要使用 Spark 的高阶 API 或高级操作就可以实现所需的业务逻辑，有时候可能需要使用 RDD，特别是在读取或操作原始数据(未处理或非结构化的数据)时.</p>
-<div class="section" id="id16">
-<h4>示例 1:<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id15">
+<h4>示例 1:<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)).</span><span class="n">toDF</span><span class="o">()</span> <span class="c1">// 将 RDD 转化为 DataFrame</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id17">
-<h4>示例 2:<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id16">
+<h4>示例 2:<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Row</span>
 
@@ -1073,8 +1073,8 @@ one machine</p></li>
 <div class="section" id="sparkr">
 <h3>6.SparkR<a class="headerlink" href="#sparkr" title="Permalink to this headline">¶</a></h3>
 <p>SparkR 是一个在 Spark 上运行的 R 语言工具，它具有与 Spark 其他支持语言相同的设计准则. SparkR 与 Spark 的 Python API 非常相似，在大多数情况下，SparkR 支持 Python 支持的所有功能</p>
-<div class="section" id="id18">
-<h4>示例 1:<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id17">
+<h4>示例 1:<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># in R</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">SparkR</span><span class="p">)</span>
 <span class="n">sparkDf</span> <span class="o">&lt;-</span> <span class="nf">read.df</span><span class="p">(</span><span class="s">&quot;/data/flight-data/csv/2015-summary.csv&quot;</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="s">&quot;csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="s">&quot;true&quot;</span><span class="p">,</span> <span class="n">inferSchema</span> <span class="o">=</span> <span class="s">&quot;true&quot;</span><span class="p">)</span>
@@ -1083,8 +1083,8 @@ one machine</p></li>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id19">
-<h4>示例 2:<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id18">
+<h4>示例 2:<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># in R</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">magrittr</span><span class="p">)</span>
 
@@ -1098,8 +1098,8 @@ one machine</p></li>
 </div>
 </div>
 </div>
-<div class="section" id="id20">
-<h3>7.Spark 生态系统和工具包<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>7.Spark 生态系统和工具包<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>可以在 <a class="reference external" href="https://spark-packages.org">Spark Packages 索引</a> 找到所有的开源社区维护的工具包，用户也可以将自己开发的工具包发布到此代码库中，也可以在 GitHub 上找到各种其他项目和工具包.</p>
 </div>
 </div>

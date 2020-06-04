@@ -1,15 +1,15 @@
 
-Spark 介绍
-============
+
+Spark Introduction
+===================
 
 
 Apache Spark
 ----------------
 
-.. _header-n3:
-
 1.Spark 的设计哲学和历史
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 Apache Spark is **a unified computing engine** and **a set of libraries
 for parallel data processing(big data) on computer cluster**, and Spark
@@ -611,7 +611,7 @@ Spark 可以通过内置的命令行工具 ``spark-submit`` 轻松地将测试�
 通过修改 ``spark-submit`` 的 ``master`` 参数，可以将将应用程序代码发送到一个集群并在那里执行，应用程序将一直运行，直到正确退出或遇到错误。应用程序需要在集群管理器的支持下进行，常见的集群管理器有 Standalone，Mesos 和 YARN 等.
 
 示例 1：
-^^^^^^^
+^^^^^^^^^^^
 
 .. code-block:: shell
 
@@ -675,7 +675,7 @@ Spark Structured Streaming(Spark 结构化流处理) 是用于数据流处理的
 数据集：https://github.com/databricks/Spark-The-Definitive-Guide/tree/master/data/retail-data
 
 1.创建一个静态数据集 DataFrame 以及 Schema
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
 
