@@ -80,7 +80,10 @@ scale-up to big data processing or incredibly large scale.
    -  `External Libraries <https://spark-packages.org/>`__ published as
       third-party packages by open source communities
 
-.. _header-n73:
+
+
+
+
 
 2.Spark 开发环境
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,7 +118,7 @@ scale-up to big data processing or incredibly large scale.
    -  web-based version in `Databricks Community
       Edition <https://community.cloud.databricks.com/>`__
 
-.. _header-n107:
+
 
 3.Spark's Interactive Consoles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -138,7 +141,7 @@ SQL:
 
    ./bin/spark-sql
 
-.. _header-n114:
+
 
 4.云平台、数据
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -148,9 +151,6 @@ SQL:
 
 -  `Databricks <https://community.cloud.databricks.com/>`__
 
-.. _header-n121:
-
-
 
 
 
@@ -158,12 +158,10 @@ SQL:
 Spark
 ----------
 
-.. _header-n122:
 
 1.Spark's Architecture
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _header-n123:
 
 **Cluster**
 
@@ -192,7 +190,6 @@ Spark
 
    -  Mesos
 
-.. _header-n145:
 
 **Spark Application**
 
@@ -239,7 +236,6 @@ Spark
 
       -  The executors will be running Spark code
 
-.. _header-n193:
 
 2.Spark's Language API
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -268,7 +264,7 @@ Spark
 
       -  ``sparklyr``
 
-.. _header-n225:
+
 
 3.Spark's API
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -307,7 +303,7 @@ Spark
 
    -  Structured Streaming
 
-.. _header-n265:
+
 
 4.开始 Spark
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -340,7 +336,7 @@ Spark
 
          -  ``spark = SparkSession.builder().master().appName().config().getOrCreate()``
 
-.. _header-n304:
+
 
 4.1 SparkSession
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -405,41 +401,41 @@ Python APP 模式：
    	.config() \
    	.getOrCreate()
 
-.. _header-n325:
+
 
 4.2 DataFrames
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-   -  A DataFrame is the most common Structured API;
+-  A DataFrame is the most common Structured API;
 
-   -  A DataFrame represents a table of data with rows and columns;
+-  A DataFrame represents a table of data with rows and columns;
 
-   -  The list of DataFrame defines the columns, the types within those
-      columns is called the schema;
+-  The list of DataFrame defines the columns, the types within those
+   columns is called the schema;
 
-   -  Spark DataFrame can span thousands of computers:
+-  Spark DataFrame can span thousands of computers:
 
-   -  the data is too large to fit on one machine
+-  the data is too large to fit on one machine
 
-   -  the data would simply take too long to perform that computation on
-      one machine
+-  the data would simply take too long to perform that computation on
+   one machine
 
-.. _header-n344:
+
 
 4.3 Partitions
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. _header-n347:
+
 
 4.4 Transformation
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. _header-n348:
+
 
 4.4.1 Lazy Evaluation
 ````````````````````````
 
-.. _header-n349:
+
 
 4.5 Action
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -450,7 +446,7 @@ Python APP 模式：
 
 
 
-.. _header-n350:
+
 
 4.6 Spark UI
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -479,13 +475,13 @@ Python APP 模式：
 4.7 一个 🌰
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-(1) 查看数据集
+(1)查看数据集
 
 .. code-block:: shell
 
    $ head /data/flight-data/csv/2015-summary.csv
 
-(2) 读取数据集
+(2)读取数据集
 
 .. code-block:: scala
 
@@ -505,7 +501,7 @@ Python APP 模式：
       .option("header", "true") \
       .csv("/data/flight-data/csv/2015-summary.csv")
 
-(3) 在数据上执行转换操作并查看 Spark 执行计划
+(3)在数据上执行转换操作并查看 Spark 执行计划
 
 .. code-block:: scala
    
@@ -515,7 +511,7 @@ Python APP 模式：
    flightData2015.sort("count")
 
 
-(4) 在数据上指定动作操作执行技术
+(4)在数据上指定动作操作执行技术
 
 .. code-block:: scala
 
@@ -526,7 +522,7 @@ Python APP 模式：
    flightData2015.sort("count").take(2)
 
 
-(5) DataFrame 和 SQL
+(5)DataFrame 和 SQL
 
 .. code-block:: scala
 
@@ -586,7 +582,7 @@ Python APP 模式：
 
 .. code-block:: python
 
-   // in Python
+   # in Python
    spark.sql("""
       SELECT max(count)
       FROM flight_data_2015
@@ -674,7 +670,7 @@ Spark Structured Streaming(Spark 结构化流处理) 是用于数据流处理的
 
 数据集：https://github.com/databricks/Spark-The-Definitive-Guide/tree/master/data/retail-data
 
-1.创建一个静态数据集 DataFrame 以及 Schema
+创建一个静态数据集 DataFrame 以及 Schema
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
@@ -704,7 +700,7 @@ Spark Structured Streaming(Spark 结构化流处理) 是用于数据流处理的
    staticSchema = staticDataFrame.schema
 
 
-2.对数据进行分组和聚合操作
+对数据进行分组和聚合操作
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
@@ -743,7 +739,7 @@ Spark Structured Streaming(Spark 结构化流处理) 是用于数据流处理的
       .show(5)
 
 
-3.设置本地模型运行参数配置
+设置本地模型运行参数配置
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
@@ -759,7 +755,7 @@ Spark Structured Streaming(Spark 结构化流处理) 是用于数据流处理的
 
 
 
-4.将批处理代码转换为流处理代码
+将批处理代码转换为流处理代码
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 (1)读取流式数据：
@@ -939,7 +935,7 @@ Spark 中的所有对象都是建立在 RDD 之上的. Spark 的高阶 API 及�
 SparkR 是一个在 Spark 上运行的 R 语言工具，它具有与 Spark 其他支持语言相同的设计准则. SparkR 与 Spark 的 Python API 非常相似，在大多数情况下，SparkR 支持 Python 支持的所有功能
 
 示例 1:
-^^^^^^^^^
+
 .. code-block:: r
 
    # in R
@@ -949,7 +945,7 @@ SparkR 是一个在 Spark 上运行的 R 语言工具，它具有与 Spark 其�
    collect(orderBy(sparkDF, "count"), 20)
 
 示例 2:
-^^^^^^^^^
+
 
 .. code-block:: r
 
