@@ -45,12 +45,12 @@ Spark Low-Level API
 .. _header-n48:
 
 1.1 创建 RDD
-------------
+~~~~~~~~~~~~~~
 
 .. _header-n49:
 
 1.1.1 DataFrame, Dataset, RDD 交互操作
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **从 DataFrame 或 Dataset 创建 RDD:**
 
@@ -84,7 +84,7 @@ Spark Low-Level API
 .. _header-n59:
 
 1.1.2 从 Local Collection 创建 RDD
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  ``SparkSession.SparkContext.parallelize()``
 
@@ -109,7 +109,7 @@ Spark Low-Level API
 .. _header-n65:
 
 1.1.3 从数据源创建 RDD
-~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: scala
 
@@ -132,19 +132,19 @@ Spark Low-Level API
 .. _header-n68:
 
 1.2 操作 RDD
-------------
+~~~~~~~~~~~~~
 
 -  操作 raw Java or Scala object instead of Spark types;
 
 .. _header-n72:
 
 1.2.1 Transformation
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _header-n73:
 
 distinct 
-^^^^^^^^^
+
 
 .. code:: scala
 
@@ -156,7 +156,7 @@ distinct
 .. _header-n75:
 
 filter
-^^^^^^
+
 
 .. code:: scala
 
@@ -182,7 +182,7 @@ filter
 .. _header-n78:
 
 map
-^^^
+
 
 .. code:: scala
 
@@ -202,7 +202,7 @@ map
 .. _header-n81:
 
 flatMap
-^^^^^^^
+
 
 .. code:: scala
 
@@ -221,7 +221,7 @@ flatMap
 .. _header-n84:
 
 sort
-^^^^
+
 
 .. code:: scala
 
@@ -240,7 +240,7 @@ sort
 .. _header-n87:
 
 Random Splits
-^^^^^^^^^^^^^
+
 
 .. code:: scala
 
@@ -255,12 +255,12 @@ Random Splits
 .. _header-n91:
 
 1.2.2 Action
-~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _header-n92:
 
 reduce
-^^^^^^
+
 
 .. code:: scala
 
@@ -275,32 +275,32 @@ reduce
 .. _header-n95:
 
 count
-^^^^^
+
 
 .. _header-n97:
 
 countApprox
-^^^^^^^^^^^
+
 
 .. _header-n99:
 
 countApproxDistinct
-^^^^^^^^^^^^^^^^^^^
+
 
 .. _header-n100:
 
 countByValue
-^^^^^^^^^^^^
+
 
 .. _header-n101:
 
 countByValueApprox
-^^^^^^^^^^^^^^^^^^
+
 
 .. _header-n102:
 
 first
-^^^^^
+
 
 .. code:: scala
 
@@ -315,37 +315,38 @@ first
 .. _header-n105:
 
 max/min
-^^^^^^^
+
 
 .. _header-n106:
 
 take
-^^^^
+
 
 .. _header-n107:
 
 1.2.3 Saving Files
-~~~~~~~~~~~~~~~~~~
+
 
 .. _header-n108:
 
 1.2.4 Caching
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 .. _header-n109:
 
 1.2.5 Checkpointing
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _header-n110:
 
 1.2.6 Pipe RDDs to System Commands
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _header-n112:
 
 2.Key-Value RDD
----------------
+-------------------
 
 .. _header-n114:
 

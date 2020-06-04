@@ -118,22 +118,45 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id7">Spark 工具</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">1.Spark 应用程序</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#dataset">2.Dataset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#spark-structured-streaming">3.Spark Structured Streaming</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">4.Spark 机器学习和高级数据分析</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#spark-api">5.Spark 低阶 API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sparkr">6.SparkR</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">7.Spark 生态系统和工具包</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">1.Spark 应用程序</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">示例 1：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">示例 2：</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dataset-api">2.Dataset: 类型安全的结果化 API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">示例:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-structured-streaming">3.Spark Structured Streaming</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dataframe-schema">1.创建一个静态数据集 DataFrame 以及 Schema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">2.对数据进行分组和聚合操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">3.设置本地模型运行参数配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">4.将批处理代码转换为流处理代码</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">4.Spark 机器学习和高级数据分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-api">5.Spark 低阶 API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">示例 1:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">示例 2:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sparkr">6.SparkR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">示例 1:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">示例 2:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">7.Spark 生态系统和工具包</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SparkSQL-core.html">Spark SQL 背景</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SparkSQL.html">Spark SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-MLlib.html">Spark MLlib</a></li>
 </ul>
 <p class="caption"><span class="caption-text">spark-apache-org</span></p>
 <ul>
@@ -206,7 +229,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/spark-book/Spark-introduction.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/spark-book/Spark-Introduction.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -778,24 +801,306 @@ one machine</p></li>
 <h2>Spark 工具<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id8">
 <h3>1.Spark 应用程序<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>Spark 可以通过内置的命令行工具 <code class="docutils literal notranslate"><span class="pre">spark-submit</span></code> 轻松地将测试级别的交互程序转化为生产级别的应用程序.</p>
+<p>通过修改 <code class="docutils literal notranslate"><span class="pre">spark-submit</span></code> 的 <code class="docutils literal notranslate"><span class="pre">master</span></code> 参数，可以将将应用程序代码发送到一个集群并在那里执行，应用程序将一直运行，直到正确退出或遇到错误。应用程序需要在集群管理器的支持下进行，常见的集群管理器有 Standalone，Mesos 和 YARN 等.</p>
+<div class="section" id="id9">
+<h4>示例 1：<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/spark-submit <span class="se">\</span>
+   --class org.apache.spark.examples.SparkPi <span class="se">\ </span>     <span class="c1"># 运行的类</span>
+   --master <span class="nb">local</span> <span class="se">\ </span>                                <span class="c1"># 在本地机器上运行程序</span>
+   ./examples/jars/spark-examples_2.11-2.2.0.jar <span class="m">10</span> <span class="c1"># 运行的 JAR 包</span>
+</pre></div>
 </div>
-<div class="section" id="dataset">
-<h3>2.Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id10">
+<h4>示例 2：<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/spark-submit <span class="se">\</span>
+   -- master <span class="nb">local</span> <span class="se">\</span>
+   ./examples/src/main/python/pi.py <span class="m">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="dataset-api">
+<h3>2.Dataset: 类型安全的结果化 API<a class="headerlink" href="#dataset-api" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h4>示例:<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Flight</span><span class="o">(</span><span class="nc">DEST_COUNTRY_NAME</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+                  <span class="nc">ORIGIN_COUNTRY_NAME</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+                  <span class="n">count</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">flightDF</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">parquet</span><span class="o">(</span><span class="s">&quot;/data/flight-data/parquet/2010-summary.parquet/&quot;</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">flights</span> <span class="k">=</span> <span class="n">flightDF</span><span class="o">.</span><span class="n">as</span><span class="o">[</span><span class="kt">Flight</span><span class="o">]</span>
+
+<span class="n">flights</span>
+   <span class="o">.</span><span class="n">fliter</span><span class="o">(</span><span class="n">flight_row</span> <span class="k">=&gt;</span> <span class="n">flight_row</span><span class="o">.</span><span class="nc">ORIGIN_COUNTRY_NAME</span> <span class="o">!=</span> <span class="s">&quot;Canada&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">flight_row</span> <span class="k">=&gt;</span> <span class="n">flight_row</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+
+<span class="n">flights</span>
+   <span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">flight_row</span> <span class="k">=&gt;</span> <span class="n">flight_row</span><span class="o">.</span><span class="nc">ORIGIN_COUNTRY_NAME</span> <span class="o">!=</span> <span class="s">&quot;Canada&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">fr</span> <span class="k">=&gt;</span> <span class="nc">Flight</span><span class="o">(</span><span class="n">fr</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span><span class="o">,</span> <span class="n">fr</span><span class="o">.</span><span class="nc">ORIGIN_COUNTRY_NAME</span><span class="o">,</span> <span class="n">fr</span><span class="o">.</span><span class="n">count</span> <span class="o">+</span> <span class="mi">5</span><span class="o">))</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="spark-structured-streaming">
 <h3>3.Spark Structured Streaming<a class="headerlink" href="#spark-structured-streaming" title="Permalink to this headline">¶</a></h3>
+<p>Spark Structured Streaming(Spark 结构化流处理) 是用于数据流处理的高阶 API，
+在 Spark 2.2 版本之后可用。可以像使用 Spark 结构化 API 在批处理模式下一样，
+执行结构化流处理，并以流式方式运行它们，使用结构化流处理可以减少延迟并允许增量处理.
+最重要的是，它可以快速地从流式系统中提取有价值的信息，而且几乎不需要更改代码。
+可以按照传统批处理作业的模式进行设计，然后将其转换为流式作业，即增量处理数据，
+这样就使得流处理变得异常简单.</p>
+<p>数据集：<a class="reference external" href="https://github.com/databricks/Spark-The-Definitive-Guide/tree/master/data/retail-data">https://github.com/databricks/Spark-The-Definitive-Guide/tree/master/data/retail-data</a></p>
+<div class="section" id="dataframe-schema">
+<h4>1.创建一个静态数据集 DataFrame 以及 Schema<a class="headerlink" href="#dataframe-schema" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">staticDataFrame</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;csv&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;header&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;inferSchema&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/retail-data/by-day/*.csv&quot;</span><span class="o">)</span>
+
+<span class="n">staticDataFrame</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="o">(</span><span class="s">&quot;retail_data&quot;</span><span class="o">)</span>
+<span class="n">cal</span> <span class="n">staticSchema</span> <span class="k">=</span> <span class="n">staticDataFrame</span><span class="o">.</span><span class="n">schema</span>
+</pre></div>
 </div>
-<div class="section" id="id9">
-<h3>4.Spark 机器学习和高级数据分析<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">staticDataFrame</span> <span class="o">=</span> <span class="n">spark</span> \
+   <span class="o">.</span><span class="n">read</span> \
+   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;inferSchema&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/retail-data/by-day/*.csv&quot;</span><span class="p">)</span>
+
+<span class="n">staticDataFrame</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;retail_data&quot;</span><span class="p">)</span>
+<span class="n">staticSchema</span> <span class="o">=</span> <span class="n">staticDataFrame</span><span class="o">.</span><span class="n">schema</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h4>2.对数据进行分组和聚合操作<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.</span><span class="o">{</span><span class="n">window</span><span class="o">,</span> <span class="n">column</span><span class="o">,</span> <span class="n">desc</span><span class="o">,</span> <span class="n">col</span><span class="o">}</span>
+<span class="n">staticDataFrame</span>
+   <span class="o">.</span><span class="n">selectExpr</span><span class="o">(</span>
+      <span class="s">&quot;CustomerId&quot;</span><span class="o">,</span>
+      <span class="s">&quot;(UnitPrice * Quantity) as total_cost&quot;</span><span class="o">,</span>
+      <span class="s">&quot;InvoiceDate&quot;</span>
+   <span class="o">)</span>
+   <span class="o">.</span><span class="n">groupBy</span><span class="o">(</span>
+      <span class="n">col</span><span class="o">(</span><span class="s">&quot;CustomerId&quot;</span><span class="o">),</span>
+      <span class="n">window</span><span class="o">(</span><span class="n">col</span><span class="o">(</span><span class="s">&quot;InvoiceDate&quot;</span><span class="o">),</span> <span class="s">&quot;1 day&quot;</span><span class="o">)</span>
+   <span class="o">)</span>
+   <span class="o">.</span><span class="n">sum</span><span class="o">(</span><span class="s">&quot;total_cost&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">col</span>
+<span class="n">staticDataFrame</span> \
+   <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span>
+      <span class="s2">&quot;CustomerId&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;(UnitPrice * Quantity) as total_cost&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;InvoiceDate&quot;</span>
+   <span class="p">)</span> \
+   <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+      <span class="n">col</span><span class="p">(</span><span class="s2">&quot;CustomerId&quot;</span><span class="p">),</span>
+      <span class="n">window</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;InvoiceDate&quot;</span><span class="p">),</span> <span class="s2">&quot;1 day&quot;</span><span class="p">)</span>
+   <span class="p">)</span> \
+   <span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;total_cost&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h4>3.设置本地模型运行参数配置<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="o">(</span><span class="s">&quot;spark.sql.shuffle.partitions&quot;</span><span class="o">,</span> <span class="s">&quot;5&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.sql.shuffle.partitions&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id14">
+<h4>4.将批处理代码转换为流处理代码<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<p>(1)读取流式数据：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">streamingDataFrame</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">readStream</span>
+   <span class="o">.</span><span class="n">schema</span><span class="o">(</span><span class="n">staticSchema</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;maxFilesPerTrigger&quot;</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>       <span class="c1">// 指定一次应该读入的文件数量，在实际场景中被省略</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;csv&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;header&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/retail-data/by-day/*.csv&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">streamingDataFrame</span> <span class="o">=</span> <span class="n">spark</span> \
+   <span class="o">.</span><span class="n">readStream</span> \
+   <span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">staticSchema</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;maxFilesPerTrigger&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/retail-data/by-day/*.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(2)查看 DataFrame 是否代表流数据：</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">streamingDataFrame</span><span class="o">.</span><span class="n">isStreaming</span> <span class="c1">// 返回 true</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">streamingDataFrame</span><span class="o">.</span><span class="n">isStreaming</span> <span class="c1"># 返回 true</span>
+</pre></div>
+</div>
+<p>(3)对流式数据执行分组聚合操作(转换操作)</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">#</span> <span class="n">in</span> <span class="nc">Scala</span>
+<span class="k">val</span> <span class="n">purchaseByCustomerPerHour</span> <span class="k">=</span> <span class="n">streamingDataFrame</span>
+   <span class="o">.</span><span class="n">selectExpr</span><span class="o">(</span>
+      <span class="s">&quot;CustomerId&quot;</span><span class="o">,</span>
+      <span class="s">&quot;(UnitPrice * Quantity) as total_cost&quot;</span><span class="o">,</span>
+      <span class="s">&quot;InvoiceDate&quot;</span>
+   <span class="o">)</span>
+   <span class="o">.</span><span class="n">groupBy</span><span class="o">(</span>
+      <span class="n">$</span><span class="s">&quot;CustomerId&quot;</span><span class="o">,</span>
+      <span class="n">window</span><span class="o">(</span><span class="n">$</span><span class="s">&quot;InvoiceDate&quot;</span><span class="o">,</span> <span class="s">&quot;1 day&quot;</span><span class="o">)</span>
+   <span class="o">)</span>
+   <span class="o">.</span><span class="n">sum</span><span class="o">(</span><span class="s">&quot;total_cost&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">purchaseByCustomerPerHour</span> <span class="o">=</span> <span class="n">streamingDataFrame</span> \
+   <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span>
+      <span class="s2">&quot;CustomerId&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;(UnitPrice * Quantity) as total_cost&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;InvoiceDate&quot;</span>
+   <span class="p">)</span> \
+   <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+      <span class="n">col</span><span class="p">(</span><span class="s2">&quot;CustomerId&quot;</span><span class="p">),</span>
+      <span class="n">window</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;InvoiceDate&quot;</span><span class="p">),</span> <span class="s2">&quot;1 day&quot;</span><span class="p">)</span>
+   <span class="p">)</span> \
+   <span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;total_cost&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(4)调用对流数据的动作操作，将数据缓存到内存中的一个表中，在每次被触发后更新这个内存缓存</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">purchaseByCustomerPerHour</span><span class="o">.</span><span class="n">writeStream</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;memory&quot;</span><span class="o">)</span>               <span class="c1">// memory 代表将表存入内存</span>
+   <span class="o">.</span><span class="n">queryName</span><span class="o">(</span><span class="s">&quot;customer_purchases&quot;</span><span class="o">)</span> <span class="c1">// 存入内存的表的名称</span>
+   <span class="o">.</span><span class="n">outputMode</span><span class="o">(</span><span class="s">&quot;complete&quot;</span><span class="o">)</span>         <span class="c1">// complete 表示保存表中所有记录</span>
+   <span class="o">.</span><span class="n">start</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">purchaseByCustomerPerHour</span><span class="o">.</span><span class="n">writeStream</span> \
+   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">queryName</span><span class="p">(</span><span class="s2">&quot;customer_purchases&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">outputMode</span><span class="p">(</span><span class="s2">&quot;complete&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(5)运行查询调试结果</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">   SELECT *</span>
+<span class="s">   FROM customer_purchases</span>
+<span class="s">   ORDER BY `sum(total_cost)` DESC</span>
+<span class="s">   &quot;&quot;&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">   SELECT *</span>
+<span class="s2">   FROM customer_purchases</span>
+<span class="s2">   ORDER BY `sum(total_cost)` DESC</span>
+<span class="s2">   &quot;&quot;&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(6)将结果输出到控制台</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">purchaseByCustomerPerHour</span><span class="o">.</span><span class="n">writeStream</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;console&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">queryName</span><span class="o">(</span><span class="s">&quot;customer_purchases_2&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">outputMode</span><span class="o">(</span><span class="s">&quot;complete&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">start</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">purchaseByCustomerPerHour</span><span class="o">.</span><span class="n">writeStream</span> \
+   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;console&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">queryName</span><span class="p">(</span><span class="s2">&quot;customer_purchases_2&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">outputMode</span><span class="p">(</span><span class="s2">&quot;complete&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id15">
+<h3>4.Spark 机器学习和高级数据分析<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="spark-api">
 <h3>5.Spark 低阶 API<a class="headerlink" href="#spark-api" title="Permalink to this headline">¶</a></h3>
+<p>Spark 中的所有对象都是建立在 RDD 之上的. Spark 的高阶 API 及所支持的高级操作都会被编译到较低级的 RDD 上执行，以方便和实现其较高效的分布式执行. 使用 RDD 可以并行化已经存储在驱动器机器内存中的原始数据.</p>
+<p>大多数情况下用户只需要使用 Spark 的高阶 API 或高级操作就可以实现所需的业务逻辑，有时候可能需要使用 RDD，特别是在读取或操作原始数据(未处理或非结构化的数据)时.</p>
+<div class="section" id="id16">
+<h4>示例 1:<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)).</span><span class="n">toDF</span><span class="o">()</span> <span class="c1">// 将 RDD 转化为 DataFrame</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id17">
+<h4>示例 2:<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Row</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="n">Row</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Row</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Row</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span><span class="o">.</span><span class="n">toDF</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="sparkr">
 <h3>6.SparkR<a class="headerlink" href="#sparkr" title="Permalink to this headline">¶</a></h3>
+<p>SparkR 是一个在 Spark 上运行的 R 语言工具，它具有与 Spark 其他支持语言相同的设计准则. SparkR 与 Spark 的 Python API 非常相似，在大多数情况下，SparkR 支持 Python 支持的所有功能</p>
+<div class="section" id="id18">
+<h4>示例 1:<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># in R</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">SparkR</span><span class="p">)</span>
+<span class="n">sparkDf</span> <span class="o">&lt;-</span> <span class="nf">read.df</span><span class="p">(</span><span class="s">&quot;/data/flight-data/csv/2015-summary.csv&quot;</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="s">&quot;csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="s">&quot;true&quot;</span><span class="p">,</span> <span class="n">inferSchema</span> <span class="o">=</span> <span class="s">&quot;true&quot;</span><span class="p">)</span>
+<span class="nf">take</span><span class="p">(</span><span class="n">sparkDF</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+<span class="nf">collect</span><span class="p">(</span><span class="nf">orderBy</span><span class="p">(</span><span class="n">sparkDF</span><span class="p">,</span> <span class="s">&quot;count&quot;</span><span class="p">),</span> <span class="m">20</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="id10">
-<h3>7.Spark 生态系统和工具包<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id19">
+<h4>示例 2:<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># in R</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">magrittr</span><span class="p">)</span>
+
+<span class="n">sparkDF</span> <span class="o">%&gt;%</span>
+   <span class="nf">orderBy</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">sparkDF</span><span class="o">$</span><span class="n">count</span><span class="p">))</span> <span class="o">%&gt;%</span>
+   <span class="nf">groupBy</span><span class="p">(</span><span class="s">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+   <span class="nf">count</span><span class="p">()</span> <span class="o">%&gt;%</span>
+   <span class="nf">limit</span><span class="p">(</span><span class="m">10</span><span class="p">)</span> <span class="o">%&gt;%</span>
+   <span class="nf">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id20">
+<h3>7.Spark 生态系统和工具包<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>可以在 <a class="reference external" href="https://spark-packages.org">Spark Packages 索引</a> 找到所有的开源社区维护的工具包，用户也可以将自己开发的工具包发布到此代码库中，也可以在 GitHub 上找到各种其他项目和工具包.</p>
 </div>
 </div>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>sbt &mdash; Spark 1.0 documentation</title>
+  <title>Spark Structured Streaming &mdash; Spark 1.0 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Spark 介绍" href="../spark-book/Spark-Introduction.html" />
-    <link rel="prev" title="Maven" href="maven.html" /> 
+    <link rel="next" title="Spark MLlib" href="Spark-MLlib.html" />
+    <link rel="prev" title="Spark 应用程序" href="Spark-APP.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,29 +82,29 @@
             
             
               <p class="caption"><span class="caption-text">Scala</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="scala-helloworld.html">Scala 入门</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scala.html">Scala Array</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scala-OOP.html">Scala OOP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scala-features.html">Scala 特点</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scala-set-object.html">Scala Set</a></li>
-<li class="toctree-l1"><a class="reference internal" href="maven.html">Maven</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">sbt</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#test">test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#header-n5">test</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala 特点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
 </ul>
 <p class="caption"><span class="caption-text">spark-book</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Introduction.html">Spark 介绍</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spark-book/SparkSQL.html">Spark SQL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-APP.html">Spark 应用程序</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spark-book/Spark-MLlib.html">Spark MLlib</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Spark-Introduction.html">Spark 介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SparkSQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark Structured Streaming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spark-streaming">1.Spark Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-sturctured-streaming">2.Spark Sturctured Streaming</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-MLlib.html">Spark MLlib</a></li>
 </ul>
 <p class="caption"><span class="caption-text">spark-apache-org</span></p>
 <ul>
@@ -171,13 +171,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>sbt</li>
+      <li>Spark Structured Streaming</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/scala/sbt.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/spark-book/Spark-Structured-Streaming.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -190,13 +190,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="sbt">
-<span id="header-n0"></span><h1>sbt<a class="headerlink" href="#sbt" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="test">
-<span id="header-n3"></span><h2>test<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="spark-structured-streaming">
+<h1>Spark Structured Streaming<a class="headerlink" href="#spark-structured-streaming" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="spark-streaming">
+<h2>1.Spark Streaming<a class="headerlink" href="#spark-streaming" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="header-n5">
-<span id="id1"></span><h2>test<a class="headerlink" href="#header-n5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="spark-sturctured-streaming">
+<h2>2.Spark Sturctured Streaming<a class="headerlink" href="#spark-sturctured-streaming" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -208,10 +208,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../spark-book/Spark-Introduction.html" class="btn btn-neutral float-right" title="Spark 介绍" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Spark-MLlib.html" class="btn btn-neutral float-right" title="Spark MLlib" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="maven.html" class="btn btn-neutral float-left" title="Maven" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Spark-APP.html" class="btn btn-neutral float-left" title="Spark 应用程序" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

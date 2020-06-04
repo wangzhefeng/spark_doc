@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Spark 数据源 (Data Sources) I/O" href="Spark-Data-Source.html" />
-    <link rel="prev" title="Spark SQL 背景" href="SparkSQL-core.html" /> 
+    <link rel="next" title="Spark 应用程序" href="Spark-APP.html" />
+    <link rel="prev" title="Spark 数据源 (Data Sources) I/O" href="Spark-Data-Source.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -93,51 +93,35 @@
 </ul>
 <p class="caption"><span class="caption-text">spark-book</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Spark-introduction.html">Spark 介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Introduction.html">Spark 介绍</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SparkSQL-core.html">Spark SQL 背景</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SparkSQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Spark Low-Level API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#rdd">1.RDD</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#header-n48">1.1 创建 RDD</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dataframe-dataset-rdd">1.1.1 DataFrame, Dataset, RDD 交互操作</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#local-collection-rdd">1.1.2 从 Local Collection 创建 RDD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#header-n65">1.1.3 从数据源创建 RDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rdd">1.RDD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#header-n48">1.1 创建 RDD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dataframe-dataset-rdd">1.1.1 DataFrame, Dataset, RDD 交互操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#local-collection-rdd">1.1.2 从 Local Collection 创建 RDD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n65">1.1.3 从数据源创建 RDD</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#header-n68">1.2 操作 RDD</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#transformation">1.2.1 Transformation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#distinct">distinct</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#filter">filter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#map">map</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatmap">flatMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sort">sort</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#random-splits">Random Splits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n68">1.2 操作 RDD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformation">1.2.1 Transformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#action">1.2.2 Action</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#caching">1.2.4 Caching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkpointing">1.2.5 Checkpointing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pipe-rdds-to-system-commands">1.2.6 Pipe RDDs to System Commands</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#action">1.2.2 Action</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#reduce">reduce</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#count">count</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#countapprox">countApprox</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#countapproxdistinct">countApproxDistinct</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#countbyvalue">countByValue</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#countbyvalueapprox">countByValueApprox</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#first">first</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#max-min">max/min</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#take">take</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#saving-files">1.2.3 Saving Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#caching">1.2.4 Caching</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkpointing">1.2.5 Checkpointing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pipe-rdds-to-system-commands">1.2.6 Pipe RDDs to System Commands</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#key-value-rdd">2.Key-Value RDD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#distributed-shared-variables">3.Distributed Shared Variables(分布式共享变量)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-MLlib.html">Spark MLlib</a></li>
 </ul>
 <p class="caption"><span class="caption-text">spark-apache-org</span></p>
 <ul>
@@ -256,11 +240,10 @@
 <li><p>RDD 持久化</p></li>
 <li><p>RDD 分区</p></li>
 </ul>
-</div>
 <div class="section" id="header-n48">
-<span id="id1"></span><h2>1.1 创建 RDD<a class="headerlink" href="#header-n48" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h3>1.1 创建 RDD<a class="headerlink" href="#header-n48" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="dataframe-dataset-rdd">
-<span id="header-n49"></span><h3>1.1.1 DataFrame, Dataset, RDD 交互操作<a class="headerlink" href="#dataframe-dataset-rdd" title="Permalink to this headline">¶</a></h3>
+<span id="header-n49"></span><h4>1.1.1 DataFrame, Dataset, RDD 交互操作<a class="headerlink" href="#dataframe-dataset-rdd" title="Permalink to this headline">¶</a></h4>
 <p><strong>从 DataFrame 或 Dataset 创建 RDD:</strong></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala: converts a Dataset[Long] to  RDD[Long]</span>
 <span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="o">(</span><span class="mi">500</span><span class="o">).</span><span class="n">rdd</span>
@@ -286,7 +269,7 @@
 </div>
 </div>
 <div class="section" id="local-collection-rdd">
-<span id="header-n59"></span><h3>1.1.2 从 Local Collection 创建 RDD<a class="headerlink" href="#local-collection-rdd" title="Permalink to this headline">¶</a></h3>
+<span id="header-n59"></span><h4>1.1.2 从 Local Collection 创建 RDD<a class="headerlink" href="#local-collection-rdd" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">SparkSession.SparkContext.parallelize()</span></code></p></li>
 </ul>
@@ -308,7 +291,7 @@
 </div>
 </div>
 <div class="section" id="header-n65">
-<span id="id2"></span><h3>1.1.3 从数据源创建 RDD<a class="headerlink" href="#header-n65" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h4>1.1.3 从数据源创建 RDD<a class="headerlink" href="#header-n65" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="c1">// each record in the RDD is the a line in the text file</span>
 <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">textFile</span><span class="o">(</span><span class="s">&quot;/some/path/withTextFiles&quot;</span><span class="o">)</span>
@@ -328,23 +311,20 @@
 </div>
 </div>
 <div class="section" id="header-n68">
-<span id="id3"></span><h2>1.2 操作 RDD<a class="headerlink" href="#header-n68" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h3>1.2 操作 RDD<a class="headerlink" href="#header-n68" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>操作 raw Java or Scala object instead of Spark types;</p></li>
 </ul>
 <div class="section" id="transformation">
-<span id="header-n72"></span><h3>1.2.1 Transformation<a class="headerlink" href="#transformation" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="distinct">
-<span id="header-n73"></span><h4>distinct<a class="headerlink" href="#distinct" title="Permalink to this headline">¶</a></h4>
+<span id="header-n72"></span><h4>1.2.1 Transformation<a class="headerlink" href="#transformation" title="Permalink to this headline">¶</a></h4>
+<p id="header-n73">distinct</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="n">words</span>
      <span class="o">.</span><span class="n">distinct</span><span class="o">()</span>
      <span class="o">.</span><span class="n">count</span><span class="o">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="filter">
-<span id="header-n75"></span><h4>filter<a class="headerlink" href="#filter" title="Permalink to this headline">¶</a></h4>
+<p id="header-n75">filter</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">def</span> <span class="n">startsWithS</span><span class="o">(</span><span class="n">individual</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
      <span class="n">individual</span><span class="o">.</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;S&quot;</span><span class="o">)</span>
@@ -364,9 +344,7 @@
      <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="map">
-<span id="header-n78"></span><h4>map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h4>
+<p id="header-n78">map</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">words2</span> <span class="k">=</span> <span class="n">words</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">word</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="n">word</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="n">word</span><span class="o">.</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;S&quot;</span><span class="o">)))</span>
 <span class="n">words2</span>
      <span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">record</span> <span class="k">=&gt;</span> <span class="n">record</span><span class="o">.</span><span class="n">_3</span><span class="o">)</span>
@@ -380,9 +358,7 @@
      <span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="flatmap">
-<span id="header-n81"></span><h4>flatMap<a class="headerlink" href="#flatmap" title="Permalink to this headline">¶</a></h4>
+<p id="header-n81">flatMap</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="n">words</span>
      <span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">word</span> <span class="k">=&gt;</span> <span class="n">word</span><span class="o">.</span><span class="n">toSeq</span><span class="o">)</span>
@@ -395,9 +371,7 @@
      <span class="o">.</span><span class="n">take</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="sort">
-<span id="header-n84"></span><h4>sort<a class="headerlink" href="#sort" title="Permalink to this headline">¶</a></h4>
+<p id="header-n84">sort</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="n">words</span>
      <span class="o">.</span><span class="n">sortBy</span><span class="o">(</span><span class="n">word</span> <span class="k">=&gt;</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span><span class="o">()</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
@@ -410,9 +384,7 @@
      <span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="random-splits">
-<span id="header-n87"></span><h4>Random Splits<a class="headerlink" href="#random-splits" title="Permalink to this headline">¶</a></h4>
+<p id="header-n87">Random Splits</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">val</span> <span class="n">fiftyFiftySplit</span> <span class="k">=</span> <span class="n">words</span><span class="o">.</span><span class="n">randomSplit</span><span class="o">(</span><span class="nc">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">](</span><span class="mf">0.5</span><span class="o">,</span> <span class="mf">0.5</span><span class="o">))</span>
 </pre></div>
@@ -422,11 +394,9 @@
 </pre></div>
 </div>
 </div>
-</div>
 <div class="section" id="action">
-<span id="header-n91"></span><h3>1.2.2 Action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="reduce">
-<span id="header-n92"></span><h4>reduce<a class="headerlink" href="#reduce" title="Permalink to this headline">¶</a></h4>
+<span id="header-n91"></span><h4>1.2.2 Action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h4>
+<p id="header-n92">reduce</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">20</span><span class="o">)</span>
      <span class="o">.</span><span class="n">reduce</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">)</span>
 </pre></div>
@@ -435,24 +405,12 @@
      <span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="count">
-<span id="header-n95"></span><h4>count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="countapprox">
-<span id="header-n97"></span><h4>countApprox<a class="headerlink" href="#countapprox" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="countapproxdistinct">
-<span id="header-n99"></span><h4>countApproxDistinct<a class="headerlink" href="#countapproxdistinct" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="countbyvalue">
-<span id="header-n100"></span><h4>countByValue<a class="headerlink" href="#countbyvalue" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="countbyvalueapprox">
-<span id="header-n101"></span><h4>countByValueApprox<a class="headerlink" href="#countbyvalueapprox" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="first">
-<span id="header-n102"></span><h4>first<a class="headerlink" href="#first" title="Permalink to this headline">¶</a></h4>
+<p id="header-n95">count</p>
+<p id="header-n97">countApprox</p>
+<p id="header-n99">countApproxDistinct</p>
+<p id="header-n100">countByValue</p>
+<p id="header-n101">countByValueApprox</p>
+<p id="header-n102">first</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="n">words</span><span class="o">.</span><span class="n">first</span><span class="o">()</span>
 </pre></div>
@@ -461,25 +419,19 @@
 <span class="n">words</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="max-min">
-<span id="header-n105"></span><h4>max/min<a class="headerlink" href="#max-min" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="take">
-<span id="header-n106"></span><h4>take<a class="headerlink" href="#take" title="Permalink to this headline">¶</a></h4>
-</div>
-</div>
-<div class="section" id="saving-files">
-<span id="header-n107"></span><h3>1.2.3 Saving Files<a class="headerlink" href="#saving-files" title="Permalink to this headline">¶</a></h3>
+<p id="header-n105">max/min</p>
+<p id="header-n106">take</p>
+<p id="header-n107">1.2.3 Saving Files</p>
 </div>
 <div class="section" id="caching">
-<span id="header-n108"></span><h3>1.2.4 Caching<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h3>
+<span id="header-n108"></span><h4>1.2.4 Caching<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="checkpointing">
-<span id="header-n109"></span><h3>1.2.5 Checkpointing<a class="headerlink" href="#checkpointing" title="Permalink to this headline">¶</a></h3>
+<span id="header-n109"></span><h4>1.2.5 Checkpointing<a class="headerlink" href="#checkpointing" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="pipe-rdds-to-system-commands">
-<span id="header-n110"></span><h3>1.2.6 Pipe RDDs to System Commands<a class="headerlink" href="#pipe-rdds-to-system-commands" title="Permalink to this headline">¶</a></h3>
+<span id="header-n110"></span><h4>1.2.6 Pipe RDDs to System Commands<a class="headerlink" href="#pipe-rdds-to-system-commands" title="Permalink to this headline">¶</a></h4>
+</div>
 </div>
 </div>
 <div class="section" id="key-value-rdd">
@@ -498,10 +450,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Spark-Data-Source.html" class="btn btn-neutral float-right" title="Spark 数据源 (Data Sources) I/O" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Spark-APP.html" class="btn btn-neutral float-right" title="Spark 应用程序" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="SparkSQL-core.html" class="btn btn-neutral float-left" title="Spark SQL 背景" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Spark-Data-Source.html" class="btn btn-neutral float-left" title="Spark 数据源 (Data Sources) I/O" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

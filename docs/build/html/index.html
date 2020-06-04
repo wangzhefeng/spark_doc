@@ -92,12 +92,14 @@
 </ul>
 <p class="caption"><span class="caption-text">spark-book</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-introduction.html">Spark 介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Introduction.html">Spark 介绍</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Structured-API.html">Spark Structured API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="spark-book/SparkSQL-core.html">Spark SQL 背景</a></li>
-<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/SparkSQL.html">Spark SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-MLlib.html">Spark MLlib</a></li>
 </ul>
 <p class="caption"><span class="caption-text">spark-apache-org</span></p>
 <ul>
@@ -238,41 +240,62 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">spark-book</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-introduction.html">Spark 介绍</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-introduction.html#apache-spark">Apache Spark</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#header-n3">1.Spark 的设计哲学和历史</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#header-n73">2.Spark 开发环境</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#spark-s-interactive-consoles">3.Spark’s Interactive Consoles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#header-n114">4.云平台、数据</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Introduction.html">Spark 介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Introduction.html#apache-spark">Apache Spark</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#header-n3">1.Spark 的设计哲学和历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#header-n73">2.Spark 开发环境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#spark-s-interactive-consoles">3.Spark’s Interactive Consoles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#header-n114">4.云平台、数据</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-introduction.html#header-n121">Spark</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#spark-s-architecture">1.Spark’s Architecture</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#spark-s-language-api">2.Spark’s Language API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#spark-s-api">3.Spark’s API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#header-n265">4.开始 Spark</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-introduction.html#sparksession">4.1 SparkSession</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-introduction.html#dataframes">4.2 DataFrames</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-introduction.html#partitions">4.3 Partitions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-introduction.html#transformation">4.4 Transformation</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="spark-book/Spark-introduction.html#lazy-evaluation">4.4.1 Lazy Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Introduction.html#header-n121">Spark</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#spark-s-architecture">1.Spark’s Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#spark-s-language-api">2.Spark’s Language API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#spark-s-api">3.Spark’s API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#header-n265">4.开始 Spark</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#sparksession">4.1 SparkSession</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#dataframes">4.2 DataFrames</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#partitions">4.3 Partitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#transformation">4.4 Transformation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="spark-book/Spark-Introduction.html#lazy-evaluation">4.4.1 Lazy Evaluation</a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-introduction.html#action">4.5 Action</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-introduction.html#spark-ui">4.6 Spark UI</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-introduction.html#id6">4.7 一个 🌰</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#action">4.5 Action</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#spark-ui">4.6 Spark UI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id6">4.7 一个 🌰</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-introduction.html#id7">Spark 工具</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#id8">1.Spark 应用程序</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#dataset">2.Dataset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#spark-structured-streaming">3.Spark Structured Streaming</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#id9">4.Spark 机器学习和高级数据分析</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#spark-api">5.Spark 低阶 API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#sparkr">6.SparkR</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-introduction.html#id10">7.Spark 生态系统和工具包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Introduction.html#id7">Spark 工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#id8">1.Spark 应用程序</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id9">示例 1：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id10">示例 2：</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#dataset-api">2.Dataset: 类型安全的结果化 API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id11">示例:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#spark-structured-streaming">3.Spark Structured Streaming</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#dataframe-schema">1.创建一个静态数据集 DataFrame 以及 Schema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id12">2.对数据进行分组和聚合操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id13">3.设置本地模型运行参数配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id14">4.将批处理代码转换为流处理代码</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#id15">4.Spark 机器学习和高级数据分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#spark-api">5.Spark 低阶 API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id16">示例 1:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id17">示例 2:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#sparkr">6.SparkR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id18">示例 1:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Introduction.html#id19">示例 2:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Introduction.html#id20">7.Spark 生态系统和工具包</a></li>
 </ul>
 </li>
 </ul>
@@ -281,7 +304,13 @@
 <li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Structured-API.html#header-n3">1.Spark Structured API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Structured-API.html#dataset-dataframe">1.1 Dataset 和 DataFrame</a></li>
 <li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Structured-API.html#schema">1.2 Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Structured-API.html#structured-spark-types">1.3 Structured Spark Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Structured-API.html#structured-spark-types">1.3 Structured Spark Types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#dataframe-dataset">1.3.1 DataFrame 与 Dataset 的比较</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#id2">1.3.2 列</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#id3">1.3.3 行</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#spark">1.3.4 Spark 类型</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Structured-API.html#structured-api-execution">1.4 Structured API Execution</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#logical-planning">1.4.1 Logical Planning</a></li>
 <li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#physical-planning">1.4.2 Physical Planning</a></li>
@@ -293,7 +322,7 @@
 <li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Structured-API.html#dataframe">2.DataFrame</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Structured-API.html#schemas">2.1 Schemas</a></li>
 <li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Structured-API.html#columns-expressions">2.2 Columns 和 Expressions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#columns">2.2.1 创建和引用 Columns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#columns">2.2.1 Columns</a></li>
 <li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Structured-API.html#expressions">2.2.2 Expressions</a></li>
 </ul>
 </li>
@@ -413,49 +442,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="spark-book/SparkSQL-core.html">Spark SQL 背景</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/SparkSQL-core.html#header-n3">1.Spark SQL背景</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/SparkSQL-core.html#spark">2.Spark基础</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#rdd">1.RDD</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#header-n48">1.1 创建 RDD</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#dataframe-dataset-rdd">1.1.1 DataFrame, Dataset, RDD 交互操作</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#local-collection-rdd">1.1.2 从 Local Collection 创建 RDD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#header-n65">1.1.3 从数据源创建 RDD</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#header-n68">1.2 操作 RDD</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#transformation">1.2.1 Transformation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#distinct">distinct</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#filter">filter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#map">map</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#flatmap">flatMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#sort">sort</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#random-splits">Random Splits</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#action">1.2.2 Action</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#reduce">reduce</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#count">count</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#countapprox">countApprox</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#countapproxdistinct">countApproxDistinct</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#countbyvalue">countByValue</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#countbyvalueapprox">countByValueApprox</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#first">first</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#max-min">max/min</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#take">take</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#saving-files">1.2.3 Saving Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#caching">1.2.4 Caching</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#checkpointing">1.2.5 Checkpointing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#pipe-rdds-to-system-commands">1.2.6 Pipe RDDs to System Commands</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#key-value-rdd">2.Key-Value RDD</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#distributed-shared-variables">3.Distributed Shared Variables(分布式共享变量)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/SparkSQL.html">Spark SQL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/SparkSQL.html#header-n3">1.Spark SQL 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/SparkSQL.html#header-n4">2.Spark SQL 基础</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a><ul>
@@ -479,6 +468,28 @@
 <li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Data-Source.html#i-o">8.高级 I/O</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html">Spark Low-Level API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#rdd">1.RDD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#header-n48">1.1 创建 RDD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#dataframe-dataset-rdd">1.1.1 DataFrame, Dataset, RDD 交互操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#local-collection-rdd">1.1.2 从 Local Collection 创建 RDD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#header-n65">1.1.3 从数据源创建 RDD</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#header-n68">1.2 操作 RDD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#transformation">1.2.1 Transformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#action">1.2.2 Action</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#caching">1.2.4 Caching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#checkpointing">1.2.5 Checkpointing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#pipe-rdds-to-system-commands">1.2.6 Pipe RDDs to System Commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#key-value-rdd">2.Key-Value RDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Low-Level-API.html#distributed-shared-variables">3.Distributed Shared Variables(分布式共享变量)</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-APP.html">Spark 应用程序</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-APP.html#spark-run-on-cluster">1 Spark Run on cluster</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-APP.html#header-n5">2 开发 Spark 应用程序</a><ul>
@@ -498,6 +509,20 @@
 <li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-APP.html#header-n96">3 部署 Spark 应用程序</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-APP.html#spark-debug-monitoring-and-debugging">4 Spark 应用程序监控和Debug(Monitoring and Debugging)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-APP.html#header-n100">5 Spark 应用程序性能调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-Structured-Streaming.html">Spark Structured Streaming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Structured-Streaming.html#spark-streaming">1.Spark Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-Structured-Streaming.html#spark-sturctured-streaming">2.Spark Sturctured Streaming</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spark-book/Spark-MLlib.html">Spark MLlib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-MLlib.html#id1">1.Spark MLlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-MLlib.html#id2">2.预处理和特征工程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-MLlib.html#id3">3.分类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-MLlib.html#id4">4.回归</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-MLlib.html#id5">5.推荐系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spark-book/Spark-MLlib.html#id6">6.无监督学习</a></li>
 </ul>
 </li>
 </ul>

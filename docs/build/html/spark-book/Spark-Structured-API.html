@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Spark SQL 背景" href="SparkSQL-core.html" />
-    <link rel="prev" title="Spark 介绍" href="Spark-introduction.html" /> 
+    <link rel="next" title="Spark SQL" href="SparkSQL.html" />
+    <link rel="prev" title="Spark 介绍" href="Spark-Introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -93,12 +93,18 @@
 </ul>
 <p class="caption"><span class="caption-text">spark-book</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Spark-introduction.html">Spark 介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Introduction.html">Spark 介绍</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Spark Structured API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#header-n3">1.Spark Structured API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#dataset-dataframe">1.1 Dataset 和 DataFrame</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">1.2 Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#structured-spark-types">1.3 Structured Spark Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#structured-spark-types">1.3 Structured Spark Types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dataframe-dataset">1.3.1 DataFrame 与 Dataset 的比较</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">1.3.2 列</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">1.3.3 行</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spark">1.3.4 Spark 类型</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#structured-api-execution">1.4 Structured API Execution</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#logical-planning">1.4.1 Logical Planning</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#physical-planning">1.4.2 Physical Planning</a></li>
@@ -110,7 +116,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#dataframe">2.DataFrame</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#schemas">2.1 Schemas</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#columns-expressions">2.2 Columns 和 Expressions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#columns">2.2.1 创建和引用 Columns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#columns">2.2.1 Columns</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#expressions">2.2.2 Expressions</a></li>
 </ul>
 </li>
@@ -197,10 +203,12 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="SparkSQL-core.html">Spark SQL 背景</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SparkSQL.html">Spark SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark 数据源 (Data Sources) I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-MLlib.html">Spark MLlib</a></li>
 </ul>
 <p class="caption"><span class="caption-text">spark-apache-org</span></p>
 <ul>
@@ -288,6 +296,14 @@
             
   <div class="section" id="spark-structured-api">
 <span id="header-n0"></span><h1>Spark Structured API<a class="headerlink" href="#spark-structured-api" title="Permalink to this headline">¶</a></h1>
+<p>Spark 结构化 API 是处理各种数据类型的工具，可处理非结构化的日志文件、半结构化的 CSV 文件，以及高度结构化的 Parquet 文件。</p>
+<p>Spark 结构化 API 指以下三种核心分布式集合类型的 API:</p>
+<ul class="simple">
+<li><p>Dataset</p></li>
+<li><p>DataFrame</p></li>
+<li><p>SQL Table 和 View</p></li>
+</ul>
+<p>大多数结构化 API 均适用于批处理和流处理，这意味着使用结构化 API 编写代码时，几乎不费吹灰之力就可以从批处理程序转换为流处理程序，反之亦然.</p>
 <div class="section" id="header-n3">
 <span id="id1"></span><h2>1.Spark Structured API<a class="headerlink" href="#header-n3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -313,11 +329,12 @@ language types(spark types), you call an <code class="docutils literal notransla
 </ul>
 <div class="section" id="dataset-dataframe">
 <span id="header-n19"></span><h3>1.1 Dataset 和 DataFrame<a class="headerlink" href="#dataset-dataframe" title="Permalink to this headline">¶</a></h3>
+<p>Spark 支持两种结构化集合类型：Dataset 和 DataFrame.</p>
 <p>DataFrames and Datasets are distributed table-like with well-defined
 rows and columns.</p>
 <ul class="simple">
 <li><p>Each column must have the same number of rows as all the other
-columns;</p></li>
+columns(可以用 <code class="docutils literal notranslate"><span class="pre">null</span></code> 来指定缺失值);</p></li>
 <li><p>Each column has type information that must be consistent for every
 row in the collection;</p></li>
 </ul>
@@ -329,17 +346,20 @@ return the result.</p>
 </div>
 <div class="section" id="schema">
 <span id="header-n28"></span><h3>1.2 Schema<a class="headerlink" href="#schema" title="Permalink to this headline">¶</a></h3>
-<p>A schema defines the column names and types of a DataFrame, define
-schemas:</p>
 <ul class="simple">
+<li><dl class="simple">
+<dt>A schema defines the column names and types of a DataFrame, define schemas:</dt><dd><ul>
 <li><p>manually</p></li>
 <li><p>read a schema from a data source(schema on read)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </div>
 <div class="section" id="structured-spark-types">
 <span id="header-n35"></span><h3>1.3 Structured Spark Types<a class="headerlink" href="#structured-spark-types" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>Spark is effectively a <strong>programming language</strong> of its own.</p></li>
 <li><p>Spark uses an engine called <strong>Catalyst</strong> that maintains its own
 type information through the planning and processing of work. This
@@ -347,26 +367,96 @@ open up a wide variety of execution optimizations that make
 significant differences.</p></li>
 <li><p>Even if we use Spark’s Structured APIs from Python or R, the
 majority of our manipulations will operate strictly on <strong>Spark
-types</strong>, not Python types.</p></li>
+types</strong>, not Python or R types.</p></li>
 </ul>
+<div class="section" id="dataframe-dataset">
+<h4>1.3.1 DataFrame 与 Dataset 的比较<a class="headerlink" href="#dataframe-dataset" title="Permalink to this headline">¶</a></h4>
+<dl class="simple">
+<dt>Spark 结构化 API 包含两类 API，即非类型化的 DataFrame 和非类型化的 Dataset</dt><dd><ul class="simple">
+<li><p>DataFrame 是无类型的是因为它们其实是有类型的，只是 Spark 完全负责维护它们的类型，仅在运行时检查这些类型是否与 schema 中指定的类型一致.</p></li>
+<li><p>Dataset 在编译时就会检查类型是否符合规范，Dataset 仅适用于基于 Java 虚拟机(JVM) 的语言(比如 Scala 和 Java)，并通过 case 类或 Java beans 指定类型.</p></li>
+</ul>
+</dd>
+</dl>
+<p>在 Scala 版本中的 Spark 中，DataFrame 就是一些 Row 类型的 Dataset 的集合。Row 类型是 Spark 用于支持内存计算而优化的数据格式。这种格式有利于高效计算。因为它避免使用会带来昂贵垃圾回收开销和对象实例化开销的 JVM 类型，而是基于自己的内部格式运行，所以不会产生这种开销.</p>
+<p>Python 版本和 R 语言版本的 Spark 并不支持 Dataset，所有东西都是 DataFrame，这样就可以使用这种优化的数据格式进行计算处理.</p>
+</div>
+<div class="section" id="id2">
+<h4>1.3.2 列<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>Spark 的列表示一个简单类型，或者一个复杂类型，或者空值 <code class="docutils literal notranslate"><span class="pre">null</span></code>. Spark 记录所有这些类型的信息并提供多种转换方法.</p>
+<p>简单来说，可以将 Spark 列想象为一个数据表的列即可.</p>
+</div>
+<div class="section" id="id3">
+<h4>1.3.3 行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>Spark 的一行对应一个数据记录. DataFrame 中的每条记录都必须是 <code class="docutils literal notranslate"><span class="pre">Row</span></code> 类型，可以通过 SQL 手动创建、从 RDD 提取、从数据源手动创建一个行.</p>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="o">(</span><span class="mi">2</span><span class="o">).</span><span class="n">toDF</span><span class="o">().</span><span class="n">collect</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
 </div></blockquote>
-<p><strong>实例化或声明一个特定类型的列：</strong></p>
+</div>
+<div class="section" id="spark">
+<h4>1.3.4 Spark 类型<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h4>
+<dl>
+<dt><strong>实例化或声明一个特定类型的列:</strong></dt><dd><ul class="simple">
+<li><p>Scala version:</p></li>
+</ul>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.types._</span>
 <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">ByteType</span>
 </pre></div>
 </div>
+</dd>
+<dt><strong>实例化或声明一个特定类型的列:</strong></dt><dd><ul class="simple">
+<li><p>Java version:</p></li>
+</ul>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Java</span>
 <span class="kn">import</span> <span class="nn">org.apache.spark.sql.types.DataTypes</span><span class="p">;</span>
 <span class="n">ByteType</span> <span class="n">a</span> <span class="o">=</span> <span class="n">DataTypes</span><span class="p">.</span><span class="na">ByteType</span><span class="p">;</span>
 </pre></div>
 </div>
+</dd>
+<dt><strong>实例化或声明一个特定类型的列:</strong></dt><dd><ul class="simple">
+<li><p>Python version:</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">ByteType</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Spark Internal Types:</strong></p>
+</dd>
+<dt><strong>Spark Internal Types:</strong></dt><dd><ul class="simple">
+<li><p>Python 类型参考表：</p></li>
+</ul>
+</dd>
+</dl>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="simple">
+<dt><strong>Spark Internal Types:</strong></dt><dd><ul class="simple">
+<li><p>Scala 类型参考表：</p></li>
+</ul>
+</dd>
+</dl>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 33%" />
@@ -458,197 +548,167 @@ true])</p></td>
 </tbody>
 </table>
 </div>
+</div>
 <div class="section" id="structured-api-execution">
 <span id="header-n118"></span><h3>1.4 Structured API Execution<a class="headerlink" href="#structured-api-execution" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><p>How code is actually executed across a cluster ?</p>
-<ul>
-<li><p>(1)Write DataFrame/Dataset/SQL Code;</p></li>
-<li><p>(2)If vaild code, Spark converts Code to a <strong>Logistic Plan</strong>;</p></li>
-<li><p>(3)Spark transforms this <strong>Logistic Plan</strong> to <strong>Physical
-Plan</strong>, checking for optimizations along the way;</p></li>
-<li><p>(4)Spark then executes this <strong>Physical Plan</strong>(RDD
-manipulations) on the cluster;</p></li>
+<dl class="simple">
+<dt>How code is actually executed across a cluster ?</dt><dd><ul class="simple">
+<li><p>1.Write DataFrame/Dataset/SQL Code;</p></li>
+<li><p>2.If vaild code, Spark converts Code to a <strong>Logistic Plan</strong>;</p></li>
+<li><p>3.Spark transforms this <strong>Logistic Plan</strong> to <strong>Physical Plan</strong>, checking for optimizations along the way;</p></li>
+<li><p>4.Spark then executes this <strong>Physical Plan</strong>(RDD manipulations) on the cluster;</p></li>
 </ul>
-</li>
-</ul>
-</div></blockquote>
+</dd>
+</dl>
 <p>To execute code, must write code. This code is then submitted to Spark
-either through the console or via a submitted job. This code the passes
-through the Catalyst Optimizer, which decides how the code should be
+either through the <code class="docutils literal notranslate"><span class="pre">console</span></code> or via a <code class="docutils literal notranslate"><span class="pre">submitted</span> <span class="pre">job</span></code>. This code the passes
+through the <strong>Catalyst Optimizer</strong>, which decides how the code should be
 executed and lays out a plan for doing so before, finally, the code is
 run and the result is returned to the user.</p>
+<img alt="Catalyst优化器" src="../_images/Catalyst优化器.png" />
 <div class="section" id="logical-planning">
 <span id="header-n134"></span><h4>1.4.1 Logical Planning<a class="headerlink" href="#logical-planning" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><p>Spark uses the <strong>catalog</strong>, a repository of all table and DataFrame
-information, to resolve columns and tables in the <strong>analyzer</strong>.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>User Code</p></li>
-<li><p>Unresolved logical plan</p>
-<ul>
-<li><p>Catalog</p></li>
-<li><p>Analyzer</p></li>
+<dl class="simple">
+<dt>Spark 结构化 API 执行的第一阶段是获取用户代码，并将其转换为逻辑计划.</dt><dd><ul class="simple">
+<li><p>转换后的逻辑计划仅代表一组抽象转换，并不涉及驱动器和执行器，它只是将用户的表达式集合转换为最优的版本。它通过将用户代码转换为未解析的逻辑计划来实现这一点.</p></li>
+<li><p>从用户代码转换来的逻辑计划并没有被解析，因为虽然用户的代码可能是有效的，但它引用的表可能不存在. Spark 使用 <code class="docutils literal notranslate"><span class="pre">catalog</span></code> (所有表和 DataFrame 信息的存储库) 在分析器中解析列和表格. 如果目录中不存在所需的表格或列名称，分析器可能会拒绝该未解析的逻辑计划.</p></li>
+<li><p>如果分析器可以解析它，结果将通过 <code class="docutils literal notranslate"><span class="pre">Catalyst</span> <span class="pre">优化器</span></code> 尝试通过下推谓词或选择操作来优化逻辑计划. 用户也可以扩展 Catalyst 优化器来支持自己的特定领域优化策略.</p></li>
 </ul>
-</li>
-<li><p>Resolved logical plan</p>
-<ul>
-<li><p>Logical Optimization</p></li>
-</ul>
-</li>
-<li><p>Optimized logical plan</p></li>
-</ul>
+</dd>
+</dl>
+<img alt="结构化API的逻辑计划" src="../_images/结构化的逻辑计划.png" />
 </div>
 <div class="section" id="physical-planning">
 <span id="header-n155"></span><h4>1.4.2 Physical Planning<a class="headerlink" href="#physical-planning" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p>Physical Planning, often called a Spark Plan, specifies how the
-logical planning will execute on the cluster by generating different
-physical execution strategies and comparing them through a cost
-model.</p></li>
-<li><p>Physical planning results in a series of RDDs an transformations.</p>
-<ul>
-<li><p>Spark referred to as a compiler: it takes queries in DataFrames,
-Datasets, SQL an compiles them into RDD transformations.</p></li>
+<dl class="simple">
+<dt>在成功创建 <code class="docutils literal notranslate"><span class="pre">优化的逻辑计划</span></code> 后，Spark 开始 <code class="docutils literal notranslate"><span class="pre">执行物理计划流程</span></code> 。物理计划（通常称为 Spark 计划）通过生成不同的物理执行策略，并通过 <code class="docutils literal notranslate"><span class="pre">代价模型</span></code> 进行比较分析，从而指定如何在集群上执行逻辑计划.</dt><dd><ul class="simple">
+<li><p>例如：执行一个连接操作就会涉及代价比较，它通过分析数据表的物理属性(表的大小或分区的大小)，对不同的物理执行策略进行代价比较，选择合适的物理执行计划.</p></li>
+<li><p>物理执行计划产生一系列的 RDD 和转换操作，这就是 Spark 被称为编译器的原因，因为它将对 DataFrame、Dataset 和 SQL 中的查询操作为用户编译一系列 RDD 的转换操作.</p></li>
 </ul>
-</li>
-</ul>
+</dd>
+</dl>
+<img alt="物理计划流程" src="../_images/物理计划流程.png" />
 </div>
 <div class="section" id="execution">
 <span id="header-n166"></span><h4>1.4.3 Execution<a class="headerlink" href="#execution" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p>selecting a physical plan</p></li>
-<li><p>run code over RDDs</p></li>
-<li><p>perform optimizations</p></li>
-<li><p>generating native Java bytecode</p></li>
-<li><p>return the result to user</p></li>
-</ul>
+<p>在选择一个物理计划时，Spark 将所有代码运行在 Spark 的底层编程接口 RDD 上.
+Spark 在运行时进一步优化，生成可以在执行期间优化任务或阶段的本地 Java 字节码，
+最终将结果返回给用户.</p>
 </div>
 </div>
 </div>
 <div class="section" id="dataframe">
 <span id="header-n179"></span><h2>2.DataFrame<a class="headerlink" href="#dataframe" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>A DataFrame consists of a series of <strong>records</strong> (like row in a
-table), that are of type <code class="docutils literal notranslate"><span class="pre">Row</span></code>, and a number of <strong>columns</strong> (like
-columns in a spreadsheet) that represent a computation expression
-that can be preformed on each individual record in the Dataset.</p>
-<ul>
-<li><p>Schema 定义了 DataFrame 中每一列数据的名字和类型；</p></li>
-<li><p>DataFrame 的 Partitioning 定义了 DataFrame 和 Dataset
-在集群上的物理分布结构；</p></li>
-<li><p>Partitioning schema defines how Partitioning of the DataFrame is
-allocated;</p></li>
-<li><p>DataFrame operations:</p>
-<ul>
-<li><p>aggregations</p></li>
-<li><p>window functions</p></li>
-<li><p>joins</p></li>
+<dl class="simple">
+<dt>A DataFrame consists of a series of <strong>records</strong> (like row in a table), that are of type <code class="docutils literal notranslate"><span class="pre">Row</span></code>, and a number of <strong>columns</strong> (like columns in a spreadsheet) that represent a computation expression that can be preformed on each individual record in the Dataset.</dt><dd><ul class="simple">
+<li><p>Schema 定义了 DataFrame 中每一列数据的名字和数据类型.</p></li>
+<li><p>DataFrame Partitioning 定义了 DataFrame 和 Dataset 在集群上的物理分布结构.</p></li>
+<li><p>Partitioning schema 定义了 partition 的分配方式，可以自定义分区，也可以采取随机分配方式.</p></li>
+<li><p>DataFrame operations:
+-  聚合(aggregation)
+-  窗口函数(window function)
+-  连接(join)</p></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
-<span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;josn&quot;</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
+</dd>
+</dl>
+<p><strong>示例:</strong></p>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;josn&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
+
 <span class="c1">// 查看DataFrame的schema</span>
 <span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="o">()</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span> \
+   <span class="o">.</span><span class="n">read</span> \
+   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
 
-<span class="o">//</span> <span class="n">查看DataFrame的schema</span>
+<span class="c1"># 查看DataFrame的schema</span>
 <span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
 </pre></div>
 </div>
+</div></blockquote>
 <div class="section" id="schemas">
 <span id="header-n201"></span><h3>2.1 Schemas<a class="headerlink" href="#schemas" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><p>Schema 定义了 DataFrame 中每一列数据的<em>名字</em>和<em>类型</em>；</p></li>
-<li><p>为 DataFrame 设置 Schema 的方式：</p>
+<ul class="simple">
+<li><p>Schema 定义了 DataFrame 中每一列数据的 <code class="docutils literal notranslate"><span class="pre">名字</span></code> 和 <code class="docutils literal notranslate"><span class="pre">类型</span></code></p></li>
+<li><p>为 DataFrame 设置 Schema 有两种方式:</p>
 <ul>
-<li><p>使用数据源已有的 Schema (schema-on-read)</p></li>
-<li><p>使用 <code class="docutils literal notranslate"><span class="pre">StructType</span></code>, <code class="docutils literal notranslate"><span class="pre">StructField</span></code> 自定义 DataFrame 的
-Schema；</p></li>
+<li><p>使用数据源已有的 Schema (schema-on-read, 读时模式)</p></li>
+<li><p>使用 <code class="docutils literal notranslate"><span class="pre">StructType</span></code>, <code class="docutils literal notranslate"><span class="pre">StructField</span></code> 自定义 DataFrame 的 Schema</p></li>
 </ul>
 </li>
-<li><p>A Schema is a <code class="docutils literal notranslate"><span class="pre">StructType</span></code> made up of a number of fields,
-<code class="docutils literal notranslate"><span class="pre">StructField</span></code>, that have a <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code>, a
-<code class="docutils literal notranslate"><span class="pre">Boolean</span> <span class="pre">flag</span></code> which specifies whether that column can contain
-missing of null values, and finally, user can optionally specify
-associated <code class="docutils literal notranslate"><span class="pre">Metadata</span></code> with that column. The Metadata is a way of
-storing information about this column.</p></li>
-<li><p>如果程序在运行时，DataFrame 中 column 的 <code class="docutils literal notranslate"><span class="pre">type</span></code> 没有与
-预先设定的 Schema 相匹配，就会抛出错误；</p></li>
+<li><p>一个 Schema 是由许多字段(field)构成的 <code class="docutils literal notranslate"><span class="pre">StructType</span></code>, 这些字段即为 <code class="docutils literal notranslate"><span class="pre">StructField</span></code>，具有名称、类型、布尔标志(该标志指定该列是否可以包含缺失值或空值)，并且用户可指定与该列关联的元数据(metadata). 元数据存储着有关此列的信息(Spark 在 MLlib 库中使用此功能).</p>
+<ul>
+<li><p>如果程序在运行时，DataFrame 中 column 的 type 没有与预先设定的 Schema 相匹配，Spark 就会抛出错误</p></li>
 </ul>
-</div></blockquote>
-<p><strong>(1) 使用数据源已有的 Schema (schema-on-read):</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+</li>
+</ul>
+<p>(1)使用数据源已有的 Schema (schema-on-read)</p>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">schema</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">schema</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
 <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">schema</span>
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">schema</span>
 </pre></div>
 </div>
-<p><strong>(2)使用 ``StructType``, ``StructField`` 自定义 DataFrame 的 Schema</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+</div></blockquote>
+<p>(2)使用 <code class="docutils literal notranslate"><span class="pre">StructType</span></code>, <code class="docutils literal notranslate"><span class="pre">StructField</span></code> 自定义 DataFrame 的 Schema</p>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.types.</span><span class="o">{</span><span class="nc">StructField</span><span class="o">,</span> <span class="nc">StructType</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.types.Metadata</span>
 
 <span class="k">val</span> <span class="n">myManualSchema</span> <span class="k">=</span> <span class="nc">StructType</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-    <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
-    <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
-    <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;COUNT&quot;</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
+   <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+   <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+   <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;COUNT&quot;</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="nc">Metadata</span><span class="o">.</span><span class="n">fromJson</span><span class="o">(</span><span class="s">&quot;{\&quot;hello\&quot;: \&quot;world\&quot;}&quot;</span><span class="o">))</span>
 <span class="o">))</span>
 
 <span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">schema</span><span class="o">(</span><span class="n">myManualSchema</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">schema</span><span class="o">(</span><span class="n">myManualSchema</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">LongType</span>
 
 <span class="n">myManualSchema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
-    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
-    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
-    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;COUNT&quot;</span><span class="p">,</span> <span class="n">LongType</span><span class="p">(),</span> <span class="kc">False</span><span class="p">)</span>
+   <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+   <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+   <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;COUNT&quot;</span><span class="p">,</span> <span class="n">LongType</span><span class="p">(),</span> <span class="kc">False</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;hello&quot;</span><span class="p">:</span><span class="s2">&quot;world&quot;</span><span class="p">})</span>
 <span class="p">])</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">myManualSchema</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">myManualSchema</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div></blockquote>
 </div>
 <div class="section" id="columns-expressions">
 <span id="header-n223"></span><h3>2.2 Columns 和 Expressions<a class="headerlink" href="#columns-expressions" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><p>Spark 中的 columns 就像 spreadsheet，R dataframe, Pandas DataFrame
-中的列一样；可以对 Spark 中的 columns
-进行<strong>选择，操作，删除</strong>等操作，这些操作表现为 expression
-的形式；</p></li>
-<li><p>在 Spark 中来操作 column 中的内容必须通过 Spark DataFrame 的
-transformation进行；</p></li>
-</ul>
-</div></blockquote>
-<div class="section" id="columns">
-<span id="header-n230"></span><h4>2.2.1 创建和引用 Columns<a class="headerlink" href="#columns" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>有很多种方法来创建和引用 DataFrame 中的 column:</p>
+<li><p>Spark 中的 <code class="docutils literal notranslate"><span class="pre">columns</span></code> 就像 spreadsheet, R dataframe, Pandas DataFrame 中的列一样, 可以对 Spark 中的 <code class="docutils literal notranslate"><span class="pre">columns</span></code> 进行 <strong>选择，操作，删除</strong> 等操作，这些操作表现为 <code class="docutils literal notranslate"><span class="pre">expression</span></code> 的形式</p></li>
+<li><p>在 Spark 中来操作 <code class="docutils literal notranslate"><span class="pre">column</span></code> 中的内容必须通过 Spark DataFrame 的 transformation 进行</p></li>
+</ul>
+<div class="section" id="columns">
+<span id="header-n230"></span><h4>2.2.1 Columns<a class="headerlink" href="#columns" title="Permalink to this headline">¶</a></h4>
 <ul>
+<li><p>有很多种方法来创建和引用 DataFrame 中的 column:</p>
+<ul class="simple">
 <li><p>函数(function):</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">col()</span></code></p></li>
@@ -664,8 +724,6 @@ transformation进行；</p></li>
 <li><p>DataFrame 的方法(explicit column references):</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">df.col(&quot;myColumn&quot;)</span></code></p></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -687,34 +745,31 @@ transformation进行；</p></li>
 <span class="n">df</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;someColumnName&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</li>
+</ul>
 </div>
 <div class="section" id="expressions">
 <span id="header-n256"></span><h4>2.2.2 Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>Columns are expressions；</p></li>
-<li><p>An expression is a set of transformations on one or more values in
-a records in a DataFrame；</p></li>
-<li><p>通过函数创建的 expression：<code class="docutils literal notranslate"><span class="pre">expr()</span></code>，仅仅是对 DataFrame 的
-columns 的 reference；</p>
+<li><p>An expression is a set of transformations on one or more values in a records in a DataFrame；</p></li>
+<li><p>通过函数创建的 expression： <code class="docutils literal notranslate"><span class="pre">expr()</span></code> ，仅仅是对 DataFrame 的 columns 的 reference</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">expr(&quot;someCol&quot;)</span></code> 等价于 <code class="docutils literal notranslate"><span class="pre">col(&quot;someCol&quot;)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">col()</span></code> 对 columns 进行 transformation 操作时，必须作用在
-columns 的引用上；</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">expr()</span></code> 会将一个 string 解析为 transformations 和 columns
-references，并且能够继续传递给transformations；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">col()</span></code> 对 columns 进行 transformation 操作时，必须作用在 columns 的引用上</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expr()</span></code> 会将一个 string 解析为 transformations 和 columns references，并且能够继续传递给 transformations</p></li>
 </ul>
 </li>
 <li><p>Columns are just expressions;</p></li>
-<li><p>Columns and transformations of those columns compile to the same
-logical plan as parsed expression;</p></li>
+<li><p>Columns and transformations of those columns compile to the same logical plan as parsed expression;</p></li>
 </ul>
-</div></blockquote>
 <p><strong>Column as Expression:</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// 下面的3个表达式是等价的 transformation</span>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// 下面的3个表达式是等价的 transformation</span>
 <span class="c1">// Spark 会将上面的三个 transformation 解析为相同的逻辑树(logical tree)来表达操作的顺序；</span>
 
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.expr</span>
+
 <span class="n">expr</span><span class="o">(</span><span class="s">&quot;someCol - 5&quot;</span><span class="o">)</span>
 <span class="n">col</span><span class="o">(</span><span class="s">&quot;someCol&quot;</span><span class="o">)</span> <span class="o">-</span> <span class="mi">5</span>
 <span class="n">expr</span><span class="o">(</span><span class="s">&quot;someCol&quot;</span><span class="o">)</span> <span class="o">-</span> <span class="mi">5</span>
@@ -722,45 +777,45 @@ logical plan as parsed expression;</p></li>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.expr</span>
+
 <span class="n">expr</span><span class="o">(</span><span class="s">&quot;(((someCol + 5) * 200) - 6) &lt; otherCol&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">expr</span>
+
 <span class="n">expr</span><span class="p">(</span><span class="s2">&quot;(((someCol + 5) * 200) - 6) &lt; otherCol&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div></blockquote>
 <p><strong>查看 DataFrame 的 Columns:</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">columns</span>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">columns</span>
 </pre></div>
 </div>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="records-rows">
 <span id="header-n282"></span><h3>2.3 Records 和 Rows<a class="headerlink" href="#records-rows" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><p>在 Spark 中，DataFrame 中的每一个 row 都是一个 record； Spark
-使用一个 <code class="docutils literal notranslate"><span class="pre">Row</span></code> 类型的对象表示一个 record; Spark 使用 column
-expression 来操作类型为 <code class="docutils literal notranslate"><span class="pre">Row</span></code> 的对象；</p></li>
+<ul class="simple">
+<li><p>在 Spark 中，DataFrame 中的每一个 row 都是一个 record； Spark 使用一个 <code class="docutils literal notranslate"><span class="pre">Row</span></code> 类型的对象表示一个 record; Spark 使用 column expression 来操作类型为 <code class="docutils literal notranslate"><span class="pre">Row</span></code> 的对象</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Row</span></code> 类型的对象在 Spark内部表现为<strong>字节数组(array of bytes)</strong></p></li>
 </ul>
-</div></blockquote>
 <p>查看 DataFrame 的第一行：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">first</span><span class="o">()</span>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">first</span><span class="o">()</span>
 </pre></div>
 </div>
+</div></blockquote>
 <div class="section" id="rows">
 <span id="header-n291"></span><h4>2.3.1 创建 Rows<a class="headerlink" href="#rows" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><ul class="simple">
+<ul>
 <li><p>通过实例化一个 Row 对象创建；</p></li>
 <li><p>通过实例化手动创建的 Row 必须与 DataFrame 的 Schema
 中定义的列的内容的顺序一致，因为只有 DataFrame 有 Schema，而 Row
-是没有 Schema的；</p></li>
-</ul>
-</div></blockquote>
+是没有 Schema的；</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.Row</span>
 <span class="k">val</span> <span class="n">myRow</span> <span class="k">=</span> <span class="nc">Row</span><span class="o">(</span><span class="s">&quot;Hello&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
@@ -782,39 +837,32 @@ expression 来操作类型为 <code class="docutils literal notranslate"><span c
 <span class="n">myRow</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
+</li>
+</ul>
 </div>
 </div>
 <div class="section" id="dataframe-transformations">
 <span id="header-n300"></span><h3>2.4 DataFrame transformations<a class="headerlink" href="#dataframe-transformations" title="Permalink to this headline">¶</a></h3>
-<p>DataFrame 上可以通过 <code class="docutils literal notranslate"><span class="pre">transformation</span></code> 进行的操作：</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt>DataFrame 上可以通过 <code class="docutils literal notranslate"><span class="pre">transformation</span></code> 进行的操作：</dt><dd><ul class="simple">
 <li><p>增：add rows or columns</p></li>
 <li><p>删：remove rows or columns</p></li>
 <li><p>行转列：transform rows into column(or vice versa)</p></li>
 <li><p>排序：change the order of rows based on the values in columns</p></li>
 </ul>
-</div></blockquote>
-<p>DataFrame transformation 方法和函数:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">select</span></code> method</p>
-<ul>
-<li><p>working with “columns or expressions”</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">selectExpr</span></code> method</p>
-<ul>
-<li><p>working with “expressions in string”</p></li>
-</ul>
-</li>
+</dd>
+<dt>DataFrame transformation 方法和函数:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">select</span></code> method
+-  working with “columns or expressions”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">selectExpr</span></code> method
+-  working with “expressions in string”</p></li>
 <li><p>Package: <code class="docutils literal notranslate"><span class="pre">org.apache.spark.sql.functions</span></code></p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 <div class="section" id="header-n327">
-<span id="id2"></span><h4>2.4.1 创建 DataFrame<a class="headerlink" href="#header-n327" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><ol class="arabic simple">
+<span id="id4"></span><h4>2.4.1 创建 DataFrame<a class="headerlink" href="#header-n327" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
 <li><p>从原始数据源创建 DataFrame；</p>
 <ul class="simple">
 <li><p>将创建的 DataFrame
@@ -823,32 +871,34 @@ expression 来操作类型为 <code class="docutils literal notranslate"><span c
 </li>
 <li><p>手动创建一个行的集合并，将这个集合转换为 DataFrame；</p></li>
 </ol>
-</div></blockquote>
 <p><strong>从原始数据源创建 DataFrame:</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">val</span> <span class="n">df</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
-    <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
 
 <span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="o">(</span><span class="s">&quot;dfTable&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
 
 <span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;dfTable&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div></blockquote>
 <p><strong>通过 Row 的集合创建 DataFrame:</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.Row</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.types.</span><span class="o">{</span><span class="nc">StructType</span><span class="o">,</span> <span class="nc">StructField</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">}</span>
 
 <span class="c1">// Schema</span>
 <span class="k">val</span> <span class="n">myManualSchema</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StructType</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-    <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
-    <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
-    <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;COUNT&quot;</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;COUNT&quot;</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
 <span class="o">))</span>
 
 <span class="c1">// Row</span>
@@ -867,9 +917,9 @@ expression 来操作类型为 <code class="docutils literal notranslate"><span c
 
 <span class="c1"># Schema</span>
 <span class="n">myManualSchema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
-    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
-    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
-    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;COUNT&quot;</span><span class="p">,</span> <span class="n">LongType</span><span class="p">(),</span> <span class="kc">False</span><span class="p">)</span>
+   <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+   <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+   <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;COUNT&quot;</span><span class="p">,</span> <span class="n">LongType</span><span class="p">(),</span> <span class="kc">False</span><span class="p">)</span>
 <span class="p">])</span>
 
 <span class="c1"># Row</span>
@@ -880,6 +930,7 @@ expression 来操作类型为 <code class="docutils literal notranslate"><span c
 <span class="n">myDf</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div></blockquote>
 </div>
 <div class="section" id="select-selectexpr">
 <span id="header-n343"></span><h4>2.4.2 select 和 selectExpr<a class="headerlink" href="#select-selectexpr" title="Permalink to this headline">¶</a></h4>
@@ -1148,7 +1199,7 @@ one that Spark unstandstand；</p></li>
 </div>
 </div>
 <div class="section" id="header-n384">
-<span id="id3"></span><h4>2.4.7 删除 Columns<a class="headerlink" href="#header-n384" title="Permalink to this headline">¶</a></h4>
+<span id="id5"></span><h4>2.4.7 删除 Columns<a class="headerlink" href="#header-n384" title="Permalink to this headline">¶</a></h4>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">.select()</span></code>；</p></li>
@@ -1194,7 +1245,7 @@ one that Spark unstandstand；</p></li>
 </div>
 </div>
 <div class="section" id="header-n403">
-<span id="id4"></span><h4>2.4.9 筛选行<a class="headerlink" href="#header-n403" title="Permalink to this headline">¶</a></h4>
+<span id="id6"></span><h4>2.4.9 筛选行<a class="headerlink" href="#header-n403" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">col</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">)</span>
   <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
@@ -1253,7 +1304,7 @@ one that Spark unstandstand；</p></li>
 </div>
 </div>
 <div class="section" id="header-n412">
-<span id="id5"></span><h4>2.4.11 随机抽样<a class="headerlink" href="#header-n412" title="Permalink to this headline">¶</a></h4>
+<span id="id7"></span><h4>2.4.11 随机抽样<a class="headerlink" href="#header-n412" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">val</span> <span class="n">seed</span> <span class="k">=</span> <span class="mi">5</span>
 <span class="k">val</span> <span class="n">withReplacement</span> <span class="k">=</span> <span class="kc">false</span>
@@ -1272,7 +1323,7 @@ one that Spark unstandstand；</p></li>
 </div>
 </div>
 <div class="section" id="header-n415">
-<span id="id6"></span><h4>2.4.12 随机分割<a class="headerlink" href="#header-n415" title="Permalink to this headline">¶</a></h4>
+<span id="id8"></span><h4>2.4.12 随机分割<a class="headerlink" href="#header-n415" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">seed</span> <span class="k">=</span> <span class="mi">5</span>
 <span class="k">val</span> <span class="n">dataFrames</span> <span class="k">=</span> <span class="n">df</span><span class="o">.</span><span class="n">randomSplit</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="mf">0.25</span><span class="o">,</span> <span class="mf">0.75</span><span class="o">),</span> <span class="n">seed</span><span class="o">)</span>
 <span class="n">dataFrames</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="n">count</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">dataFrames</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">count</span><span class="o">()</span>
@@ -1331,7 +1382,7 @@ DataFrame 的后面，append 会改变 DataFrame；</p></li>
 </div>
 </div>
 <div class="section" id="header-n428">
-<span id="id7"></span><h4>2.4.14 行排序<a class="headerlink" href="#header-n428" title="Permalink to this headline">¶</a></h4>
+<span id="id9"></span><h4>2.4.14 行排序<a class="headerlink" href="#header-n428" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.</span><span class="o">{</span><span class="n">col</span><span class="o">,</span> <span class="n">desc</span><span class="o">,</span> <span class="n">asc</span><span class="o">}</span>
 
@@ -3322,10 +3373,10 @@ group, given multiple input values；</p></li>
 </div>
 </div>
 <div class="section" id="header-n1018">
-<span id="id8"></span><h4>3.1.2 Spark SQL 创建外部表<a class="headerlink" href="#header-n1018" title="Permalink to this headline">¶</a></h4>
+<span id="id10"></span><h4>3.1.2 Spark SQL 创建外部表<a class="headerlink" href="#header-n1018" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="header-n1019">
-<span id="id9"></span><h4>3.1.3 Spark SQL 插入表<a class="headerlink" href="#header-n1019" title="Permalink to this headline">¶</a></h4>
+<span id="id11"></span><h4>3.1.3 Spark SQL 插入表<a class="headerlink" href="#header-n1019" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">flights_from_select</span>
 <span class="k">SELECT</span>
     <span class="n">DEST_COUNTRY_NAME</span><span class="p">,</span>
@@ -3362,7 +3413,7 @@ group, given multiple input values；</p></li>
 </div>
 </div>
 <div class="section" id="header-n1030">
-<span id="id10"></span><h4>3.1.6 Spark SQL 删除表<a class="headerlink" href="#header-n1030" title="Permalink to this headline">¶</a></h4>
+<span id="id12"></span><h4>3.1.6 Spark SQL 删除表<a class="headerlink" href="#header-n1030" title="Permalink to this headline">¶</a></h4>
 <blockquote>
 <div><p>当删除管理表(managed table)时，表中的数据和表的定义都会被删除；</p>
 </div></blockquote>
@@ -3395,7 +3446,7 @@ from an existing DataFrame.</p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="header-n1049">
-<span id="id11"></span><h4>3.2.1 创建视图<a class="headerlink" href="#header-n1049" title="Permalink to this headline">¶</a></h4>
+<span id="id13"></span><h4>3.2.1 创建视图<a class="headerlink" href="#header-n1049" title="Permalink to this headline">¶</a></h4>
 <p>创建 View:</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">VIEW</span> <span class="n">just_usa_view</span> <span class="k">AS</span>
 <span class="k">SELECT</span> <span class="o">*</span>
@@ -3427,7 +3478,7 @@ from an existing DataFrame.</p></li>
 </div>
 </div>
 <div class="section" id="header-n1057">
-<span id="id12"></span><h4>3.2.2 删除视图<a class="headerlink" href="#header-n1057" title="Permalink to this headline">¶</a></h4>
+<span id="id14"></span><h4>3.2.2 删除视图<a class="headerlink" href="#header-n1057" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DROP</span> <span class="k">VIEW</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">just_usa_view</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -3453,17 +3504,17 @@ from an existing DataFrame.</p></li>
 <div class="section" id="databases">
 <span id="header-n1065"></span><h3>3.3 数据库 (databases)<a class="headerlink" href="#databases" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="header-n1066">
-<span id="id13"></span><h4>3.3.1 创建数据库<a class="headerlink" href="#header-n1066" title="Permalink to this headline">¶</a></h4>
+<span id="id15"></span><h4>3.3.1 创建数据库<a class="headerlink" href="#header-n1066" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="header-n1067">
-<span id="id14"></span><h4>3.3.2 配置数据库<a class="headerlink" href="#header-n1067" title="Permalink to this headline">¶</a></h4>
+<span id="id16"></span><h4>3.3.2 配置数据库<a class="headerlink" href="#header-n1067" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="header-n1068">
-<span id="id15"></span><h4>3.3.3 删除数据库<a class="headerlink" href="#header-n1068" title="Permalink to this headline">¶</a></h4>
+<span id="id17"></span><h4>3.3.3 删除数据库<a class="headerlink" href="#header-n1068" title="Permalink to this headline">¶</a></h4>
 </div>
 </div>
 <div class="section" id="header-n1070">
-<span id="id16"></span><h3>3.4 数据查询语句<a class="headerlink" href="#header-n1070" title="Permalink to this headline">¶</a></h3>
+<span id="id18"></span><h3>3.4 数据查询语句<a class="headerlink" href="#header-n1070" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>ANSI SQL</p>
 </div></blockquote>
@@ -3518,14 +3569,14 @@ from an existing DataFrame.</p></li>
 </div>
 </div>
 <div class="section" id="header-n1104">
-<span id="id17"></span><h3>3.5 其他<a class="headerlink" href="#header-n1104" title="Permalink to this headline">¶</a></h3>
+<span id="id19"></span><h3>3.5 其他<a class="headerlink" href="#header-n1104" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="dataset">
 <span id="header-n1106"></span><h2>4.DataSet<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h2>
 <p>DataSet 的使用场景:</p>
 <div class="section" id="header-n1108">
-<span id="id18"></span><h3>4.1 创建 DataSet<a class="headerlink" href="#header-n1108" title="Permalink to this headline">¶</a></h3>
+<span id="id20"></span><h3>4.1 创建 DataSet<a class="headerlink" href="#header-n1108" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>创建一个 DataSet 是一个纯手工操作，需要事先知道并且定义数据的 schema;</p>
 </div></blockquote>
@@ -3621,7 +3672,7 @@ structrue instead of reference)</p></li>
 </div>
 </div>
 <div class="section" id="header-n1149">
-<span id="id19"></span><h3>4.4 Joins<a class="headerlink" href="#header-n1149" title="Permalink to this headline">¶</a></h3>
+<span id="id21"></span><h3>4.4 Joins<a class="headerlink" href="#header-n1149" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">FlightMetadata</span><span class="o">(</span>
     <span class="n">count</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
     <span class="n">randomData</span><span class="k">:</span> <span class="kt">BigInt</span>
@@ -3711,10 +3762,10 @@ DataSet；但是 <code class="docutils literal notranslate"><span class="pre">gr
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="SparkSQL-core.html" class="btn btn-neutral float-right" title="Spark SQL 背景" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="SparkSQL.html" class="btn btn-neutral float-right" title="Spark SQL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Spark-introduction.html" class="btn btn-neutral float-left" title="Spark 介绍" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Spark-Introduction.html" class="btn btn-neutral float-left" title="Spark 介绍" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

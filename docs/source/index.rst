@@ -26,14 +26,15 @@ Welcome to Spark's documentation!
    :maxdepth: 5
    :caption: spark-book
 
-   spark-book/Spark-introduction
+   spark-book/Spark-Introduction
    spark-book/Spark-Structured-API
-   spark-book/SparkSQL-core
-   spark-book/Spark-Low-Level-API
+   spark-book/SparkSQL
    spark-book/Spark-Data-Source
+   spark-book/Spark-Low-Level-API
    spark-book/Spark-APP
-   
-   
+   spark-book/Spark-Structured-Streaming
+   spark-book/Spark-MLlib
+
 
 .. toctree::
    :maxdepth: 2

@@ -1,12 +1,22 @@
 .. _header-n0:
 
-Spark Structured API 
+Spark Structured API
 =====================
+
+Spark 结构化 API 是处理各种数据类型的工具，可处理非结构化的日志文件、半结构化的 CSV 文件，以及高度结构化的 Parquet 文件。
+
+Spark 结构化 API 指以下三种核心分布式集合类型的 API:
+
+- Dataset
+- DataFrame
+- SQL Table 和 View
+
+大多数结构化 API 均适用于批处理和流处理，这意味着使用结构化 API 编写代码时，几乎不费吹灰之力就可以从批处理程序转换为流处理程序，反之亦然.
 
 .. _header-n3:
 
 1.Spark Structured API
-----------------------
+-----------------------
 
 -  Spark is a **distributed programming model** in which the user
    specifies ``transformations``.
@@ -32,11 +42,14 @@ Spark Structured API
 1.1 Dataset 和 DataFrame
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+Spark 支持两种结构化集合类型：Dataset 和 DataFrame.
+
+
 DataFrames and Datasets are distributed table-like with well-defined
 rows and columns.
 
 -  Each column must have the same number of rows as all the other
-   columns;
+   columns(可以用 ``null`` 来指定缺失值);
 
 -  Each column has type information that must be consistent for every
    row in the collection;
@@ -50,52 +63,103 @@ return the result.
 .. _header-n28:
 
 1.2 Schema
-~~~~~~~~~~
+~~~~~~~~~~~~
 
-A schema defines the column names and types of a DataFrame, define
-schemas:
-
--  manually
-
--  read a schema from a data source(schema on read)
+- A schema defines the column names and types of a DataFrame, define schemas:
+   - manually
+   - read a schema from a data source(schema on read)
 
 .. _header-n35:
 
 1.3 Structured Spark Types
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   -  Spark is effectively a **programming language** of its own.
+-  Spark is effectively a **programming language** of its own.
+-  Spark uses an engine called **Catalyst** that maintains its own
+   type information through the planning and processing of work. This
+   open up a wide variety of execution optimizations that make
+   significant differences.
+-  Even if we use Spark's Structured APIs from Python or R, the
+   majority of our manipulations will operate strictly on **Spark
+   types**, not Python or R types.
 
-   -  Spark uses an engine called **Catalyst** that maintains its own
-      type information through the planning and processing of work. This
-      open up a wide variety of execution optimizations that make
-      significant differences.
+1.3.1 DataFrame 与 Dataset 的比较
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   -  Even if we use Spark's Structured APIs from Python or R, the
-      majority of our manipulations will operate strictly on **Spark
-      types**, not Python types.
+Spark 结构化 API 包含两类 API，即非类型化的 DataFrame 和非类型化的 Dataset
+   - DataFrame 是无类型的是因为它们其实是有类型的，只是 Spark 完全负责维护它们的类型，仅在运行时检查这些类型是否与 schema 中指定的类型一致.
+   - Dataset 在编译时就会检查类型是否符合规范，Dataset 仅适用于基于 Java 虚拟机(JVM) 的语言(比如 Scala 和 Java)，并通过 case 类或 Java beans 指定类型.
 
-**实例化或声明一个特定类型的列：**
+在 Scala 版本中的 Spark 中，DataFrame 就是一些 Row 类型的 Dataset 的集合。Row 类型是 Spark 用于支持内存计算而优化的数据格式。这种格式有利于高效计算。因为它避免使用会带来昂贵垃圾回收开销和对象实例化开销的 JVM 类型，而是基于自己的内部格式运行，所以不会产生这种开销.
 
-.. code:: scala
+Python 版本和 R 语言版本的 Spark 并不支持 Dataset，所有东西都是 DataFrame，这样就可以使用这种优化的数据格式进行计算处理.
 
-   // in Scala
-   import org.apache.spark.sql.types._
-   val a = ByteType
 
-.. code:: java
+1.3.2 列
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   // in Java
-   import org.apache.spark.sql.types.DataTypes;
-   ByteType a = DataTypes.ByteType;
+Spark 的列表示一个简单类型，或者一个复杂类型，或者空值 ``null``. Spark 记录所有这些类型的信息并提供多种转换方法.
 
-.. code:: python
+简单来说，可以将 Spark 列想象为一个数据表的列即可.
 
-   # in Python
-   from pyspark.sql.types import *
-   a = ByteType()
+1.3.3 行
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Spark 的一行对应一个数据记录. DataFrame 中的每条记录都必须是 ``Row`` 类型，可以通过 SQL 手动创建、从 RDD 提取、从数据源手动创建一个行.
+
+   .. code-block:: scala
+
+      // in Scala
+      spark.range(2).toDF().collect()
+
+   .. code-block:: python
+
+      # in Python
+      spark.range(2).collect()
+
+
+1.3.4 Spark 类型
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**实例化或声明一个特定类型的列:**
+   - Scala version:
+
+   .. code:: scala
+
+      // in Scala
+      import org.apache.spark.sql.types._
+      val a = ByteType
+
+**实例化或声明一个特定类型的列:**
+   - Java version:
+
+   .. code:: java
+
+      // in Java
+      import org.apache.spark.sql.types.DataTypes;
+      ByteType a = DataTypes.ByteType;
+
+**实例化或声明一个特定类型的列:**
+   - Python version:
+
+   .. code:: python
+
+      # in Python
+      from pyspark.sql.types import *
+      a = ByteType()
+
 
 **Spark Internal Types:**
+   - Python 类型参考表：
+
++----+-----+
+|    |     |
++====+=====+
+|    |     |
++----+-----+
+
+**Spark Internal Types:**
+   - Scala 类型参考表：
 
 +-----------------------+-----------------------+-----------------------+
 | Spark数据类型         | Scala数据类型         | 创建数据类型实例的API |
@@ -145,210 +209,172 @@ schemas:
 .. _header-n118:
 
 1.4 Structured API Execution
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   -  How code is actually executed across a cluster ?
-
-      -  (1)Write DataFrame/Dataset/SQL Code;
-
-      -  (2)If vaild code, Spark converts Code to a **Logistic Plan**;
-
-      -  (3)Spark transforms this **Logistic Plan** to **Physical
-         Plan**, checking for optimizations along the way;
-
-      -  (4)Spark then executes this **Physical Plan**\ (RDD
-         manipulations) on the cluster;
+How code is actually executed across a cluster ?
+   - 1.Write DataFrame/Dataset/SQL Code;
+   - 2.If vaild code, Spark converts Code to a **Logistic Plan**;
+   - 3.Spark transforms this **Logistic Plan** to **Physical Plan**, checking for optimizations along the way;
+   - 4.Spark then executes this **Physical Plan**\ (RDD manipulations) on the cluster;
 
 To execute code, must write code. This code is then submitted to Spark
-either through the console or via a submitted job. This code the passes
-through the Catalyst Optimizer, which decides how the code should be
+either through the ``console`` or via a ``submitted job``. This code the passes
+through the **Catalyst Optimizer**, which decides how the code should be
 executed and lays out a plan for doing so before, finally, the code is
 run and the result is returned to the user.
+
+.. image:: ../../images/Catalyst优化器.png
+   :alt: Catalyst优化器
 
 .. _header-n134:
 
 1.4.1 Logical Planning
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
-   Spark uses the **catalog**, a repository of all table and DataFrame
-   information, to resolve columns and tables in the **analyzer**.
+Spark 结构化 API 执行的第一阶段是获取用户代码，并将其转换为逻辑计划.
+   - 转换后的逻辑计划仅代表一组抽象转换，并不涉及驱动器和执行器，它只是将用户的表达式集合转换为最优的版本。它通过将用户代码转换为未解析的逻辑计划来实现这一点.
+   - 从用户代码转换来的逻辑计划并没有被解析，因为虽然用户的代码可能是有效的，但它引用的表可能不存在. Spark 使用 ``catalog`` (所有表和 DataFrame 信息的存储库) 在分析器中解析列和表格. 如果目录中不存在所需的表格或列名称，分析器可能会拒绝该未解析的逻辑计划.
+   - 如果分析器可以解析它，结果将通过 ``Catalyst 优化器`` 尝试通过下推谓词或选择操作来优化逻辑计划. 用户也可以扩展 Catalyst 优化器来支持自己的特定领域优化策略.
 
--  User Code
-
--  Unresolved logical plan
-
-   -  Catalog
-
-   -  Analyzer
-
--  Resolved logical plan
-
-   -  Logical Optimization
-
--  Optimized logical plan
+.. image:: ../../images/结构化的逻辑计划.png
+   :alt: 结构化API的逻辑计划
 
 .. _header-n155:
 
 1.4.2 Physical Planning
-^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
--  Physical Planning, often called a Spark Plan, specifies how the
-   logical planning will execute on the cluster by generating different
-   physical execution strategies and comparing them through a cost
-   model.
+在成功创建 ``优化的逻辑计划`` 后，Spark 开始 ``执行物理计划流程`` 。物理计划（通常称为 Spark 计划）通过生成不同的物理执行策略，并通过 ``代价模型`` 进行比较分析，从而指定如何在集群上执行逻辑计划. 
+   - 例如：执行一个连接操作就会涉及代价比较，它通过分析数据表的物理属性(表的大小或分区的大小)，对不同的物理执行策略进行代价比较，选择合适的物理执行计划.
+   - 物理执行计划产生一系列的 RDD 和转换操作，这就是 Spark 被称为编译器的原因，因为它将对 DataFrame、Dataset 和 SQL 中的查询操作为用户编译一系列 RDD 的转换操作.
 
--  Physical planning results in a series of RDDs an transformations.
-
-   -  Spark referred to as a compiler: it takes queries in DataFrames,
-      Datasets, SQL an compiles them into RDD transformations.
+.. image:: ../../images/物理计划流程.png
+   :alt: 物理计划流程
 
 .. _header-n166:
 
 1.4.3 Execution
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
--  selecting a physical plan
-
--  run code over RDDs
-
--  perform optimizations
-
--  generating native Java bytecode
-
--  return the result to user
+在选择一个物理计划时，Spark 将所有代码运行在 Spark 的底层编程接口 RDD 上. 
+Spark 在运行时进一步优化，生成可以在执行期间优化任务或阶段的本地 Java 字节码，
+最终将结果返回给用户.
 
 .. _header-n179:
 
 2.DataFrame
------------
+------------
 
--  A DataFrame consists of a series of **records** (like row in a
-   table), that are of type ``Row``, and a number of **columns** (like
-   columns in a spreadsheet) that represent a computation expression
-   that can be preformed on each individual record in the Dataset.
-
-   -  Schema 定义了 DataFrame 中每一列数据的名字和类型；
-
-   -  DataFrame 的 Partitioning 定义了 DataFrame 和 Dataset
-      在集群上的物理分布结构；
-
-   -  Partitioning schema defines how Partitioning of the DataFrame is
-      allocated;
-
+A DataFrame consists of a series of **records** (like row in a table), that are of type ``Row``, and a number of **columns** (like columns in a spreadsheet) that represent a computation expression that can be preformed on each individual record in the Dataset.
+   -  Schema 定义了 DataFrame 中每一列数据的名字和数据类型.
+   -  DataFrame Partitioning 定义了 DataFrame 和 Dataset 在集群上的物理分布结构.
+   -  Partitioning schema 定义了 partition 的分配方式，可以自定义分区，也可以采取随机分配方式.
    -  DataFrame operations:
+      -  聚合(aggregation)
+      -  窗口函数(window function)
+      -  连接(join)
 
-      -  aggregations
+**示例:**
 
-      -  window functions
+   .. code:: scala
 
-      -  joins
+      // in Scala
+      val df = spark
+         .read
+         .format("josn")
+         .load("/data/flight-data/json/2015-summary.json")
 
-.. code:: scala
+      // 查看DataFrame的schema
+      df.printSchema()
 
-   // in Scala
-   val df = spark.read.format("josn")
-       .load("/data/flight-data/json/2015-summary.json")
-   // 查看DataFrame的schema
-   df.printSchema()
+   .. code:: python
 
-.. code:: python
+      # in Python
+      df = spark \ 
+         .read \
+         .format("json") \
+         .load("/data/flight-data/json/2015-summary.json")
 
-   # in Python
-   df = spark.read.format("json") \
-       .load("/data/flight-data/json/2015-summary.json")
-
-   // 查看DataFrame的schema
-   df.printSchema()
+      # 查看DataFrame的schema
+      df.printSchema()
 
 .. _header-n201:
 
 2.1 Schemas
-~~~~~~~~~~~
+~~~~~~~~~~~~
 
-   -  Schema 定义了 DataFrame 中每一列数据的\ *名字*\ 和\ *类型*\ ；
+-  Schema 定义了 DataFrame 中每一列数据的 ``名字`` 和 ``类型``
 
-   -  为 DataFrame 设置 Schema 的方式：
+-  为 DataFrame 设置 Schema 有两种方式:
 
-      -  使用数据源已有的 Schema (schema-on-read)
+   -  使用数据源已有的 Schema (schema-on-read, 读时模式)
 
-      -  使用 ``StructType``, ``StructField`` 自定义 DataFrame 的
-         Schema；
+   -  使用 ``StructType``, ``StructField`` 自定义 DataFrame 的 Schema
 
-   -  A Schema is a ``StructType`` made up of a number of fields,
-      ``StructField``, that have a ``name``, ``type``, a
-      ``Boolean flag`` which specifies whether that column can contain
-      missing of null values, and finally, user can optionally specify
-      associated ``Metadata`` with that column. The Metadata is a way of
-      storing information about this column.
+-  一个 Schema 是由许多字段(field)构成的 ``StructType``, 这些字段即为 ``StructField``，具有名称、类型、布尔标志(该标志指定该列是否可以包含缺失值或空值)，并且用户可指定与该列关联的元数据(metadata). 元数据存储着有关此列的信息(Spark 在 MLlib 库中使用此功能).
 
-   -  如果程序在运行时，DataFrame 中 column 的 ``type`` 没有与
-      预先设定的 Schema 相匹配，就会抛出错误；
+   -  如果程序在运行时，DataFrame 中 column 的 type 没有与预先设定的 Schema 相匹配，Spark 就会抛出错误
 
-**(1) 使用数据源已有的 Schema (schema-on-read):**
+(1)使用数据源已有的 Schema (schema-on-read)
 
-.. code:: scala
+   .. code:: scala
 
-   // in Scala
-   spark.read.format("json")
-       .load("/data/flight-data/json/2015-summary.json")
-       .schema
+      // in Scala
+      spark.read.format("json")
+         .load("/data/flight-data/json/2015-summary.json")
+         .schema
 
-.. code:: python
+   .. code:: python
 
-   # in Python
-   spark.read.format("json") \
-       .load("/data/flight-data/json/2015-summary.json")
-       .schema
+      # in Python
+      spark.read.format("json") \
+         .load("/data/flight-data/json/2015-summary.json")
+         .schema
 
-**(2)使用 ``StructType``, ``StructField`` 自定义 DataFrame 的 Schema**
+(2)使用 ``StructType``, ``StructField`` 自定义 DataFrame 的 Schema
 
-.. code:: scala
+   .. code:: scala
 
-   // in Scala
-   import org.apache.spark.sql.types.{StructField, StructType, StringType, LongType}
-   import org.apache.spark.sql.types.Metadata
+      // in Scala
+      import org.apache.spark.sql.types.{StructField, StructType, StringType, LongType}
+      import org.apache.spark.sql.types.Metadata
 
-   val myManualSchema = StructType(Array(
-       StructField("DEST_COUNTRY_NAME", StringType, true),
-       StructField("ORIGIN_COUNTRY_NAME", StringType, true),
-       StructField("COUNT", LongType, false)
-   ))
+      val myManualSchema = StructType(Array(
+         StructField("DEST_COUNTRY_NAME", StringType, true),
+         StructField("ORIGIN_COUNTRY_NAME", StringType, true),
+         StructField("COUNT", LongType, false, Metadata.fromJson("{\"hello\": \"world\"}"))
+      ))
 
-   val df = spark.read.format("json")
-       .schema(myManualSchema)
-       .load("/data/flight-data/json/2015-summary.json")
+      val df = spark.read.format("json")
+         .schema(myManualSchema)
+         .load("/data/flight-data/json/2015-summary.json")
 
-.. code:: python
+   .. code:: python
 
-   # in Python
-   from pyspark.sql.types import StructType, StructField, StringType, LongType
+      # in Python
+      from pyspark.sql.types import StructType, StructField, StringType, LongType
 
-   myManualSchema = StructType([
-       StructField("DEST_COUNTRY_NAME", StringType(), True),
-       StructField("ORIGIN_COUNTRY_NAME", StringType(), True),
-       StructField("COUNT", LongType(), False)
-   ])
+      myManualSchema = StructType([
+         StructField("DEST_COUNTRY_NAME", StringType(), True),
+         StructField("ORIGIN_COUNTRY_NAME", StringType(), True),
+         StructField("COUNT", LongType(), False, metadata = {"hello":"world"})
+      ])
 
-   df = spark.read.format("json") \
-       .schema(myManualSchema) \
-       .load("/data/flight-data/json/2015-summary.json")
+      df = spark.read.format("json") \
+         .schema(myManualSchema) \
+         .load("/data/flight-data/json/2015-summary.json")
 
 .. _header-n223:
 
 2.2 Columns 和 Expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   -  Spark 中的 columns 就像 spreadsheet，R dataframe, Pandas DataFrame
-      中的列一样；可以对 Spark 中的 columns
-      进行\ **选择，操作，删除**\ 等操作，这些操作表现为 expression
-      的形式；
-
-   -  在 Spark 中来操作 column 中的内容必须通过 Spark DataFrame 的
-      transformation进行；
+-  Spark 中的 ``columns`` 就像 spreadsheet, R dataframe, Pandas DataFrame 中的列一样, 可以对 Spark 中的 ``columns`` 进行 **选择，操作，删除** 等操作，这些操作表现为 ``expression`` 的形式
+-  在 Spark 中来操作 ``column`` 中的内容必须通过 Spark DataFrame 的 transformation 进行
 
 .. _header-n230:
 
-2.2.1 创建和引用 Columns
+2.2.1 Columns
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  有很多种方法来创建和引用 DataFrame 中的 column:
@@ -369,159 +395,150 @@ run and the result is returned to the user.
 
       -  ``df.col("myColumn")``
 
-.. code:: scala
 
-   // in Scala
-   import org.apache.spark.sql.function.{col, column}
+   .. code:: scala
 
-   col("someColumnName")
-   column("someColumnName")
-   $"someColumnName"
-   'someColumnName
-   df.col("someColumnName")
+      // in Scala
+      import org.apache.spark.sql.function.{col, column}
 
-.. code:: python
+      col("someColumnName")
+      column("someColumnName")
+      $"someColumnName"
+      'someColumnName
+      df.col("someColumnName")
 
-   # in Python
-   from pyspark.sql.function import col, column
+   .. code:: python
 
-   col("someColumnName")
-   column("someColumnName")
-   df.col("someColumnName")
+      # in Python
+      from pyspark.sql.function import col, column
+
+      col("someColumnName")
+      column("someColumnName")
+      df.col("someColumnName")
+
+
 
 .. _header-n256:
 
 2.2.2 Expressions 
 ^^^^^^^^^^^^^^^^^^
 
-   -  Columns are expressions；
+-  Columns are expressions；
 
-   -  An expression is a set of transformations on one or more values in
-      a records in a DataFrame；
+-  An expression is a set of transformations on one or more values in a records in a DataFrame；
 
-   -  通过函数创建的 expression：\ ``expr()``\ ，仅仅是对 DataFrame 的
-      columns 的 reference；
+-  通过函数创建的 expression： ``expr()`` ，仅仅是对 DataFrame 的 columns 的 reference
 
-      -  ``expr("someCol")`` 等价于 ``col("someCol")``
+   -  ``expr("someCol")`` 等价于 ``col("someCol")``
 
-      -  ``col()`` 对 columns 进行 transformation 操作时，必须作用在
-         columns 的引用上；
+   -  ``col()`` 对 columns 进行 transformation 操作时，必须作用在 columns 的引用上
 
-      -  ``expr()`` 会将一个 string 解析为 transformations 和 columns
-         references，并且能够继续传递给transformations；
+   -  ``expr()`` 会将一个 string 解析为 transformations 和 columns references，并且能够继续传递给 transformations
 
-   -  Columns are just expressions;
+-  Columns are just expressions;
 
-   -  Columns and transformations of those columns compile to the same
-      logical plan as parsed expression;
+-  Columns and transformations of those columns compile to the same logical plan as parsed expression;
 
 **Column as Expression:**
 
-.. code:: scala
+   .. code:: scala
 
-   // 下面的3个表达式是等价的 transformation
-   // Spark 会将上面的三个 transformation 解析为相同的逻辑树(logical tree)来表达操作的顺序；
+      // 下面的3个表达式是等价的 transformation
+      // Spark 会将上面的三个 transformation 解析为相同的逻辑树(logical tree)来表达操作的顺序；
 
-   import org.apache.spark.sql.functions.expr
-   expr("someCol - 5")
-   col("someCol") - 5
-   expr("someCol") - 5
+      import org.apache.spark.sql.functions.expr
 
-.. code:: scala
+      expr("someCol - 5")
+      col("someCol") - 5
+      expr("someCol") - 5
 
-   // in Scala
-   import org.apache.spark.sql.functions.expr
-   expr("(((someCol + 5) * 200) - 6) < otherCol")
+   .. code:: scala
 
-.. code:: python
+      // in Scala
+      import org.apache.spark.sql.functions.expr
 
-   from pyspark.sql.functions import expr
-   expr("(((someCol + 5) * 200) - 6) < otherCol")
+      expr("(((someCol + 5) * 200) - 6) < otherCol")
+
+   .. code:: python
+
+      from pyspark.sql.functions import expr
+
+      expr("(((someCol + 5) * 200) - 6) < otherCol")
 
 **查看 DataFrame 的 Columns:**
 
-.. code:: scala
+   .. code:: scala
 
-   spark.read.format("json")
-       .load("/data/flight-data/json/2015-summary.json")
-       .columns
+      spark.read.format("json")
+         .load("/data/flight-data/json/2015-summary.json")
+         .columns
 
 .. _header-n282:
 
 2.3 Records 和 Rows
 ~~~~~~~~~~~~~~~~~~~
 
-   -  在 Spark 中，DataFrame 中的每一个 row 都是一个 record； Spark
-      使用一个 ``Row`` 类型的对象表示一个 record; Spark 使用 column
-      expression 来操作类型为 ``Row`` 的对象；
+-  在 Spark 中，DataFrame 中的每一个 row 都是一个 record； Spark 使用一个 ``Row`` 类型的对象表示一个 record; Spark 使用 column expression 来操作类型为 ``Row`` 的对象
 
-   -  ``Row`` 类型的对象在 Spark内部表现为\ **字节数组(array of bytes)**
+-  ``Row`` 类型的对象在 Spark内部表现为\ **字节数组(array of bytes)**
 
 查看 DataFrame 的第一行：
 
-.. code:: scala
+   .. code:: scala
 
-   df.first()
+      df.first()
 
 .. _header-n291:
 
 2.3.1 创建 Rows
 ^^^^^^^^^^^^^^^
 
-   -  通过实例化一个 Row 对象创建；
+-  通过实例化一个 Row 对象创建；
 
-   -  通过实例化手动创建的 Row 必须与 DataFrame 的 Schema
-      中定义的列的内容的顺序一致，因为只有 DataFrame 有 Schema，而 Row
-      是没有 Schema的；
+-  通过实例化手动创建的 Row 必须与 DataFrame 的 Schema
+   中定义的列的内容的顺序一致，因为只有 DataFrame 有 Schema，而 Row
+   是没有 Schema的；
 
-.. code:: scala
+   .. code:: scala
 
-   // in Scala
-   import org.apache.spark.sql.Row
-   val myRow = Row("Hello", null, 1, false)
+      // in Scala
+      import org.apache.spark.sql.Row
+      val myRow = Row("Hello", null, 1, false)
 
-   // 在 Scala 中通过索引获得 Row 中的值，但必须通过其他的帮助函数强制转换 Row 中的数据的类型才能得到正确的值的类型
-   myRow(0)                      // type Any
-   myRow(0).asInstanceOf[String] // String
-   myRow.getString(0)            // String
-   myRow.getInt(2)               // Int
+      // 在 Scala 中通过索引获得 Row 中的值，但必须通过其他的帮助函数强制转换 Row 中的数据的类型才能得到正确的值的类型
+      myRow(0)                      // type Any
+      myRow(0).asInstanceOf[String] // String
+      myRow.getString(0)            // String
+      myRow.getInt(2)               // Int
 
-.. code:: python
 
-   # in Python
-   from pyspark.sql import Row
-   myRow = Row("Hello", null, 1, False)
+   .. code:: python
 
-   # 在 Python 中通过索引获得 Row 中的值，但不需要强制转换
-   myRow[0]
-   myRow[1]
-   myRow[2]
+      # in Python
+      from pyspark.sql import Row
+      myRow = Row("Hello", null, 1, False)
+
+      # 在 Python 中通过索引获得 Row 中的值，但不需要强制转换
+      myRow[0]
+      myRow[1]
+      myRow[2]
 
 .. _header-n300:
 
 2.4 DataFrame transformations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 DataFrame 上可以通过 ``transformation`` 进行的操作：
-
    -  增：add rows or columns
-
    -  删：remove rows or columns
-
    -  行转列：transform rows into column(or vice versa)
-
    -  排序：change the order of rows based on the values in columns
 
 DataFrame transformation 方法和函数:
-
    -  ``select`` method
-
       -  working with "columns or expressions"
-
    -  ``selectExpr`` method
-
       -  working with "expressions in string"
-
    -  Package: ``org.apache.spark.sql.functions``
 
 .. _header-n327:
@@ -529,74 +546,74 @@ DataFrame transformation 方法和函数:
 2.4.1 创建 DataFrame
 ^^^^^^^^^^^^^^^^^^^^
 
-   1. 从原始数据源创建 DataFrame；
+1. 从原始数据源创建 DataFrame；
 
-      -  将创建的 DataFrame
-         转换为一个临时视图，使得可以在临时视图上进行SQL转换操作；
+   -  将创建的 DataFrame
+      转换为一个临时视图，使得可以在临时视图上进行SQL转换操作；
 
-   2. 手动创建一个行的集合并，将这个集合转换为 DataFrame；
+2. 手动创建一个行的集合并，将这个集合转换为 DataFrame；
 
 **从原始数据源创建 DataFrame:**
 
-.. code:: scala
+   .. code:: scala
 
-   // in Scala
-   val df = spark.read.format("json")
-       .load("/data/flight-data/json/2015-summary.json")
+      // in Scala
+      val df = spark.read.format("json")
+         .load("/data/flight-data/json/2015-summary.json")
 
-   df.createOrReplaceTempView("dfTable")
+      df.createOrReplaceTempView("dfTable")
 
-.. code:: python
+   .. code:: python
 
-   # in Python
-   df = spark.read.format("json") \
-       .load("/data/flight-data/json/2015-summary.json")
+      # in Python
+      df = spark.read.format("json") \
+         .load("/data/flight-data/json/2015-summary.json")
 
-   df.createOrReplaceTempView("dfTable")
+      df.createOrReplaceTempView("dfTable")
 
 **通过 Row 的集合创建 DataFrame:**
 
-.. code:: scala
+   .. code:: scala
 
-   // in Scala
-   import org.apache.spark.sql.Row
-   import org.apache.spark.sql.types.{StructType, StructField, StringType, LongType}
+      // in Scala
+      import org.apache.spark.sql.Row
+      import org.apache.spark.sql.types.{StructType, StructField, StringType, LongType}
 
-   // Schema
-   val myManualSchema = new StructType(Array(
-       new StructField("DEST_COUNTRY_NAME", StringType, true),
-       new StructField("ORIGIN_COUNTRY_NAME", StringType, true),
-       new StructField("COUNT", LongType, false)
-   ))
+      // Schema
+      val myManualSchema = new StructType(Array(
+         new StructField("DEST_COUNTRY_NAME", StringType, true),
+         new StructField("ORIGIN_COUNTRY_NAME", StringType, true),
+         new StructField("COUNT", LongType, false)
+      ))
 
-   // Row
-   val myRows = Seq(Row("Hello", null, 1L))
-   // RDD
-   val myRDD = spark.sparkContext.parallelize(myRows)
-   // DataFrame
-   val myDf = spark.createDataFrame(myRDD, myManualSchema)
+      // Row
+      val myRows = Seq(Row("Hello", null, 1L))
+      // RDD
+      val myRDD = spark.sparkContext.parallelize(myRows)
+      // DataFrame
+      val myDf = spark.createDataFrame(myRDD, myManualSchema)
 
-   myDF.show()
+      myDF.show()
 
-.. code:: python
+   .. code:: python
 
-   # in Python
-   from pyspark.sql import Row
-   from pyspark.sql.types import StructType, StructField, StringType, LongType
+      # in Python
+      from pyspark.sql import Row
+      from pyspark.sql.types import StructType, StructField, StringType, LongType
 
-   # Schema
-   myManualSchema = StructType([
-       StructField("DEST_COUNTRY_NAME", StringType(), True),
-       StructField("ORIGIN_COUNTRY_NAME", StringType(), True),
-       StructField("COUNT", LongType(), False)
-   ])
+      # Schema
+      myManualSchema = StructType([
+         StructField("DEST_COUNTRY_NAME", StringType(), True),
+         StructField("ORIGIN_COUNTRY_NAME", StringType(), True),
+         StructField("COUNT", LongType(), False)
+      ])
 
-   # Row
-   myRows = Row("Hello", None, 1)
-   # DataFrame
-   myDf = spark.createDataFrame([myRows], myManualSchema)
+      # Row
+      myRows = Row("Hello", None, 1)
+      # DataFrame
+      myDf = spark.createDataFrame([myRows], myManualSchema)
 
-   myDf.show()
+      myDf.show()
 
 .. _header-n343:
 
