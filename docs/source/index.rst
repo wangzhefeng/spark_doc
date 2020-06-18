@@ -28,8 +28,9 @@ Welcome to Spark's documentation!
 
    spark-book/Spark-Introduction
    spark-book/Spark-Structured-API
-   spark-book/SparkSQL
    spark-book/Spark-Data-Source
+   spark-book/Spark-SQL
+   spark-book/Spark-Dataset
    spark-book/Spark-Low-Level-API
    spark-book/Spark-APP
    spark-book/Spark-Structured-Streaming

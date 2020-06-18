@@ -42,7 +42,7 @@ Spark 结构化 API 指以下三种核心分布式集合类型的 API:
 1.1 Dataset 和 DataFrame
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Spark 支持两种结构化集合类型：Dataset 和 DataFrame.
+Spark 支持两种结构化集合类型:Dataset 和 DataFrame.
 
 
 DataFrames and Datasets are distributed table-like with well-defined
@@ -150,7 +150,7 @@ Spark 的一行对应一个数据记录. DataFrame 中的每条记录都必须�
 
 
 **Spark Internal Types:**
-   - Python 类型参考表：
+   - Python 类型参考表:
 
 +----+-----+
 |    |     |
@@ -159,7 +159,7 @@ Spark 的一行对应一个数据记录. DataFrame 中的每条记录都必须�
 +----+-----+
 
 **Spark Internal Types:**
-   - Scala 类型参考表：
+   - Scala 类型参考表:
 
 +-----------------------+-----------------------+-----------------------+
 | Spark数据类型         | Scala数据类型         | 创建数据类型实例的API |
@@ -245,7 +245,7 @@ Spark 结构化 API 执行的第一阶段是获取用户代码，并将其转换
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 在成功创建 ``优化的逻辑计划`` 后，Spark 开始 ``执行物理计划流程`` 。物理计划（通常称为 Spark 计划）通过生成不同的物理执行策略，并通过 ``代价模型`` 进行比较分析，从而指定如何在集群上执行逻辑计划. 
-   - 例如：执行一个连接操作就会涉及代价比较，它通过分析数据表的物理属性(表的大小或分区的大小)，对不同的物理执行策略进行代价比较，选择合适的物理执行计划.
+   - 例如:执行一个连接操作就会涉及代价比较，它通过分析数据表的物理属性(表的大小或分区的大小)，对不同的物理执行策略进行代价比较，选择合适的物理执行计划.
    - 物理执行计划产生一系列的 RDD 和转换操作，这就是 Spark 被称为编译器的原因，因为它将对 DataFrame、Dataset 和 SQL 中的查询操作为用户编译一系列 RDD 的转换操作.
 
 .. image:: ../../images/物理计划流程.png
@@ -427,7 +427,7 @@ A DataFrame consists of a series of **records** (like row in a table), that are 
 
 -  An expression is a set of transformations on one or more values in a records in a DataFrame；
 
--  通过函数创建的 expression： ``expr()`` ，仅仅是对 DataFrame 的 columns 的 reference
+-  通过函数创建的 expression: ``expr()`` ，仅仅是对 DataFrame 的 columns 的 reference
 
    -  ``expr("someCol")`` 等价于 ``col("someCol")``
 
@@ -482,7 +482,7 @@ A DataFrame consists of a series of **records** (like row in a table), that are 
 
 -  ``Row`` 类型的对象在 Spark内部表现为\ **字节数组(array of bytes)**
 
-查看 DataFrame 的第一行：
+查看 DataFrame 的第一行:
 
    .. code:: scala
 
@@ -528,11 +528,11 @@ A DataFrame consists of a series of **records** (like row in a table), that are 
 2.4 DataFrame transformations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DataFrame 上可以通过 ``transformation`` 进行的操作：
-   -  增：add rows or columns
-   -  删：remove rows or columns
-   -  行转列：transform rows into column(or vice versa)
-   -  排序：change the order of rows based on the values in columns
+DataFrame 上可以通过 ``transformation`` 进行的操作:
+   -  增:add rows or columns
+   -  删:remove rows or columns
+   -  行转列:transform rows into column(or vice versa)
+   -  排序:change the order of rows based on the values in columns
 
 DataFrame transformation 方法和函数:
    -  ``select`` method
@@ -543,22 +543,24 @@ DataFrame transformation 方法和函数:
 
 .. _header-n327:
 
-2.4.1 创建 DataFrame
-^^^^^^^^^^^^^^^^^^^^
+2.4.1 Create DataFrame
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. 从原始数据源创建 DataFrame；
+   - 从原始数据源创建 DataFrame；
 
-   -  将创建的 DataFrame
-      转换为一个临时视图，使得可以在临时视图上进行SQL转换操作；
+      -  将创建的 DataFrame
+         转换为一个临时视图，使得可以在临时视图上进行SQL转换操作；
 
-2. 手动创建一个行的集合并，将这个集合转换为 DataFrame；
+   - 手动创建一个行的集合并，将这个集合转换为 DataFrame；
 
-**从原始数据源创建 DataFrame:**
+**1.从原始数据源创建 DataFrame:**
 
    .. code:: scala
 
       // in Scala
-      val df = spark.read.format("json")
+      val df = spark
+         .read
+         .format("json")
          .load("/data/flight-data/json/2015-summary.json")
 
       df.createOrReplaceTempView("dfTable")
@@ -566,12 +568,14 @@ DataFrame transformation 方法和函数:
    .. code:: python
 
       # in Python
-      df = spark.read.format("json") \
+      df = spark \
+         .read \
+         .format("json") \
          .load("/data/flight-data/json/2015-summary.json")
 
       df.createOrReplaceTempView("dfTable")
 
-**通过 Row 的集合创建 DataFrame:**
+**2.通过 Row 的集合创建 DataFrame:**
 
    .. code:: scala
 
@@ -617,16 +621,24 @@ DataFrame transformation 方法和函数:
 
 .. _header-n343:
 
-2.4.2 select 和 selectExpr
+2.4.2 select & selectExpr
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   -  ``.select()`` 和 ``.selectExpr()`` 与 SQL
-      进行查询的语句做同样的操作；
+   -  ``.select()`` 和 ``.selectExpr()`` 支持在 DataFrame 上执行类似数据表的 SQL
+         查询同样的操作
+
+      - ``.select()``:处理列或表达式
+
+      - ``.selectExpr()``:处理字符串表达式
+
+      - ``org.apache.spark.sql.function`` 提供了一组函数方法来处理不是针对列的操作
 
 .. _header-n349:
 
-2.4.2.1 方法：\ ``.select()``
+2.4.2.1 方法 ``.select()``
 '''''''''''''''''''''''''''''
+
+   - ``expr`` 是最灵活的列引用方式，它能够引用一列，也可以引用对列进行草丛的字符串表达式.
 
 .. code:: scala
 
@@ -641,7 +653,6 @@ DataFrame transformation 方法和函数:
 
 
    // different ways to refer to columns
-
    df.select(
        df.col("DEST_COUNTRY_NAME"),
        col("DEST_COUNTRY_NAME"),
@@ -706,13 +717,20 @@ DataFrame transformation 方法和函数:
 
 .. _header-n353:
 
-2.4.2.2 方法：\ ``.selectExpr():``
+2.4.2.2 方法 ``.selectExpr()``
 ''''''''''''''''''''''''''''''''''
+
+   - 因为 ``select`` 后跟着一系列的 ``expr`` 是非常常见的写法，所以 Spark 有一个有效的描述此操作序列的接口: ``selectExpr``，他可能是引用列最常用的接口.
+
+   - 可以利用 ``selectExpr`` 构建复杂表达式来创建 DataFrame，实际上，可以添加任何不包含聚合操作的有效 SQL 语句，并且只要列可以解析，它就是有效的.
+
 
 .. code:: scala
 
    // in Scala
-   df.selectExpr("DEST_COUNTRY_NAME AS newColumnName", "DEST_COUNTRY_NAME")
+   df.selectExpr(
+      "DEST_COUNTRY_NAME AS newColumnName", 
+      "DEST_COUNTRY_NAME")
      .show()
 
    df.selectExpr(
@@ -725,10 +743,13 @@ DataFrame transformation 方法和函数:
        "count(distinct(DEST_COUNTRY_NAME))")
      .show()
 
+
 .. code:: python
 
    # in Python
-   df.selectExpr("DEST_COUNTRY_NAME AS newColumnName", "DEST_COUNTRY_NAME") \
+   df.selectExpr(
+      "DEST_COUNTRY_NAME AS newColumnName", 
+      "DEST_COUNTRY_NAME") \
      .show()
 
    df.selectExpr(
@@ -736,8 +757,11 @@ DataFrame transformation 方法和函数:
        "(DEST_COUNTRY_NAME = ORIGIN_COUNTRY_NAME) AS withinCountry") \
      .show(2)
 
-   df.selectExpr("avg(count)", "count(distinct(DEST_COUNTRY_NAME))") \
-     show()
+   df.selectExpr(
+      "avg(count)", 
+      "count(distinct(DEST_COUNTRY_NAME))") \
+     .show(2)
+
 
 .. code:: sql
 
@@ -761,25 +785,32 @@ DataFrame transformation 方法和函数:
 
 .. _header-n357:
 
-2.4.3 Spark 字面量(Literals)
+2.4.3 Spark Literals
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   -  A translation from a given programming language's literal value to
-      one that Spark unstandstand；
+   -  有时候需要给 Spark 传递显式的值，它们只是一个值而非新列，这可能是一个常量值，或用来需要比较的值. 通过字面量(literal)传递，简单的来说就是将给定的编程于春燕的字面上的值转换操作为 Spark 可以理解的值.
 
-   -  Literals 是表达式(expression)；
+   -  字面量就是表达式，可以用操作表达式的方式来使用它们.
 
 .. code:: scala
 
    // in Scala
    import org.apache.spark.sql.functions.{expr, lit}
-   df.select(expr("*"), lit(1).as(One)).show(2)
+
+   df.select(
+      expr("*"), 
+      lit(1).as(One))
+      .show(2)
 
 .. code:: python
 
    # in Python
    from pyspark.sql.functions import expr, lit
-   df.select(expr("*"), lit(1).alias("One")).show(2)
+
+   df.select(
+      expr("*"), 
+      lit(1).alias("One")) \
+      .show(2)
 
 .. code:: sql
 
@@ -792,12 +823,12 @@ DataFrame transformation 方法和函数:
 
 .. _header-n367:
 
-2.4.4 增加 Columns、 重命名 Columns
+2.4.4 Add & Rename Columns
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   -  ``.withColumn()``
+   -  ``.withColumn(colunm_alias_name, 为给定行赋值的表达式)``
 
-   -  ``.withColumnRenamed()``
+   -  ``.withColumnRenamed(column, column_alias_name)``
 
 .. code:: scala
 
@@ -834,10 +865,38 @@ DataFrame transformation 方法和函数:
    df.withColumnRenamed("DEST_COUNTRY_NAME", "dest") \
      .show(2)
 
+.. code-block:: SQL
+
+   -- in SQL
+   SELECT 
+      1 as numberOne
+   FROM dfTable
+   LIMIT 2
+
+   SELECT 
+      (DEST_COUNTRY_NAME = ORIGIN_COUNTRY_NAME) as withinCountry
+   FROM dfTable
+   LIMIT 2
+
+   SELECT
+      DEST_COUNTRY_NAME as destination
+   FROM dfTable
+   LIMIT 2
+
+   SELECT
+      DEST_COUNTRY_NAME as dest
+   FROM dfTable
+   LIMIT 2
+
+
 .. _header-n376:
 
-2.4.5 转义字符和关键字(reserved characters and keywords)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2.4.5 转义字符和关键字
+^^^^^^^^^^^^^^^^^^^^^^^
+
+   - 在列名中可能遇到包含空格或者连字符等保留字符，要处理这些保留字符一位置要适当地对列名进行转义.
+   
+   - 在 Spark 中，通过使用 ``反引号(`)`` 字符来实现转义.
 
 .. code:: scala
 
@@ -845,9 +904,7 @@ DataFrame transformation 方法和函数:
    import org.apache.spark.sql.functions.expr
 
    // rename column "ORIGIN_COUNTRY_NAME"
-   val dfWithLongColName = df.withColumn(
-       "This Long Column-Name",
-       expr("ORIGIN_COUNTRY_NAME"))
+   val dfWithLongColName = df.withColumn("This Long Column-Name", expr("ORIGIN_COUNTRY_NAME"))
 
 
    dfWithLongColName.selectExpr(
@@ -860,6 +917,7 @@ DataFrame transformation 方法和函数:
 
    dfWithLongColName.select(col("This Long Column-Name"))
        .columns
+
 
 .. code:: python
 
@@ -892,10 +950,10 @@ DataFrame transformation 方法和函数:
 
 .. _header-n380:
 
-2.4.6 Case Sensitivity
-^^^^^^^^^^^^^^^^^^^^^^
+2.4.6 Spark 默认大小写不敏感
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   Spark 默认是大小写不敏感的，即不区分大小写；
+Spark 默认是大小写不敏感的，即不区分大小写，可以通过下面的配置使 Spark 区分大小写:
 
 .. code:: sql
 
@@ -904,10 +962,10 @@ DataFrame transformation 方法和函数:
 
 .. _header-n384:
 
-2.4.7 删除 Columns
-^^^^^^^^^^^^^^^^^^
+2.4.7 Drop Columns
+^^^^^^^^^^^^^^^^^^^^^
 
-   -  ``.select()``\ ；
+   -  ``.select()``；
 
    -  ``.drop()``\ ；
 
@@ -915,7 +973,7 @@ DataFrame transformation 方法和函数:
 
    // in Scala
    df.drop("ORIGIN_COUNTRY_NAME")
-     .columns
+      .columns
 
    dfWithLongColName.drop("ORIGIN_COUNTRY_NAME", "DEST_COUNTRY_NAME")
 
@@ -929,10 +987,10 @@ DataFrame transformation 方法和函数:
 
 .. _header-n394:
 
-2.4.8 改变 Columns 的类型(cast)
+2.4.8 Change Columns type
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   -  ``.cast()``
+   -  ``.cast()``: 强制类型转换
 
 .. code:: scala
 
@@ -954,8 +1012,19 @@ DataFrame transformation 方法和函数:
 
 .. _header-n403:
 
-2.4.9 筛选行
-^^^^^^^^^^^^
+2.4.9 Filter Columns
+^^^^^^^^^^^^^^^^^^^^^^
+
+   - 为了过滤行，只要创建一个表达式来判断该表达式是 true 还是 false，然后过滤使表达式为 false 的行.
+   
+   - 我们可能本能地想把多个过滤条件放到一个表达式中，尽管这种方法可行，但是并不是总是有效的，因为 Spark 会同时执行所有的过滤操作，不管过滤条件的先后顺序，因此当你想指定多个 ``AND`` 过滤操作时，只要按照先后顺序以链式的方式把这些过滤条件串联起来，然后让 Spark 执行剩下的工作即可.
+   
+   - Spark 的过滤行操作有两个：
+
+      - ``where``
+      
+      - ``filter``
+
 
 .. code:: scala
 
@@ -1000,31 +1069,34 @@ DataFrame transformation 方法和函数:
 
 .. _header-n408:
 
-2.4.10 获取不重复(Unique/Distinct)的行
+2.4.10 Distinct Rows
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: scala
 
+   // in Scala
    df.select("ORIGIN_COUNTRY_NAME", "DEST_COUNTRY_NAME")
      .distinct()
      .count()
 
 .. code:: python
 
+   # in Python
    df.select("ORIGIN_COUNTRY_NAME", "DEST_COUNTRY_NAME") \
      .distinct() \
-     .count() \
+     .count()
 
 .. code:: sql
 
+   -- in SQL
    SELECT
        COUNT(DISTINCT(ORIGIN_COUNTRY_NAME, DEST_COUNTRY_NAME))
    FROM dfTable
 
 .. _header-n412:
 
-2.4.11 随机抽样
-^^^^^^^^^^^^^^^
+2.4.11 Random Sample Rows
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: scala
 
@@ -1149,7 +1221,7 @@ DataFrame transformation 方法和函数:
    LIMIT 2
 
 为了优化的目的，建议对每个分区的数据在进行 transformations
-之前进行排序：
+之前进行排序:
 
 .. code:: scala
 
@@ -1232,7 +1304,7 @@ DataFrame transformation 方法和函数:
 
    -  Spark 在驱动程序(driver)上维持集群的状态；
 
-   -  方法：
+   -  方法:
 
       -  ``.collect()``
 
@@ -1305,7 +1377,7 @@ DataFrame transformation 方法和函数:
    df.printSchema()
    df.createOrReplaceTempView("dfTable")
 
-**转换为 Spark 类型数据：**
+**转换为 Spark 类型数据:**
 
 .. code:: scala
 
@@ -1348,7 +1420,7 @@ DataFrame transformation 方法和函数:
 
          -  ``not()``
 
-**等于，不等于：**
+**等于，不等于:**
 
 .. code:: scala
 
@@ -1451,7 +1523,7 @@ DataFrame transformation 方法和函数:
        StockCode IN ("DOT") AND
        (UnitPrice > 600 OR instr(Description, "POSTAGE") >= 1)
 
-**使用 Boolean column 筛选 DataFrame：**
+**使用 Boolean column 筛选 DataFrame:**
 
 .. code:: scala
 
@@ -1494,7 +1566,7 @@ DataFrame transformation 方法和函数:
            (UnitPrice > 600 OR instr(Description, "POSTAGE") >= 1)
        )
 
-**其他：**
+**其他:**
 
 .. code:: scala
 
@@ -1944,7 +2016,7 @@ DataFrame transformation 方法和函数:
 
    -  把 StructType 转换为 JSON 字符串
 
-**可以直接操作 JSON 字符串：**
+**可以直接操作 JSON 字符串:**
 
 .. code:: scala
 
@@ -1974,7 +2046,7 @@ DataFrame transformation 方法和函数:
        }' as jsonString
    """)
 
-**可以从 JSON 对象中解析或提取数据为 DataFrame：**
+**可以从 JSON 对象中解析或提取数据为 DataFrame:**
 
 .. code:: scala
 
@@ -1998,7 +2070,7 @@ DataFrame transformation 方法和函数:
        json_tuple(col("jsonString"), "myJSONKey")) \
        .show()
 
-**把 StructType 转换为 JSON 字符串：**
+**把 StructType 转换为 JSON 字符串:**
 
 .. code:: scala
 
@@ -2058,7 +2130,7 @@ DataFrame transformation 方法和函数:
       your own custom transformations using Python or Scala and even use
       external libraries.
 
-示例：
+示例:
 
 .. code:: scala
 
@@ -2109,7 +2181,7 @@ DataFrame transformation 方法和函数:
    spark.udf.regiser("power3", power3)
    udfExampleDF.selectExpr("power3(num)").show()
 
-Hive UDFs：
+Hive UDFs:
 
    -  You can user UDF/UDAF creation via a Hive syntax.
 
@@ -2142,7 +2214,7 @@ Hive UDFs：
    -  Spark can aggregate any kind of value into an ``array``, ``list``,
       ``map``\ ；
 
-   -  Spark 聚合方式：
+   -  Spark 聚合方式:
 
       -  select 语句
 
@@ -2181,7 +2253,7 @@ Hive UDFs：
    -  每个 grouping 返回一个 ``RelationalGroupedDataset``
       用来表示聚合(aggregation)；
 
-**读入数据：**
+**读入数据:**
 
 .. code:: scala
 
@@ -2714,7 +2786,7 @@ Group with Maps
    dfWithDate = df.withColumn("date", to_date(col("InvoiceDate"), "MM/d/yyyy H:mm"))
    dfWithDate.createOrReplaceTempView("dfWithDate")
 
-示例：
+示例:
 
 .. code:: scala
 
@@ -2823,7 +2895,7 @@ Group with Maps
    dfNotNull = dfWithDate.drop()
    dfNotNull.createOrReplaceTempView("dfNotNull")
 
-示例：
+示例:
 
 .. code:: sql
 
@@ -2966,7 +3038,7 @@ Group with Maps
 
    -  Cross join(Cartesian)
 
-**数据：**
+**数据:**
 
 .. code:: scala
 
@@ -3314,515 +3386,4 @@ Group with Maps
    FROM graduateProgram 
    CROSS JOIN person
 
-.. _header-n1008:
 
-3.SQL
------
-
-.. _header-n1009:
-
-3.1 表 (tables)
-~~~~~~~~~~~~~~~
-
-.. _header-n1010:
-
-3.1.1 Spark SQL 创建表
-^^^^^^^^^^^^^^^^^^^^^^
-
-读取 flight data 并创建为一张表：
-
-.. code:: sql
-
-   CREATE TABLE flights (
-       DEST_COUNTRY_NAME STRING, 
-       ORIGIN_COUNTRY_NAME STRING, 
-       COUNTS LONG
-   )
-   USING JSON OPTIONS (path "/data/flight-data/json/2015-summary.json")
-
-.. code:: sql
-
-   CREATE TABLE flights (
-       DEST_COUNTRY_NAME STRING, 
-       ORIGIN_COUNTRY_NAME STRING "remember, the US will be most prevalent", 
-       COUNTS LONG
-   )
-   USING JSON OPTIONS (path, "/data/flight-dat/json/2015-summary.json")
-
-.. code:: sql
-
-   CREATE TABLE flights_from_select USING parquet AS 
-   SELECT * 
-   FROM flights
-
-.. code:: sql
-
-   CREATE TALBE IF NOT EXISTS flights_from_select AS 
-   SELECT *
-   FROM flights
-
-.. code:: sql
-
-   CREATE TABLE partitioned_flights USING parquet PARTITION BY (DEST_COUNTRY_NAME) AS 
-   SELECT 
-       DEST_COUNTRY_NAME, 
-       ORIGIN_COUNTRY_NAME, 
-       COUNTS 
-   FROM flights
-   LIMIT 5
-
-.. _header-n1018:
-
-3.1.2 Spark SQL 创建外部表
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. _header-n1019:
-
-3.1.3 Spark SQL 插入表
-^^^^^^^^^^^^^^^^^^^^^^
-
-.. code:: sql
-
-   INSERT INTO flights_from_select
-   SELECT 
-       DEST_COUNTRY_NAME,
-       ORIGIN_COUNTRY_NAME,
-       COUNTS
-   FROM flights
-   LIMIT 20
-
-.. code:: sql
-
-   INSERT INTO partitioned_flights
-   PARTITION (DEST_COUNTRY_NAME="UNITED STATES")
-   SELECT 
-       COUNTS,
-       ORIGIN_COUNTRY_NAME
-   FROM flights
-   WHERE DEST_COUNTRY_NAME="UNITED STATES"
-   LIMIT 12
-
-.. _header-n1024:
-
-3.1.4 Spark SQL Describing 表 Matadata
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code:: sql
-
-   DESCRIBE TABLE flights_csv
-
-.. _header-n1026:
-
-3.1.5 Spark SQL Refreshing 表 Matadata
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code:: sql
-
-   REFRESH TABLE partitioned_flights
-
-.. code:: sql
-
-   MSCK REPAIR TABLE partitioned_flights
-
-.. _header-n1030:
-
-3.1.6 Spark SQL 删除表
-^^^^^^^^^^^^^^^^^^^^^^
-
-   当删除管理表(managed table)时，表中的数据和表的定义都会被删除；
-
-.. code:: sql
-
-   DROP TABLE flights_csv;
-   DROP TABLE IF EXISTS flights_csv;
-
-..
-
-   当删除非管理表时，表中的数据不会被删除，但是不能够再引用原来表的名字对表进行操作；
-
-.. _header-n1038:
-
-3.1.7 Caching 表
-^^^^^^^^^^^^^^^^
-
-.. code:: sql
-
-   CACHE TABLE flights
-   UNCACHE TABLE flights
-
-.. _header-n1042:
-
-3.2 视图 (views)
-~~~~~~~~~~~~~~~~
-
-   -  A view specifies a set of transformations on top of an existing
-      table-basically just saved query plans, which cna be convenient
-      for organizing or resuing query logic.
-
-   -  A view is effectively a transformation and Spark will perform it
-      only at query time, views are equivalent to create a new DataFrame
-      from an existing DataFrame.
-
-.. _header-n1049:
-
-3.2.1 创建视图
-^^^^^^^^^^^^^^
-
-创建 View:
-
-.. code:: sql
-
-   CREATE VIEW just_usa_view AS
-   SELECT *
-   FROM flights 
-   WHERE DEST_COUNTRY_NAME = 'UNITED STATES'
-
-.. code:: sql
-
-   CREATE OR REPLACE TEMP VIEW just_usa_view_temp AS 
-   SELECT *
-   FROM flights
-   WHERE DEST_COUNTRY_NAME = "UNITED STATES"
-
-创建临时 View:
-
-.. code:: sql
-
-   CREATE TEMP VIEW just_usa_view_temp AS 
-   SELECT *
-   FROM flights 
-   WHERE DEST_COUNTRY_NAME = "UNITED STATES"
-
-创建全局临时 View:
-
-.. code:: sql
-
-   CREATE GLOBAL TEMP VIEW just_usa_global_view_temp AS 
-   SELECT *
-   FROM flights
-   WHERE DEST_COUNTRY_NAME = "UNITED STATES"
-
-   SHOW TABLES
-
-.. _header-n1057:
-
-3.2.2 删除视图
-^^^^^^^^^^^^^^
-
-.. code:: sql
-
-   DROP VIEW IF EXISTS just_usa_view;
-
-.. _header-n1059:
-
-3.2.3 DataFrame 和 View
-^^^^^^^^^^^^^^^^^^^^^^^
-
-**DataFrame:**
-
-.. code:: scala
-
-   val flights = spark.read.format("json")
-       .load("/data/flight-data/json/2015-summary.json")
-
-   val just_usa_df = flights.where("dest_country_name = 'United States'")
-
-   just_usa_df.selectExpr("*").explain
-
-**View:**
-
-.. code:: sql
-
-   EXPLAIN SELECT * FROM just_usa_view
-   EXPLAIN SELECT * FROM flights WHERE dest_country_name = "United States"
-
-.. _header-n1065:
-
-3.3 数据库 (databases)
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. _header-n1066:
-
-3.3.1 创建数据库
-^^^^^^^^^^^^^^^^
-
-.. _header-n1067:
-
-3.3.2 配置数据库
-^^^^^^^^^^^^^^^^
-
-.. _header-n1068:
-
-3.3.3 删除数据库
-^^^^^^^^^^^^^^^^
-
-.. _header-n1070:
-
-3.4 数据查询语句
-~~~~~~~~~~~~~~~~
-
-   ANSI SQL
-
-**(1) 查询语句**
-
-.. code:: sql
-
-   SELECT [ALL|DESTINCT] 
-       named_expression[, named_expression, ...]
-   FROM relation[, relation, ...] 
-        [lateral_view[, lateral_view, ...]]
-   [WHERE boolean_expression]
-   [aggregation [HAVING boolean_expression]]
-   [ORDER BY sort_expression]
-   [CLUSTER BY expression]
-   [DISTRIBUTE BY expression]
-   [SORT BY sort_expression]
-   [WINDOW named_window[, WINDOW named_window, ...]]
-   [LIMIT num_rows]
-
-其中：
-
--  named_expression:
-
-   -  ``expression [AS alias]``
-
--  relation:
-
-   -  ``join_relation``
-
-   -  ``(table_name|query|relation) [sample] [AS alias]``
-
-   -  ``VALUES (expression)[, (expressions), ...] [AS (column_name[, column_name, ...])]``
-
--  expression:
-
-   -  ``expression[, expression]``
-
--  sort_expression:
-
-   -  ``expression [ASC|DESC][, expression [ASC|DESC], ...]``
-
-**(2) CASE...WHEN...THEN...ELSE...END 语句**
-
-.. code:: sql
-
-   SELECT 
-       CASE WHEN DEST_COUNTRY_NAME = 'UNITED STATES' THEN 1
-            WHEN DEST_COUNTRY_NAME = 'Egypt' THEN 0
-            ELSE -1 
-       END
-   FROM partitioned_flights
-
-.. _header-n1104:
-
-3.5 其他
-~~~~~~~~
-
-.. _header-n1106:
-
-4.DataSet
----------
-
-DataSet 的使用场景:
-
-.. _header-n1108:
-
-4.1 创建 DataSet
-~~~~~~~~~~~~~~~~
-
-   创建一个 DataSet 是一个纯手工操作，需要事先知道并且定义数据的 schema;
-
-.. _header-n1111:
-
-Java: ``Encoders``
-^^^^^^^^^^^^^^^^^^
-
-.. code:: java
-
-   import org.apache.spark.sql.Encoders;
-
-   public class Flight implements Serializable{
-       String DEST_COUNTRY_NAME;
-       String ORIGIN_COUNTRY_NAME;
-       Long DEST_COUNTRY_NAME;
-   }
-
-   DataSet<Flight> flights = spark.read
-       .parquet("/data/flight-data/parquet/2010-summary.parquet/")
-       .as(Encoders.bean(Flight.class));
-
-.. _header-n1113:
-
-Scala: ``case class``
-^^^^^^^^^^^^^^^^^^^^^
-
-Scala ``case class`` 的特征：
-
--  不可变(Immutable)
-
--  通过模式匹配可分解(Decomposable through pattern matching)
-
--  允许基于结构而不是参考进行比较(Allows for comparision based on
-   structrue instead of reference)
-
--  易用、易操作(Easy to use and manipulate)
-
-.. code:: scala
-
-   // 定义 DataSet Flight 的 schema
-   case class Flight(
-       DEST_COUNTRY_NAME: String, 
-       ORIGIN_COUNTRY_NAME: Stringf, 
-       count: BigInt
-   )
-
-   val flightsDF = spark.read.
-       .parquet("/data/flight-data/parquet/2010-summary.parquet/")
-   val flights = flightsDF.as[Flight]
-
-.. _header-n1126:
-
-4.2 Actions
-~~~~~~~~~~~
-
-   DataFrame 上的 Action 操作也对 DataSet 有效;
-
-.. code:: scala
-
-   flights.show(2)
-   flights.collect()
-   flights.take()
-   flights.count()
-
-   flights.first.DEST_COUNTRY_NAME
-
-.. _header-n1131:
-
-4.3 Transformations
-~~~~~~~~~~~~~~~~~~~
-
-   -  DataFrame 上的 Transformation 操作也对 DataSet 有效;
-
-   -  除了 DataFrame 上的 Transformation，DataSet
-      上也有更加复杂和强类型的 Transformation 操作，因为，操作 DataSet
-      相当于操作的是原始的 Java Virtual Machine (JVM) 类型.
-
-.. _header-n1138:
-
-DataFrame 上的 Transformation 操作
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. _header-n1140:
-
-DataSet 特有的 Transformation 操作
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
--  Filtering
-
-.. code:: scala
-
-   def originIsDestination(flight_row: Flight): Boolean = {
-       return flight_row.ORIGIN_COUNTRY_NAME == flight_row.DEST_COUNTRY_NAME
-   }
-
-
-   flights
-       .filter(flight_row => originIsDestination(flight_row))
-       .first()
-
--  Mapping
-
-.. code:: scala
-
-   val destinations = flights.map(f => f.DEST_COUNTRY_NAME)
-   val localDestinations = destinations.take(5)
-
-.. _header-n1149:
-
-4.4 Joins
-~~~~~~~~~
-
-.. code:: scala
-
-   case class FlightMetadata(
-       count: BigInt, 
-       randomData: BigInt
-   )
-
-   val flightsMeta = spark
-       .range(500)
-       .map(x => (x, scala.unit.Random.nextLong))
-       .withColumnRenamed("_1", "count")
-       .withColumnRenamed("_2", "randomData")
-       .as[FlightMetadata]
-
-   val flights2 = flights
-       .joinWith(flightsMeta, flights.col("count") === flightsMeta.col("count"))
-
-.. code:: scala
-
-   flights2.selectExpr("_1.DEST_COUNTRY_NAME")
-   flights2.take(2)
-   val flights2 = flights.join(flightsMeta, Seq("count"))
-   val flights2 = flights.join(flightsMeta.toDF(), Seq("count"))
-   val flights2 = flights.join(flightsMeta.toDF(), Seq("count"))
-
-.. _header-n1152:
-
-4.5 Grouping and Aggregations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-   -  DataSet 中的 Grouping 和 Aggregation 跟 DataFrame 中的 Grouping 和
-      Aggregation 一样的用法，因此，\ ``groupBy``, ``rollup`` 和
-      ``cube`` 对 DataSet 依然有效，只不过不再返回 DataFrame，而是返回
-      DataSet，实际上是丢弃了 type 信息.
-
-   -  如果想要保留 type
-      信息，有一些方法可以实现，比如：\ ``groupByKey``\ ，\ ``groupByKey``
-      可以通过 group 一个特殊的 DataSet key，然后返回带有 type 信息的
-      DataSet；但是 ``groupByKey`` 不再接受一个具体的 column
-      名字，而是一个函数，这样使得可以使用一些更加特殊的聚合函数来对数据进行聚合。但是这样做虽然灵活，却失去了性能上的优势。
-
-.. code:: scala
-
-   flights.groupBy("DEST_COUNTRY_NAME").count()
-   flights.groupByKey(x => x.DEST_COUNTRY_NAME).count()
-
-.. code:: scala
-
-   flights.groupByKey(x => x.DEST_COUNTRY_NAME).count().explain
-
-.. code:: scala
-
-   def grpSum(countryName: String, values: Iterator[Flight]) = {
-       values.dropWhile(_.count < 5).map(x => (countryName, x))
-   }
-   flights
-       .groupByKey(x => x.DEST_COUNTRY_NAME)
-       .flatMapGroups(grpSum)
-       .show(5)
-
-.. code:: scala
-
-   def grpSum2(f: Flight): Integer = {
-       1
-   }
-   flights2
-       .groupByKey(x => x.DEST_COUNTRY_NAME)
-       .mapValues(grpSum2)
-       .count()
-       .take(5)
-
-.. code:: scala
-
-   def sum2(left: Flight, right: Flight) = {
-       Flight(left.DEST_COUNTRY_NAME, null, left.count + right.count)
-   }
-
-   flights
-       .groupByKey(x => x.DEST_COUNTRY_NAME)
-       .reduceGroups((l, r) => sum2(l, r))
-
-.. code:: scala
-
-   flights.groupBy("DEST_COUNTRY_NAME").count().explain

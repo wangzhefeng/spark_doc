@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spark SQL &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spark DataSet" href="Spark-Dataset.html" />
+    <link rel="prev" title="Spark Data Sources" href="Spark-Data-Source.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala 特点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Spark-Introduction.html">Spark Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark Data Sources</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark SQL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#header-n3">1.Spark SQL 背景</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sql">1.1 SQL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#apache-hive">1.2 Apache Hive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.3 Spark SQL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-hive">1.4 Spark 与 Hive 的关系</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n4">2.Spark SQL 查询</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#catalog">3. Catalog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tables">3.1 数据表(tables)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#header-n1010">3.1.1 Spark SQL 创建表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n1018">3.1.2 Spark SQL 创建外部表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n1019">3.1.3 Spark SQL 插入表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spark-sql-describing-matadata">3.1.4 Spark SQL Describing 表 Matadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spark-sql-refreshing-matadata">3.1.5 Spark SQL Refreshing 表 Matadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-n1030">3.1.6 Spark SQL 删除表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#caching">3.1.7 Caching 表</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#views">4. 视图 (views)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#databases">5. 数据库 (databases)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n1070">6. 数据查询语句</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n1104">7. 其他</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Dataset.html">Spark DataSet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-MLlib.html">Spark MLlib</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-topic</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-dependence.html">Spark 依赖</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-partitions.html">Spark 分区</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spark SQL</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-book/Spark-SQL.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spark-sql">
+<span id="header-n0"></span><h1>Spark SQL<a class="headerlink" href="#spark-sql" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="header-n3">
+<span id="id1"></span><h2>1.Spark SQL 背景<a class="headerlink" href="#header-n3" title="Permalink to this headline">¶</a></h2>
+<p>使用 Spark SQL，可以对存储到数据库中的视图或表进行 SQL 查询，还可以使用系统函数或用户自定义函数来分析和查询计划以优化器工作负载. 这直接集成到 DataFrame 和 Dataset API 中.</p>
+<div class="section" id="sql">
+<h3>1.1 SQL<a class="headerlink" href="#sql" title="Permalink to this headline">¶</a></h3>
+<p>结构化查询语言(Structured Query Language, SQL) 是一种表示数据关系操作的特定领域语言。SQL 广泛应用在关系型数据库中，许多“NoSQL”数据库也支持类 SQL 语言以使其更便于使用。</p>
+<p>Spark 实现了 ANSI SQL 2003 标准(<a class="reference external" href="https://en.wikipedia.org/wiki/SQL:2003">https://en.wikipedia.org/wiki/SQL:2003</a>)的子集，此 SQL 标准是在大多数 SQL 数据库中都支持的，这种支持意味着 Spark 能够运行各种流行的 TPC-DS 基准测试(<a class="reference external" href="http://www.tpc.org/default.asp">http://www.tpc.org/default.asp</a>).</p>
+</div>
+<div class="section" id="apache-hive">
+<h3>1.2 Apache Hive<a class="headerlink" href="#apache-hive" title="Permalink to this headline">¶</a></h3>
+<p>在 Spark 流行之前，Hive 是支持 SQL 的主流大数据处理工具。Hive 最初是由 Facebook 开发，曾经是支持大数据 SQL 操作的一个非常流行的工具。它在许多方面将 Hadoop 推广到不同的行业，因为分析师可以运行 SQL 查询命令来实现他们的操作。尽管 Spark 最初是作为一个基于弹性分布式数据集(RDD)的通用处理引擎开发的，但现在大量用户都在使用 Spark SQL.</p>
+</div>
+<div class="section" id="id2">
+<h3>1.3 Spark SQL<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Spark 2.0 发布了一个支持 Hive 操作的超集，并提供了一个能够同时支持 ANSI-SQL 和 HiveQL 的原生 SQL 解析器。Spark SQL 和 DataFrame 的互操作性，使得 Spark SQL 成为各大公司强有力的工具。2016年末，发布 Hive 的 Facebook 公司宣布已经开始运行 Spark 工作负载，并取得很好的效果.</p>
+<p>Spark SQL 在以下关键方面具有强大的能力：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>SQL 分析人员可通过 Thrift Server 或者 Spark 的 SQL 接口利用 Spark 的计算能力</p></li>
+<li><p>数据工程师或者科学家可以在任何数据流中使用 Spark SQL</p></li>
+<li><p>Spark SQL 这个统一的 API 功能强大，允许使用 SQL 提取数据，并将数据转化成 DataFrame 进行处理</p></li>
+<li><p>可以把数据交由 Spark MLlib 的大型机器学习算法处理，还可以将数据写到另一个数据源中</p></li>
+</ul>
+</div></blockquote>
+<p>Spark SQL 的目的是作为一个在线分析处理(OLAP)数据库而存在，而不是在线事务处理(OLTP)数据库，这意味着 Spark SQL 现在还不适合执行对低延迟要求极高的查询，但是未来，Spark SQL 将会支持这一点.</p>
+</div>
+<div class="section" id="spark-hive">
+<h3>1.4 Spark 与 Hive 的关系<a class="headerlink" href="#spark-hive" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="header-n4">
+<span id="id3"></span><h2>2.Spark SQL 查询<a class="headerlink" href="#header-n4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Spark SQL CLI</p></li>
+<li><p>Spark 的可编程 SQL 接口</p></li>
+<li><p>Spark SQL Thrift JDBC/ODBC 服务器</p></li>
+</ul>
+</div>
+<div class="section" id="catalog">
+<h2>3. Catalog<a class="headerlink" href="#catalog" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tables">
+<span id="header-n1009"></span><h3>3.1 数据表(tables)<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="header-n1010">
+<span id="id4"></span><h4>3.1.1 Spark SQL 创建表<a class="headerlink" href="#header-n1010" title="Permalink to this headline">¶</a></h4>
+<p>读取 flight data 并创建为一张表:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">flights</span> <span class="p">(</span>
+    <span class="n">DEST_COUNTRY_NAME</span> <span class="n">STRING</span><span class="p">,</span>
+    <span class="n">ORIGIN_COUNTRY_NAME</span> <span class="n">STRING</span><span class="p">,</span>
+    <span class="n">COUNTS</span> <span class="n">LONG</span>
+<span class="p">)</span>
+<span class="k">USING</span> <span class="n">JSON</span> <span class="k">OPTIONS</span> <span class="p">(</span><span class="n">path</span> <span class="ss">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">flights</span> <span class="p">(</span>
+    <span class="n">DEST_COUNTRY_NAME</span> <span class="n">STRING</span><span class="p">,</span>
+    <span class="n">ORIGIN_COUNTRY_NAME</span> <span class="n">STRING</span> <span class="ss">&quot;remember, the US will be most prevalent&quot;</span><span class="p">,</span>
+    <span class="n">COUNTS</span> <span class="n">LONG</span>
+<span class="p">)</span>
+<span class="k">USING</span> <span class="n">JSON</span> <span class="k">OPTIONS</span> <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="ss">&quot;/data/flight-dat/json/2015-summary.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">flights_from_select</span> <span class="k">USING</span> <span class="n">parquet</span> <span class="k">AS</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="n">TALBE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">flights_from_select</span> <span class="k">AS</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">partitioned_flights</span> <span class="k">USING</span> <span class="n">parquet</span> <span class="n">PARTITION</span> <span class="k">BY</span> <span class="p">(</span><span class="n">DEST_COUNTRY_NAME</span><span class="p">)</span> <span class="k">AS</span>
+<span class="k">SELECT</span>
+    <span class="n">DEST_COUNTRY_NAME</span><span class="p">,</span>
+    <span class="n">ORIGIN_COUNTRY_NAME</span><span class="p">,</span>
+    <span class="n">COUNTS</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+<span class="k">LIMIT</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n1018">
+<span id="id5"></span><h4>3.1.2 Spark SQL 创建外部表<a class="headerlink" href="#header-n1018" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="header-n1019">
+<span id="id6"></span><h4>3.1.3 Spark SQL 插入表<a class="headerlink" href="#header-n1019" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">flights_from_select</span>
+<span class="k">SELECT</span>
+    <span class="n">DEST_COUNTRY_NAME</span><span class="p">,</span>
+    <span class="n">ORIGIN_COUNTRY_NAME</span><span class="p">,</span>
+    <span class="n">COUNTS</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+<span class="k">LIMIT</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">partitioned_flights</span>
+<span class="n">PARTITION</span> <span class="p">(</span><span class="n">DEST_COUNTRY_NAME</span><span class="o">=</span><span class="ss">&quot;UNITED STATES&quot;</span><span class="p">)</span>
+<span class="k">SELECT</span>
+    <span class="n">COUNTS</span><span class="p">,</span>
+    <span class="n">ORIGIN_COUNTRY_NAME</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+<span class="k">WHERE</span> <span class="n">DEST_COUNTRY_NAME</span><span class="o">=</span><span class="ss">&quot;UNITED STATES&quot;</span>
+<span class="k">LIMIT</span> <span class="mi">12</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spark-sql-describing-matadata">
+<span id="header-n1024"></span><h4>3.1.4 Spark SQL Describing 表 Matadata<a class="headerlink" href="#spark-sql-describing-matadata" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DESCRIBE</span> <span class="k">TABLE</span> <span class="n">flights_csv</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spark-sql-refreshing-matadata">
+<span id="header-n1026"></span><h4>3.1.5 Spark SQL Refreshing 表 Matadata<a class="headerlink" href="#spark-sql-refreshing-matadata" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="n">REFRESH</span> <span class="k">TABLE</span> <span class="n">partitioned_flights</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="n">MSCK</span> <span class="n">REPAIR</span> <span class="k">TABLE</span> <span class="n">partitioned_flights</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n1030">
+<span id="id7"></span><h4>3.1.6 Spark SQL 删除表<a class="headerlink" href="#header-n1030" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>当删除管理表(managed table)时，表中的数据和表的定义都会被删除；</p>
+</div></blockquote>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">flights_csv</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">flights_csv</span><span class="p">;</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>当删除非管理表时，表中的数据不会被删除，但是不能够再引用原来表的名字对表进行操作；</p>
+</div></blockquote>
+</div>
+<div class="section" id="caching">
+<span id="header-n1038"></span><h4>3.1.7 Caching 表<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CACHE</span> <span class="k">TABLE</span> <span class="n">flights</span>
+<span class="n">UNCACHE</span> <span class="k">TABLE</span> <span class="n">flights</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="views">
+<span id="header-n1042"></span><h2>4. 视图 (views)<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>A view specifies a set of transformations on top of an existing
+table-basically just saved query plans, which cna be convenient
+for organizing or resuing query logic.</p></li>
+<li><p>A view is effectively a transformation and Spark will perform it
+only at query time, views are equivalent to create a new DataFrame
+from an existing DataFrame.</p></li>
+</ul>
+</div></blockquote>
+<p>创建 View:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">VIEW</span> <span class="n">just_usa_view</span> <span class="k">AS</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+<span class="k">WHERE</span> <span class="n">DEST_COUNTRY_NAME</span> <span class="o">=</span> <span class="s1">&#39;UNITED STATES&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="n">TEMP</span> <span class="k">VIEW</span> <span class="n">just_usa_view_temp</span> <span class="k">AS</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+<span class="k">WHERE</span> <span class="n">DEST_COUNTRY_NAME</span> <span class="o">=</span> <span class="ss">&quot;UNITED STATES&quot;</span>
+</pre></div>
+</div>
+<p>创建临时 View:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="n">TEMP</span> <span class="k">VIEW</span> <span class="n">just_usa_view_temp</span> <span class="k">AS</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+<span class="k">WHERE</span> <span class="n">DEST_COUNTRY_NAME</span> <span class="o">=</span> <span class="ss">&quot;UNITED STATES&quot;</span>
+</pre></div>
+</div>
+<p>创建全局临时 View:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">GLOBAL</span> <span class="n">TEMP</span> <span class="k">VIEW</span> <span class="n">just_usa_global_view_temp</span> <span class="k">AS</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">flights</span>
+<span class="k">WHERE</span> <span class="n">DEST_COUNTRY_NAME</span> <span class="o">=</span> <span class="ss">&quot;UNITED STATES&quot;</span>
+
+<span class="k">SHOW</span> <span class="n">TABLES</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DROP</span> <span class="k">VIEW</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">just_usa_view</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>DataFrame:</strong></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">flights</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">just_usa_df</span> <span class="k">=</span> <span class="n">flights</span><span class="o">.</span><span class="n">where</span><span class="o">(</span><span class="s">&quot;dest_country_name = &#39;United States&#39;&quot;</span><span class="o">)</span>
+
+<span class="n">just_usa_df</span><span class="o">.</span><span class="n">selectExpr</span><span class="o">(</span><span class="s">&quot;*&quot;</span><span class="o">).</span><span class="n">explain</span>
+</pre></div>
+</div>
+<p><strong>View:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">EXPLAIN</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">just_usa_view</span>
+<span class="k">EXPLAIN</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">flights</span> <span class="k">WHERE</span> <span class="n">dest_country_name</span> <span class="o">=</span> <span class="ss">&quot;United States&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="databases">
+<span id="header-n1065"></span><h2>5. 数据库 (databases)<a class="headerlink" href="#databases" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="header-n1070">
+<span id="id8"></span><h2>6. 数据查询语句<a class="headerlink" href="#header-n1070" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>ANSI SQL</p>
+</div></blockquote>
+<p><strong>(1) 查询语句</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="p">[</span><span class="k">ALL</span><span class="o">|</span><span class="n">DESTINCT</span><span class="p">]</span>
+    <span class="n">named_expression</span><span class="p">[,</span> <span class="n">named_expression</span><span class="p">,</span> <span class="p">...]</span>
+<span class="k">FROM</span> <span class="n">relation</span><span class="p">[,</span> <span class="n">relation</span><span class="p">,</span> <span class="p">...]</span>
+     <span class="p">[</span><span class="n">lateral_view</span><span class="p">[,</span> <span class="n">lateral_view</span><span class="p">,</span> <span class="p">...]]</span>
+<span class="p">[</span><span class="k">WHERE</span> <span class="n">boolean_expression</span><span class="p">]</span>
+<span class="p">[</span><span class="n">aggregation</span> <span class="p">[</span><span class="k">HAVING</span> <span class="n">boolean_expression</span><span class="p">]]</span>
+<span class="p">[</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">sort_expression</span><span class="p">]</span>
+<span class="p">[</span><span class="k">CLUSTER</span> <span class="k">BY</span> <span class="n">expression</span><span class="p">]</span>
+<span class="p">[</span><span class="n">DISTRIBUTE</span> <span class="k">BY</span> <span class="n">expression</span><span class="p">]</span>
+<span class="p">[</span><span class="n">SORT</span> <span class="k">BY</span> <span class="n">sort_expression</span><span class="p">]</span>
+<span class="p">[</span><span class="n">WINDOW</span> <span class="n">named_window</span><span class="p">[,</span> <span class="n">WINDOW</span> <span class="n">named_window</span><span class="p">,</span> <span class="p">...]]</span>
+<span class="p">[</span><span class="k">LIMIT</span> <span class="n">num_rows</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>其中:</p>
+<ul class="simple">
+<li><p>named_expression:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">[AS</span> <span class="pre">alias]</span></code></p></li>
+</ul>
+</li>
+<li><p>relation:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">join_relation</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(table_name|query|relation)</span> <span class="pre">[sample]</span> <span class="pre">[AS</span> <span class="pre">alias]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VALUES</span> <span class="pre">(expression)[,</span> <span class="pre">(expressions),</span> <span class="pre">...]</span> <span class="pre">[AS</span> <span class="pre">(column_name[,</span> <span class="pre">column_name,</span> <span class="pre">...])]</span></code></p></li>
+</ul>
+</li>
+<li><p>expression:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">expression[,</span> <span class="pre">expression]</span></code></p></li>
+</ul>
+</li>
+<li><p>sort_expression:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">[ASC|DESC][,</span> <span class="pre">expression</span> <span class="pre">[ASC|DESC],</span> <span class="pre">...]</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p><strong>(2) CASE…WHEN…THEN…ELSE…END 语句</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span>
+    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">DEST_COUNTRY_NAME</span> <span class="o">=</span> <span class="s1">&#39;UNITED STATES&#39;</span> <span class="k">THEN</span> <span class="mi">1</span>
+         <span class="k">WHEN</span> <span class="n">DEST_COUNTRY_NAME</span> <span class="o">=</span> <span class="s1">&#39;Egypt&#39;</span> <span class="k">THEN</span> <span class="mi">0</span>
+         <span class="k">ELSE</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">END</span>
+<span class="k">FROM</span> <span class="n">partitioned_flights</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-n1104">
+<span id="id9"></span><h2>7. 其他<a class="headerlink" href="#header-n1104" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Spark-Dataset.html" class="btn btn-neutral float-right" title="Spark DataSet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Spark-Data-Source.html" class="btn btn-neutral float-left" title="Spark Data Sources" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

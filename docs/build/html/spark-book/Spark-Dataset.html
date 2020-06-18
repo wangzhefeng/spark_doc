@@ -1,0 +1,485 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spark DataSet &mdash; Spark 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spark Low-Level API" href="Spark-Low-Level-API.html" />
+    <link rel="prev" title="Spark SQL" href="Spark-SQL.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spark
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Scala</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-helloworld.html">Scala 入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala.html">Scala Array</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-OOP.html">Scala OOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-features.html">Scala 特点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/scala-set-object.html">Scala Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/maven.html">Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scala/sbt.html">sbt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-book</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Spark-Introduction.html">Spark Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-API.html">Spark Structured API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Data-Source.html">Spark Data Sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spark DataSet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-dataset">1.Create DataSet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#java-encoders">Java: <code class="docutils literal notranslate"><span class="pre">Encoders</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scala-case-class">Scala: <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#actions">2.Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transformations">3.Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dataframe-transformation">3.1 DataFrame 上的 Transformation 操作</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataset-transformation">3.2 DataSet 特有的 Transformation 操作</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#joins">4.Joins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grouping-and-aggregations">5.Grouping and Aggregations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Low-Level-API.html">Spark Low-Level API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-APP.html">Spark 应用程序</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Spark-MLlib.html">Spark MLlib</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-apache-org</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark.html">Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-shell.html">Spark Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-SQL.html">Spark SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-RDD.html">Spark RDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-MLlib.html">Spark MLlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-apache-org/Spark-Structured-Streaming.html">Spark Structured Streaming</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/pyspark-sql-api.html">pyspark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/spark-api-scala.html">spark(scala) API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-api/sparksql-api-scala.html">Spark SQL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">spark-topic</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spark-dependence.html">Spark 依赖</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark-partitions.html">Spark 分区</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spark DataSet</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spark-book/Spark-Dataset.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spark-dataset">
+<span id="header-n11106"></span><h1>Spark DataSet<a class="headerlink" href="#spark-dataset" title="Permalink to this headline">¶</a></h1>
+<p>Dataset 介绍：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Dataset 是 Spark 结构化 API 的基本类型，而DataFrame 是 Row 类型的 Dataset.</p></li>
+<li><p>Dataset 具有严格的 Java 虚拟机(JVM)语言特性，仅与 Scala 和 Java 一起使用，可以定义 Dataset 中每一行所包含的对象，在 Scala 中就是一个 case 类对象，它实质上定义了一种模式 schema，而在 Java 中就是 Java Bean.</p></li>
+<li><p>Dataset 在编译时检查类型，DataFrame 在运行时检查类型.</p></li>
+<li><p>使用 DataFrame API 时，不需要创建字符串或整数，Spark 就可以通过操作 Row 对象来处理数据。如果使用 Scala 或 Java，则所有 DataFrame 实际上都是 Row 类型的 Dataset.为了有效地支持特定领域的对象，需要一个称为”编码器(Encoder)“的特殊概念，编码器将特定领域类型 T 映射为 Spark 的内部类型.</p></li>
+<li><p>当使用 Dataset API 时，将 Spark Row 格式的每一行转换为指定的特定领域类型的对象（case 类或 Java 类），这种转换会减慢操作速度，但可以提供更大的灵活性.</p></li>
+</ul>
+</div></blockquote>
+<p>DataSet 的使用场景:</p>
+<blockquote>
+<div><ul>
+<li><p>1.当有些业务逻辑要执行的操作无法使用 DataFrame 操作表示</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>有些操作不能使用结构化 API 来表示，比如有些业务逻辑想用特定的函数而非 SQL 或 DataFrame 来实现，就需要用到 Dataset</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>2.如果需要类型安全，并且愿意牺牲一定性能来实现它</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>因为 Dataset API 是类型安全的，对于其类型无效的操作（例如，两个字符串类型相减）将在编译时出错，而不是在运行时失败，如果正确性和防御性代码（bulletproof code）是更需要考虑的事情，所以牺牲一些性能或许是最好的选择，这不能保证不接受格式错误的数据，但可以更方便地处理</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>3.在单节点作业和 Spark 作业之间重用对行的各种转换代码</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Spark 的 API 包含了 Scala Sequence 类型，它们以分布式方式运行，因此使用 Dataset 的一个优点是，如果你将所有数据和转换定义为 case 类，那么在分布和单机作业中使用它们没什么区别，此外，当你在本地磁盘存储 DataFrame 时，它们一定是正确的类和类型，这使进一步的操作更容易</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>Dataset 最常用的应用场景可能是 <strong>先用 DataFrame 再用 Dataset</strong>, 这可以手动在性能和类型安全之间进行权衡. 比如：当基于 DataFrame 执行 ETL 转换作业之后，想将数据送入驱动器并使用单机库操作，或者当需要在 Spark SQL 中执行过滤和进一步操作前，进行每行分析的预处理转换操作的时候.</p>
+<div class="section" id="create-dataset">
+<span id="header-n1108"></span><h2>1.Create DataSet<a class="headerlink" href="#create-dataset" title="Permalink to this headline">¶</a></h2>
+<p>创建一个 DataSet 是一个纯手工操作，需要事先知道并且定义数据的 schema.</p>
+<div class="section" id="java-encoders">
+<span id="header-n1111"></span><h3>Java: <code class="docutils literal notranslate"><span class="pre">Encoders</span></code><a class="headerlink" href="#java-encoders" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Java 编码器相当简单，只需指定类，然后在需要 DataFrame（即 <code class="docutils literal notranslate"><span class="pre">Dataset&lt;Row&gt;</span></code> 类型）的时候对该类进行编码：</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Java</span>
+<span class="kn">import</span> <span class="nn">org.apache.spark.sql.Encoders</span><span class="p">;</span>
+
+<span class="c1">// 定义 Flight 类</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Flight</span> <span class="kd">implements</span> <span class="n">Serializable</span><span class="p">{</span>
+    <span class="n">String</span> <span class="n">DEST_COUNTRY_NAME</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">ORIGIN_COUNTRY_NAME</span><span class="p">;</span>
+    <span class="n">Long</span> <span class="n">DEST_COUNTRY_NAME</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 创建 DataFrame(Dataset&lt;Flight&gt;)</span>
+<span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Flight</span><span class="o">&gt;</span> <span class="n">flights</span> <span class="o">=</span> <span class="n">spark</span>
+   <span class="p">.</span><span class="na">read</span>
+   <span class="p">.</span><span class="na">parquet</span><span class="p">(</span><span class="s">&quot;/data/flight-data/parquet/2010-summary.parquet/&quot;</span><span class="p">)</span>
+   <span class="p">.</span><span class="na">as</span><span class="p">(</span><span class="n">Encoders</span><span class="p">.</span><span class="na">bean</span><span class="p">(</span><span class="n">Flight</span><span class="p">.</span><span class="na">class</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scala-case-class">
+<span id="header-n1113"></span><h3>Scala: <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code><a class="headerlink" href="#scala-case-class" title="Permalink to this headline">¶</a></h3>
+<p>在 Scala 中创建 Dataset，要定义 Scala 的 case 类，Scala <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code> 具有以下特征:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>不可变(Immutable)</p></li>
+<li><p>通过模式匹配可分解(Decomposable through pattern matching)，来获取类属性</p></li>
+<li><p>允许基于结构的比较，而不是基于引用进行比较(Allows for comparision based on
+structrue instead of reference)</p></li>
+<li><p>易用、易操作(Easy to use and manipulate)</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// 定义 DataSet Flight 的 schema</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Flight</span><span class="o">(</span>
+    <span class="nc">DEST_COUNTRY_NAME</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+    <span class="nc">ORIGIN_COUNTRY_NAME</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+    <span class="n">count</span><span class="k">:</span> <span class="kt">BigInt</span>
+<span class="o">)</span>
+
+<span class="c1">// 创建 DataFrame</span>
+<span class="k">val</span> <span class="n">flightsDF</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">parquet</span><span class="o">(</span><span class="s">&quot;/data/flight-data/parquet/2010-summary.parquet/&quot;</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">flights</span> <span class="k">=</span> <span class="n">flightsDF</span><span class="o">.</span><span class="n">as</span><span class="o">[</span><span class="kt">Flight</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="actions">
+<span id="header-n1126"></span><h2>2.Actions<a class="headerlink" href="#actions" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>DataFrame 上的 Action 操作也对 DataSet 有效;</p>
+</div></blockquote>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">flights</span><span class="o">.</span><span class="n">collect</span><span class="o">()</span>
+<span class="n">flights</span><span class="o">.</span><span class="n">take</span><span class="o">()</span>
+<span class="n">flights</span><span class="o">.</span><span class="n">count</span><span class="o">()</span>
+
+<span class="n">flights</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="transformations">
+<span id="header-n1131"></span><h2>3.Transformations<a class="headerlink" href="#transformations" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>DataFrame 上的 Transformation 操作也对 DataSet 有效</p></li>
+<li><p>除了 DataFrame 上的 Transformation，Dataset 上也有更加复杂和强类型的 Transformation 操作，因为，操作 Dataset 相当于操作的是原始的 Java Virtual Machine (JVM) 类型</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="dataframe-transformation">
+<span id="header-n1138"></span><h3>3.1 DataFrame 上的 Transformation 操作<a class="headerlink" href="#dataframe-transformation" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="dataset-transformation">
+<span id="header-n1140"></span><h3>3.2 DataSet 特有的 Transformation 操作<a class="headerlink" href="#dataset-transformation" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Filtering</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">originIsDestination</span><span class="o">(</span><span class="n">flight_row</span><span class="k">:</span> <span class="kt">Flight</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">flight_row</span><span class="o">.</span><span class="nc">ORIGIN_COUNTRY_NAME</span> <span class="o">==</span> <span class="n">flight_row</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span>
+<span class="o">}</span>
+
+
+<span class="n">flights</span>
+    <span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">flight_row</span> <span class="k">=&gt;</span> <span class="n">originIsDestination</span><span class="o">(</span><span class="n">flight_row</span><span class="o">))</span>
+    <span class="o">.</span><span class="n">first</span><span class="o">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Mapping</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">destinations</span> <span class="k">=</span> <span class="n">flights</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">f</span> <span class="k">=&gt;</span> <span class="n">f</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">localDestinations</span> <span class="k">=</span> <span class="n">destinations</span><span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="joins">
+<span id="header-n1149"></span><h2>4.Joins<a class="headerlink" href="#joins" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">FlightMetadata</span><span class="o">(</span>
+    <span class="n">count</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+    <span class="n">randomData</span><span class="k">:</span> <span class="kt">BigInt</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">flightsMeta</span> <span class="k">=</span> <span class="n">spark</span>
+    <span class="o">.</span><span class="n">range</span><span class="o">(</span><span class="mi">500</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">scala</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="nc">Random</span><span class="o">.</span><span class="n">nextLong</span><span class="o">))</span>
+    <span class="o">.</span><span class="n">withColumnRenamed</span><span class="o">(</span><span class="s">&quot;_1&quot;</span><span class="o">,</span> <span class="s">&quot;count&quot;</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">withColumnRenamed</span><span class="o">(</span><span class="s">&quot;_2&quot;</span><span class="o">,</span> <span class="s">&quot;randomData&quot;</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">as</span><span class="o">[</span><span class="kt">FlightMetadata</span><span class="o">]</span>
+
+<span class="k">val</span> <span class="n">flights2</span> <span class="k">=</span> <span class="n">flights</span>
+    <span class="o">.</span><span class="n">joinWith</span><span class="o">(</span><span class="n">flightsMeta</span><span class="o">,</span> <span class="n">flights</span><span class="o">.</span><span class="n">col</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">)</span> <span class="o">===</span> <span class="n">flightsMeta</span><span class="o">.</span><span class="n">col</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">))</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">flights2</span><span class="o">.</span><span class="n">selectExpr</span><span class="o">(</span><span class="s">&quot;_1.DEST_COUNTRY_NAME&quot;</span><span class="o">)</span>
+<span class="n">flights2</span><span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">flights2</span> <span class="k">=</span> <span class="n">flights</span><span class="o">.</span><span class="n">join</span><span class="o">(</span><span class="n">flightsMeta</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">flights2</span> <span class="k">=</span> <span class="n">flights</span><span class="o">.</span><span class="n">join</span><span class="o">(</span><span class="n">flightsMeta</span><span class="o">.</span><span class="n">toDF</span><span class="o">(),</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">flights2</span> <span class="k">=</span> <span class="n">flights</span><span class="o">.</span><span class="n">join</span><span class="o">(</span><span class="n">flightsMeta</span><span class="o">.</span><span class="n">toDF</span><span class="o">(),</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="grouping-and-aggregations">
+<span id="header-n1152"></span><h2>5.Grouping and Aggregations<a class="headerlink" href="#grouping-and-aggregations" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>DataSet 中的 Grouping 和 Aggregation 跟 DataFrame 中的 Grouping 和
+Aggregation 一样的用法，因此，<code class="docutils literal notranslate"><span class="pre">groupBy</span></code>, <code class="docutils literal notranslate"><span class="pre">rollup</span></code> 和
+<code class="docutils literal notranslate"><span class="pre">cube</span></code> 对 DataSet 依然有效，只不过不再返回 DataFrame，而是返回
+DataSet，实际上是丢弃了 type 信息.</p></li>
+<li><p>如果想要保留 type 信息，有一些方法可以实现，比如: <code class="docutils literal notranslate"><span class="pre">groupByKey</span></code>，<code class="docutils literal notranslate"><span class="pre">groupByKey</span></code>
+可以通过 group 一个特殊的 DataSet key，然后返回带有 type 信息的
+DataSet；但是 <code class="docutils literal notranslate"><span class="pre">groupByKey</span></code> 不再接受一个具体的 column
+名字，而是一个函数，这样使得可以使用一些更加特殊的聚合函数来对数据进行聚合。但是这样做虽然灵活，却失去了性能上的优势。</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="c1">// groupBy</span>
+<span class="n">flights</span><span class="o">.</span><span class="n">groupBy</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">).</span><span class="n">count</span><span class="o">()</span>
+
+<span class="c1">// groupByKey</span>
+<span class="n">flights</span><span class="o">.</span><span class="n">groupByKey</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span><span class="o">).</span><span class="n">count</span><span class="o">()</span>
+<span class="n">flights</span><span class="o">.</span><span class="n">groupByKey</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span><span class="o">).</span><span class="n">count</span><span class="o">().</span><span class="n">explain</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">grpSum</span><span class="o">(</span><span class="n">countryName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">values</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">Flight</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="n">values</span><span class="o">.</span><span class="n">dropWhile</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">countryName</span><span class="o">,</span> <span class="n">x</span><span class="o">))</span>
+<span class="o">}</span>
+
+<span class="n">flights</span>
+    <span class="o">.</span><span class="n">groupByKey</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">flatMapGroups</span><span class="o">(</span><span class="n">grpSum</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">grpSum2</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">Flight</span><span class="o">)</span><span class="k">:</span> <span class="kt">Integer</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="mi">1</span>
+<span class="o">}</span>
+<span class="n">flights2</span>
+    <span class="o">.</span><span class="n">groupByKey</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">mapValues</span><span class="o">(</span><span class="n">grpSum2</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">count</span><span class="o">()</span>
+    <span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+<span class="c1">// 创建新的操作并定义如何执行 reduceGroups 聚合</span>
+<span class="k">def</span> <span class="n">sum2</span><span class="o">(</span><span class="n">left</span><span class="k">:</span> <span class="kt">Flight</span><span class="o">,</span> <span class="n">right</span><span class="k">:</span> <span class="kt">Flight</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="nc">Flight</span><span class="o">(</span><span class="n">left</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">left</span><span class="o">.</span><span class="n">count</span> <span class="o">+</span> <span class="n">right</span><span class="o">.</span><span class="n">count</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">flights</span>
+    <span class="o">.</span><span class="n">groupByKey</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="nc">DEST_COUNTRY_NAME</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">reduceGroups</span><span class="o">((</span><span class="n">l</span><span class="o">,</span> <span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">sum2</span><span class="o">(</span><span class="n">l</span><span class="o">,</span> <span class="n">r</span><span class="o">))</span>
+
+<span class="c1">// 这是一个比扫描后立即聚合(直接调用groupBy)更耗时的过程，但得到的是相同的结果</span>
+<span class="n">flights</span><span class="o">.</span><span class="n">groupBy</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">).</span><span class="n">count</span><span class="o">().</span><span class="n">explain</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Spark-Low-Level-API.html" class="btn btn-neutral float-right" title="Spark Low-Level API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Spark-SQL.html" class="btn btn-neutral float-left" title="Spark SQL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, wangzf
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
