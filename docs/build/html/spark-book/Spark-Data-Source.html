@@ -102,18 +102,58 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#spark-csv">2.Spark 读取 CSV 文件</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#csv-read-options">2.1 CSV Read Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#csv-read-write-options">2.1 CSV Read/Write Options</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spark-reading-csv">2.2 Spark Reading CSV 文件</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#csv-write-options">2.3 CSV Write Options</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#spark-writing-csv">2.4 Spark Writing CSV 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-writing-csv">2.3 Spark Writing CSV 文件</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#spark-json">3.Spark 读取 JSON 文件</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spark-parquet">4.Spark 读取 Parquet 文件</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spark-orc">5.Spark 读取 ORC 文件</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spark-sql-database">6.Spark 读取 SQL Database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spark-text">7.Spark 读取 Text 文件</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#i-o">8.高级 I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-json">3.Spark 读取 JSON 文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#json-read-write-options">3.1 JSON Read/Write Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-reading-json">3.2 Spark Reading JSON 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-writing-json">3.3 Spark Writing JSON 文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-parquet">4.Spark 读取 Parquet 文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parquet-read-write-options">4.1 Parquet Read/Write Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-reading-parquet">4.2 Spark Reading Parquet 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-writing-parquet">4.3 Spark Writing Parquet 文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-orc">5.Spark 读取 ORC 文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spark-reading-orc">5.2 Spark Reading ORC 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-writing-orc">5.3 Spark Writing ORC 文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-sql-database">6.Spark 读取 SQL Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sqlite">6.1 SQLite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jdbc-options">6.2 JDBC 数据源 Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-reading-from-sql-database">6.2 Spark Reading From SQL Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">6.3 查询下推</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">6.3.1 并行读取数据库</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">6.3.2 基于滑动窗口的分区</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-writing-to-sql-database">6.3 Spark Writing To SQL Database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-text">7.Spark 读取 Text 文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spark-reading-text">7.2 Spark Reading Text 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-writing-text">7.3 Spark Writing Text 文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#i-o">8.高级 I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">8.1 可分割的文件类型和压缩</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">8.2 并行读数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">8.3 并行写数据</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">8.3.1 数据划分</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">8.3.2 数据分桶</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">8.4 写入复杂类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">8.5 管理文件大小</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cassandra-connector">8.6 Cassandra Connector</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Spark-SQL.html">Spark SQL</a></li>
@@ -210,7 +250,8 @@
   <div class="section" id="spark-data-sources">
 <span id="header-n0"></span><h1>Spark Data Sources<a class="headerlink" href="#spark-data-sources" title="Permalink to this headline">¶</a></h1>
 <p>Spark 核心数据源:</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><p>CSV</p></li>
 <li><p>JSON</p></li>
 <li><p>Parquet</p></li>
@@ -218,8 +259,10 @@
 <li><p>JDBC/ODBC connection</p></li>
 <li><p>Plain-text file</p></li>
 </ul>
+</div></blockquote>
 <p>其他数据源(Spark Community):</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><p>Cassandra</p></li>
 <li><p>HBase</p></li>
 <li><p>MongoDB</p></li>
@@ -227,29 +270,35 @@
 <li><p>XML</p></li>
 <li><p>others…</p></li>
 </ul>
+</div></blockquote>
 <div class="section" id="spark-api">
 <span id="header-n31"></span><h2>1.Spark 数据源 API<a class="headerlink" href="#spark-api" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="read-api-structure">
 <span id="header-n32"></span><h3>1.1 Read API Structure<a class="headerlink" href="#read-api-structure" title="Permalink to this headline">¶</a></h3>
-<p><strong>(1) 核心结构：</strong></p>
+<p><strong>(1) 核心结构:</strong></p>
+<p>Spark 读取数据的核心结构如下:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DataFrameReader</span><span class="o">.</span><span class="n">format</span><span class="p">()</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">schema</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code> 是可选的，因为 Spark 默认读取 Parquet 格式的文件；</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code>
-可以设置很多自定义配置参数，不同的数据源格式都有自己的一些可选配置参数可以手动设置；</p>
+<p>其中:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code>: 是可选的,因为 Spark 默认读取 Parquet 格式的文件;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code>: 可以设置很多自定义配置参数,不同的数据源格式都有自己的一些可选配置参数可以手动设置;</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">inferSchema</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">path</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code>: ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inferSchema</span></code>: 是否启用 schema 推断;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path</span></code>: ;</p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">schema</span></code> 是可选的，有些数据文件提供了schema，可以使用模式推断
-(schema inference) 进行自动推断；也可以设置自定义的 schema 配置；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">schema</span></code>: 是可选的,有些数据文件提供了schema,可以使用模式推断(schema inference) 进行自动推断;也可以设置自定义的 schema 配置;</p></li>
 </ul>
-<p><strong>(2) Spark 读取数据的基本操作：</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
+</div></blockquote>
+<p><strong>(2) Spark 读取数据的基本操作:</strong></p>
+<p>Spark 读取数据的操作的示例:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
      <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;FAILFAST&quot;</span><span class="o">)</span>
      <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;inferSchema&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
      <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;path&quot;</span><span class="o">,</span> <span class="s">&quot;path/to/file(s)&quot;</span><span class="o">)</span>
@@ -257,238 +306,300 @@
      <span class="o">.</span><span class="n">load</span><span class="o">()</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">DataFrameReader</span></code> 是 Spark 读取数据的基本接口，可以通过
-<code class="docutils literal notranslate"><span class="pre">spark.read</span></code> 获取；</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code> 选项的设置还可以通过创建一个配置项的映射结构来设置；</p></li>
-<li><p>读取模式(read modes):</p>
+<p>其中:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.read</span></code>: DataFrameReader 是 Spark 读取数据的基本接口,可以通过 <code class="docutils literal notranslate"><span class="pre">SparkSession</span></code> 的 <code class="docutils literal notranslate"><span class="pre">read</span></code> 属性获取;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">schema</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code>: 选项的设置可以通过创建一个配置项的映射结构来设置;</p></li>
+<li><p>read modes: 从外部源读取数据很容易会遇到错误格式的数据, 尤其是在处理半结构化数据时. 读取模式指定当 Spark 遇到错误格式的记录时应采取什么操作;</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;permissive&quot;)</span></code></p>
 <ul>
-<li><p>默认选项</p></li>
-<li><p>Set all fields to <code class="docutils literal notranslate"><span class="pre">null</span></code> when it encounters a corrupted
-record and places all corrupted records in a string column
-called <code class="docutils literal notranslate"><span class="pre">_corrupt_record</span></code>;</p></li>
+<li><p>默认选项, 当遇到错误格式的记录时, 将所有字段设置为 <code class="docutils literal notranslate"><span class="pre">null</span></code> 并将所有错误格式的记录放在名为 <code class="docutils literal notranslate"><span class="pre">_corrupt_record</span></code> 字符串中;</p></li>
 </ul>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;dropMalformed&quot;)</span></code></p>
 <ul>
-<li><p>Drop the row that contains malformed records;</p></li>
+<li><p>删除包含错误格式记录的行;</p></li>
 </ul>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;failFast&quot;)</span></code></p>
 <ul>
-<li><p>Fails immediately upon encountering malformed malformed
-records;</p></li>
+<li><p>遇到错误格式的记录后立即返回失败;</p></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">format</span></code>, <code class="docutils literal notranslate"><span class="pre">option</span></code> 和 <code class="docutils literal notranslate"><span class="pre">schema</span></code> 都会返回一个 <code class="docutils literal notranslate"><span class="pre">DataFrameReader</span></code>,它可以进行进一步的转换,并且都是可选的.每个数据源都有一组特定的选项,用于设置如何将数据读入 Spark.</p>
+</div>
 </div>
 <div class="section" id="write-api-structure">
 <span id="header-n76"></span><h3>1.2 Write API Structure<a class="headerlink" href="#write-api-structure" title="Permalink to this headline">¶</a></h3>
-<p><strong>(1) 核心结构：</strong></p>
+<p><strong>(1) 核心结构:</strong></p>
+<p>Spark 写数据的核心结构如下:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DataFrameWriter</span><span class="o">.</span><span class="n">format</span><span class="p">()</span><span class="o">.</span><span class="n">option</span><span class="p">()</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">()</span><span class="o">.</span><span class="n">bucketBy</span><span class="p">()</span><span class="o">.</span><span class="n">sortBy</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code> 是可选的，因为 Spark 默认会将数据保存为 Parquet 文件格式；</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code>
-可以设置很多自定义配置参数，不同的数据源格式都有自己的一些可选配置参数可以手动设置；</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">partitionBy</span></code>, <code class="docutils literal notranslate"><span class="pre">bucketBy</span></code>, <code class="docutils literal notranslate"><span class="pre">sortBy</span></code>
-只对文件格式的数据起作用，可以通过设置这些配置对文件在目标位置存放数据的结构进行配置；</p></li>
+<p>其中:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code>: 是可选的,因为 Spark 默认会将数据保存为 Parquet 文件格式;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code>: 可以设置很多自定义配置参数,不同的数据源格式都有自己的一些可选配置参数可以手动设置;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">partitionBy</span></code>, <code class="docutils literal notranslate"><span class="pre">bucketBy</span></code>, <code class="docutils literal notranslate"><span class="pre">sortBy</span></code>: 只对文件格式的数据起作用,可以通过设置这些配置对文件在目标位置存放数据的结构进行配置;</p></li>
 </ul>
-<p><strong>(2) Spark 读取数据的基本操作：</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dataframe</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
+</div></blockquote>
+<p><strong>(2) Spark 读取数据的基本操作:</strong></p>
+<p>Spark 写数据的操作的示例:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">dataframe</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
      <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;OVERWRITE&quot;</span><span class="o">)</span>
      <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;dataFormat&quot;</span><span class="o">,</span> <span class="s">&quot;yyyy-MM-dd&quot;</span><span class="o">)</span>
      <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;path&quot;</span><span class="o">,</span> <span class="s">&quot;path/to/file(s)&quot;</span><span class="o">)</span>
      <span class="o">.</span><span class="n">save</span><span class="o">()</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">DataFrameWriter</span></code> 是 Spark 写出数据的基本接口，可以通过
-<code class="docutils literal notranslate"><span class="pre">dataframe.write</span></code> 获取；</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code> 选项的设置还可以通过创建一个配置项的映射结构来设置；</p></li>
-<li><p>读取模式(read modes):</p>
+<p>其中:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dataframe.write</span></code>: DataFrameWriter 是 Spark 写出数据的基本接口,可以通过 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> 的 <code class="docutils literal notranslate"><span class="pre">write</span></code> 属性来获取;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code>: ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">option</span></code> 选项的设置还可以通过创建一个配置项的映射结构来设置;</p></li>
+<li><p>write modes:</p>
 <ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;errorIfExists&quot;)</span></code></p>
+<ul>
+<li><p>默认选项, 如果目标路径已经存在数据或文件,则抛出错误并返回写入操作失败;</p></li>
+</ul>
+</li>
 <li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;append&quot;)</span></code></p>
 <ul>
-<li><p>Appends the output files to the list of files that already
-exist at that location;</p></li>
+<li><p>将输出文件追加到目标路径已经存在的文件上或目录的文件列表;</p></li>
 </ul>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;overwrite&quot;)</span></code></p>
 <ul>
-<li><p>Will completely overwrite any data that already exists there;</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;errorIfExists&quot;)</span></code></p>
-<ul>
-<li><p>默认选项</p></li>
-<li><p>Throw an error and fails the write if data or files already
-exists at the specified location;</p></li>
+<li><p>将完全覆盖目标路径中已经存在的任何数据;</p></li>
 </ul>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">option(&quot;mode&quot;,</span> <span class="pre">&quot;ignore&quot;)</span></code></p>
 <ul>
-<li><p>If data or files exist at the location, do nothing with the
-current DataFrame;</p></li>
+<li><p>如果目标路径已经存在数据或文件,则不执行任何操作;</p></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="spark-csv">
 <span id="header-n119"></span><h2>2.Spark 读取 CSV 文件<a class="headerlink" href="#spark-csv" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="csv-read-options">
-<span id="header-n120"></span><h3>2.1 CSV Read Options<a class="headerlink" href="#csv-read-options" title="Permalink to this headline">¶</a></h3>
+<p>CSV (comma-separated values), 是一种常见的文本文件格式, 其中每行表示一条记录, 用逗号分隔记录中的每个字段.
+虽然 CSV 文件看起来结构良好, 实际上它存在各种各样的问题, 是最难处理的文件格式之一,
+这是因为实际应用场景中遇到的数据内容或数据结构并不会那么规范. 因此, CSV 读取程序包含大量选项,
+通过这些选项可以帮助你解决像解决忽略特定字符等的这种问题,比如当一列的内容也以逗号分隔时,
+需要识别出该逗号是列中的内容,还是列间分隔符.</p>
+<div class="section" id="csv-read-write-options">
+<span id="header-n120"></span><h3>2.1 CSV Read/Write Options<a class="headerlink" href="#csv-read-write-options" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 36%" />
-<col style="width: 40%" />
-<col style="width: 15%" />
-<col style="width: 8%" />
+<col style="width: 5%" />
+<col style="width: 13%" />
+<col style="width: 12%" />
+<col style="width: 14%" />
+<col style="width: 56%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Key</p></th>
-<th class="head"><p>可选项</p></th>
-<th class="head"><p>默认值</p></th>
-<th class="head"><p>含义</p></th>
+<tr class="row-odd"><th class="head"><p>Read/Write</p></th>
+<th class="head"><p>Key</p></th>
+<th class="head"><p>Potential values</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>sep</p></td>
+<tr class="row-even"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sep</span></code></p></td>
 <td><p>Any single string character</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">,</span></code></p></td>
-<td></td>
+<td><p>This single character that is used as separator for each field and value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>header</p></td>
+<tr class="row-odd"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">header</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td></td>
+<td><p>A Boolean flag that declares whether the first line in the file(s) are the names of the columns.</p></td>
 </tr>
-<tr class="row-even"><td><p>escape</p></td>
+<tr class="row-even"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">escape</span></code></p></td>
 <td><p>Any string character</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">\</span></code></p></td>
-<td></td>
+<td><p>The character Spark should use to escape other characters in the file.</p></td>
 </tr>
-<tr class="row-odd"><td><p>inferSchema</p></td>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">inferSchema</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td></td>
+<td><p>Specifies whether Spark should infer column types when reading the file.</p></td>
 </tr>
-<tr class="row-even"><td><p>ignoreLeadingWhiteSpace</p></td>
+<tr class="row-even"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ignoreLeadingWhiteSpace</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td></td>
+<td><p>Declares whether leading spaces from value being read should be skipped.</p></td>
 </tr>
-<tr class="row-odd"><td><p>ignoreTrailingWhiteSpace</p></td>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ignoreTrailingWhiteSpace</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td></td>
+<td><p>Declares whether trailing spaces from value being read should be skipped.</p></td>
 </tr>
-<tr class="row-even"><td><p>nullValue</p></td>
+<tr class="row-even"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nullValue</span></code></p></td>
 <td><p>Any string character</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
-<td></td>
+<td><p>Declares what character represents a <code class="docutils literal notranslate"><span class="pre">null</span></code> value in the file.</p></td>
 </tr>
-<tr class="row-odd"><td><p>nanValue</p></td>
+<tr class="row-odd"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nanValue</span></code></p></td>
 <td><p>Any string character</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code></p></td>
-<td></td>
+<td><p>Declares what character represents a <code class="docutils literal notranslate"><span class="pre">NaN</span></code>  or missing character in the CSV file.</p></td>
 </tr>
-<tr class="row-even"><td><p>positiveInf</p></td>
+<tr class="row-even"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">positiveInf</span></code></p></td>
 <td><p>Any string or character</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">Inf</span></code></p></td>
-<td></td>
+<td><p>Declares what character(s) represent a positive infinite value.</p></td>
 </tr>
-<tr class="row-odd"><td><p>negativeInf</p></td>
+<tr class="row-odd"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">negativeInf</span></code></p></td>
 <td><p>Any String or character</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">-Inf</span></code></p></td>
-<td></td>
+<td><p>Declares what character(s) represent a positive negative infinite value.</p></td>
+</tr>
+<tr class="row-even"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compression/codec</span></code></p></td>
+<td><p>None, uncom pressed, bzip2,
+deflate,gzip,lz4, or snappy</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">none</span></code></p></td>
+<td><p>Declares  what compression codec Spark should use to read or write the file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dateFormat</span></code></p></td>
+<td><p>Any string or character that
+conform to java’s
+SimpleDataFormat</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">yyyy-MM-dd</span></code></p></td>
+<td><p>Declares the date format for any columns that are date type.</p></td>
+</tr>
+<tr class="row-even"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">timestampFormat</span></code></p></td>
+<td><p>Any string or character that
+conform to java’s
+SimpleDataFormat</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">yyyy-MM-dd'T'</span> <span class="pre">HH:mm:ss.SSSZZ</span></code></p></td>
+<td><p>Declares the timestamp format for any columns that are timestamp type</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">maxColumns</span></code></p></td>
+<td><p>Any integer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">20480</span></code></p></td>
+<td><p>Declares the maximum number for columns in the file.</p></td>
+</tr>
+<tr class="row-even"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">maxCharsPerColumn</span></code></p></td>
+<td><p>Any integer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1000000</span></code></p></td>
+<td><p>Declares the maximum number of character in a column.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">escapeQuotes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code></p></td>
+<td><p>Declares whether Spark should escape quotes that are found in lines.</p></td>
+</tr>
+<tr class="row-even"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">maxMalformeLogPerPartition</span></code></p></td>
+<td><p>Any integer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
+<td><p>Sets the maximum number of malformed rows Spark will log for each partition. Malformed records beyond this number will be ignore.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">multiLine</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>This option allows you read multiline CSV files where each logical row in the CSV file might span multipe rows in the file itself.</p></td>
+</tr>
+<tr class="row-even"><td><p>Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">quoteAll</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Specifies whether all values should be enclosed in quotes, as opposed to just escaping values that have a quote character.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="spark-reading-csv">
 <span id="header-n178"></span><h3>2.2 Spark Reading CSV 文件<a class="headerlink" href="#spark-reading-csv" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="csv-write-options">
-<span id="header-n179"></span><h3>2.3 CSV Write Options<a class="headerlink" href="#csv-write-options" title="Permalink to this headline">¶</a></h3>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 22%" />
-<col style="width: 49%" />
-<col style="width: 19%" />
-<col style="width: 10%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Key</p></th>
-<th class="head"><p>可选项</p></th>
-<th class="head"><p>默认值</p></th>
-<th class="head"><p>含义</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>sep</p></td>
-<td><p>Any single string character</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">,</span></code></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>header</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>nullValue</p></td>
-<td><p>Any string character</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>nanValue</p></td>
-<td><p>Any string character</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>positiveInf</p></td>
-<td><p>Any string or character</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">Inf</span></code></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>negativeInf</p></td>
-<td><p>Any String or character</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">-Inf</span></code></p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="spark-writing-csv">
-<span id="header-n216"></span><h3>2.4 Spark Writing CSV 文件<a class="headerlink" href="#spark-writing-csv" title="Permalink to this headline">¶</a></h3>
-<p>读取 CSV 文件：</p>
+<p>示例 1:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
-<span class="k">val</span> <span class="n">myManualSchema</span> <span class="k">=</span>
+
 <span class="k">val</span> <span class="n">csvFile</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;csv&quot;</span><span class="o">)</span>
-     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;header&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
-     <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;FAILFAST&quot;</span><span class="o">)</span>
-     <span class="o">.</span><span class="n">schema</span><span class="o">(</span><span class="n">myManualSchema</span><span class="o">)</span>
-     <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/csv/2010-summary.csv&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;header&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;FAILFAST&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;inferSchema&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;some/path/to/file.csv&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="o">()</span>
 </pre></div>
 </div>
+<p>示例 2:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
 <span class="n">csvFile</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> \
      <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
      <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;FAILFAST&quot;</span><span class="p">)</span> \
      <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;inferSchema&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
      <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/csv/2010-summary.csv&quot;</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>写入 CSV 文件：</p>
+<p>示例 3:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.types.</span><span class="o">{</span><span class="nc">StructType</span><span class="o">,</span> <span class="nc">StructField</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">}</span>
+
+<span class="k">val</span> <span class="n">myManualSchema</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StructType</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="n">csvFile</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;csv&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;header&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;FAILFAST&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">schema</span><span class="o">(</span><span class="n">myManualSchema</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/csv/2010-summary.csv&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>通常, Spark 只会在作业执行而不是 DataFrame 定义时发生失败.</p>
+</div>
+</div>
+<div class="section" id="spark-writing-csv">
+<span id="header-n216"></span><h3>2.3 Spark Writing CSV 文件<a class="headerlink" href="#spark-writing-csv" title="Permalink to this headline">¶</a></h3>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
 <span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;csv&quot;</span><span class="o">)</span>
      <span class="c1">// .mode(&quot;overwrite&quot;)</span>
      <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;overwrite&quot;</span><span class="o">)</span>
@@ -496,32 +607,622 @@ current DataFrame;</p></li>
      <span class="o">.</span><span class="n">save</span><span class="o">(</span><span class="s">&quot;/tmp/my-tsv-file.tsv&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
+<p>示例 2:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
 <span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> \
      <span class="c1"># .mode(&quot;overwrite&quot;) \</span>
      <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;overwrite&quot;</span><span class="p">)</span> \
      <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;sep&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;/tmp/my-tsv-file.tsv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="spark-json">
 <span id="header-n224"></span><h2>3.Spark 读取 JSON 文件<a class="headerlink" href="#spark-json" title="Permalink to this headline">¶</a></h2>
+<p>JSON (JavaScript Object Notation). 在 Spark 中, 提及的 <code class="docutils literal notranslate"><span class="pre">JSON</span> <span class="pre">文件</span></code> 指 <code class="docutils literal notranslate"><span class="pre">换行符分隔的</span> <span class="pre">JSON</span></code>,
+每行必须包含一个单独的、独立的有效 JSON 对象, 这与包含大的 JSON 对象或数组的文件是有区别的.</p>
+<p>换行符分隔 JSON 对象还是一个对象可以跨越多行, 这个可以由 <code class="docutils literal notranslate"><span class="pre">multiLine</span></code> 选项控制, 当 <code class="docutils literal notranslate"><span class="pre">multiLine</span></code> 为 <code class="docutils literal notranslate"><span class="pre">true</span></code> 时,
+则可以将整个文件作为一个 JSON 对象读取, 并且 Spark 将其解析为 DataFrame. 换行符分隔的 JSON 实际上是一种更稳定的格式,
+因为它可以在文件末尾追加新纪录(而不是必须读入整个文件然后再写出).</p>
+<p>换行符分隔的 JSON 格式流行的另一个关键原因是 JSON 对象具有结构化信息, 并且(基于 JSON的) JavaScript 也支持基本类型, 这使得它更易用, Spark 可以替我们完成很多对结构化数据的操作.
+由于 JSON 结构化对象封装的原因, 导致 JSON 文件选项比 CSV 的要少很多.</p>
+<div class="section" id="json-read-write-options">
+<h3>3.1 JSON Read/Write Options<a class="headerlink" href="#json-read-write-options" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 25%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Read/Write</p></th>
+<th class="head"><p>Key</p></th>
+<th class="head"><p>Potential values</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compression/codec</span></code></p></td>
+<td><p>None, uncom pressed, bzip2,
+deflate,gzip,lz4, or snappy</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">none</span></code></p></td>
+<td><p>Declares  what compression codec Spark should use to read or write the file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dateFormat</span></code></p></td>
+<td><p>Any string or character that
+conform to Java’s
+SimpleDataFormat</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">yyyy-MM-dd</span></code></p></td>
+<td><p>Declares the date format for any columns that are date type.</p></td>
+</tr>
+<tr class="row-even"><td><p>Read/Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">timestampFormat</span></code></p></td>
+<td><p>Any string or character that
+conform to java’s
+SimpleDataFormat</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">yyyy-MM-dd'T'</span> <span class="pre">HH:mm:ss.SSSZZ</span></code></p></td>
+<td><p>Declares the timestamp format for any columns that are timestamp type</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">primitiveAsString</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Infers all primitive values as string type.</p></td>
+</tr>
+<tr class="row-even"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowComments</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Ignores Java/C++ style comment in JSON  records.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowUnquotedFieldNames</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Allows unquotes JSON field names.</p></td>
+</tr>
+<tr class="row-even"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowSingleQuotes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code></p></td>
+<td><p>Allows single quotes in addition to double quotes.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allNumericLeadingZeros</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Allows leading zeroes in number (e.g., 00012).</p></td>
+</tr>
+<tr class="row-even"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowBackslashEscAPIngAny</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Allows accepting quoting of all characters using backlash quoting mechanism.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">columnNameOfCorruptRecord</span></code></p></td>
+<td><p>Any string</p></td>
+<td><p>Value of <code class="docutils literal notranslate"><span class="pre">spark.sql.column</span> <span class="pre">&amp;</span> <span class="pre">NameOfCorruptRecord</span></code></p></td>
+<td><p>Allows renaming the new field having a malformed string created by <code class="docutils literal notranslate"><span class="pre">permissive</span></code> mode.
+This will override the configuration value.</p></td>
+</tr>
+<tr class="row-even"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">multiLine</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Allows for reading in non-line-delimited JSON files.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="spark-reading-json">
+<h3>3.2 Spark Reading JSON 文件<a class="headerlink" href="#spark-reading-json" title="Permalink to this headline">¶</a></h3>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.types.</span><span class="o">{</span><span class="nc">StructType</span><span class="o">,</span> <span class="nc">StructField</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">}</span>
+
+<span class="k">val</span> <span class="n">myManualSchema</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StructType</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;ORIGIN_COUNTRY_NAME&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+   <span class="k">new</span> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">,</span> <span class="nc">LongType</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">))</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;mode&quot;</span><span class="o">,</span> <span class="s">&quot;FAILFAST&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">schema</span><span class="o">(</span><span class="s">&quot;myManualSchema&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2010-summary.json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;FAILFAST&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;inferSchema&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2010-summary.json&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spark-writing-json">
+<h3>3.3 Spark Writing JSON 文件<a class="headerlink" href="#spark-writing-json" title="Permalink to this headline">¶</a></h3>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;overwrite&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">save</span><span class="o">(</span><span class="s">&quot;/tmp/my-json-file.json&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;/tmp/my-json-file.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>每个数据分片作为一个文件写出, 而整个 DataFrame 将输出到一个文件夹. 文件中每行仍然代表一个 JSON 对象:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ ls /tmp/my-json-file.json/
+/tmp/my-json-file.json/part-0000-tid-543....json
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="spark-parquet">
 <span id="header-n226"></span><h2>4.Spark 读取 Parquet 文件<a class="headerlink" href="#spark-parquet" title="Permalink to this headline">¶</a></h2>
+<p>Parquet 是一种开源的面向列的数据存储格式,它提供了各种存储优化,尤其适合数据分析.
+Parquet 提供列压缩从而可以节省空间,而且它支持按列读取而非整个文件地读取.</p>
+<p>作为一种文件格式,Parquet 与 Apache Spark 配合得很好,而且实际上也是 Spark 的默认文件格式.
+建议将数据写到 Parquet 以便长期存储,因为从 Parquet 文件读取始终比从 JSON 文件或 CSV 文件效率更高.</p>
+<p>Parquet 的另一个优点是它支持复杂类型,也就是说如果一个数组(CSV 文件无法存储组列)、map 映射或 struct 结构体,
+仍可以正常读取和写入,不会出现任何问题.</p>
+<div class="section" id="parquet-read-write-options">
+<h3>4.1 Parquet Read/Write Options<a class="headerlink" href="#parquet-read-write-options" title="Permalink to this headline">¶</a></h3>
+<p>由于 Parquet 含有明确定义且与 Spark 概念密切一致的规范,所以它只有很少的可选项,实际上只有两个.
+Parqute 的可选项很少,因为它在存储数据时执行本身的 schema.</p>
+<p>虽然只有两个选项,但是如果使用的是不兼容的 Parquet 文件,仍然会遇到问题.
+并且,当使用不同版本的 Spark 写入 Parquet 文件时要小心,因为这可能会导致让人头疼的问题.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 19%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Read/Write</p></th>
+<th class="head"><p>Key</p></th>
+<th class="head"><p>Potential values</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Write</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compression</span></code> or <code class="docutils literal notranslate"><span class="pre">codec</span></code></p></td>
+<td><p>None, uncom pressed, bzip2,
+deflate,gzip,lz4, or snappy</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">none</span></code></p></td>
+<td><p>Declares  what compression codec Spark should use to read or write the file.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Read</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">merge</span> <span class="pre">Schema</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true/false</span></code></p></td>
+<td><p>Value of the configuration
+<code class="docutils literal notranslate"><span class="pre">spark.sql.parquet.mergeSchema</span></code></p></td>
+<td><p>You can incrementally add columns to newly written Parquet files
+in the same table/folder. Use this option to enable or disable this feature.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="spark-reading-parquet">
+<h3>4.2 Spark Reading Parquet 文件<a class="headerlink" href="#spark-reading-parquet" title="Permalink to this headline">¶</a></h3>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/parquet/2010-summary.parquet&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;parquet&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/parquet/2010-summary.parquet&quot;</span><span class="p">)</span> \
+   <span class="o">.</span> <span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spark-writing-parquet">
+<h3>4.3 Spark Writing Parquet 文件<a class="headerlink" href="#spark-writing-parquet" title="Permalink to this headline">¶</a></h3>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;overwrite&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">save</span><span class="o">(</span><span class="s">&quot;/tmp/my-parquet-file.parquet&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;parquet&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;/tmp/my-parquet-file.parquet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="spark-orc">
 <span id="header-n228"></span><h2>5.Spark 读取 ORC 文件<a class="headerlink" href="#spark-orc" title="Permalink to this headline">¶</a></h2>
+<p>ORC 是为 Hadoop 作业而设计的自描述、类型感知的列存储文件格式.它针对大型流式数据读取进行优化,
+但集成了对快速查找所需行的相关支持.</p>
+<p>实际上,读取 ORC 文件数据时没有可选项,这是因为 Spark 非常了解该文件格式.</p>
+<p>ORC 和 Parquet 有什么区别？在大多数情况下,他们非常相似,本质区别是,
+Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.</p>
+<div class="section" id="spark-reading-orc">
+<h3>5.2 Spark Reading ORC 文件<a class="headerlink" href="#spark-reading-orc" title="Permalink to this headline">¶</a></h3>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;orc&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/orc/2010-summary.orc&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;orc&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/orc/2010-summary.orc&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spark-writing-orc">
+<h3>5.3 Spark Writing ORC 文件<a class="headerlink" href="#spark-writing-orc" title="Permalink to this headline">¶</a></h3>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;orc&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;overwrite&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">save</span><span class="o">(</span><span class="s">&quot;/tmp/my-json-file.orc&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">csvFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;orc&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;/tmp/my-json-file.orc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="spark-sql-database">
 <span id="header-n230"></span><h2>6.Spark 读取 SQL Database<a class="headerlink" href="#spark-sql-database" title="Permalink to this headline">¶</a></h2>
+<p>数据库不仅仅是一些数据文件，而是一个系统，有许多连接数据库的方式可供选择。
+需要确定 Spark 集群网络是否容易连接到数据库系统所在的网络上</p>
+<p>读写数据库中的文件需要两步：</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>在 Spark 类路径中为指定的数据库包含 Java Database Connectivity(JDBC) 驱动;</p></li>
+<li><p>为连接驱动器提供合适的 JAR 包;</p></li>
+</ol>
+</div></blockquote>
+<p>示例:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./bin/spark-shell <span class="se">\</span>
+--driver-class-path postgresql-9.4.1207.jar <span class="se">\</span>
+--jars postgresql-9.4.1207.jar
+</pre></div>
+</div>
+</div></blockquote>
+<div class="section" id="sqlite">
+<h3>6.1 SQLite<a class="headerlink" href="#sqlite" title="Permalink to this headline">¶</a></h3>
+<p>SQLite 可以在本地计算机以最简配置工作，但在分布式环境中不行，如果想在分布式环境中运行这里的示例，则需要连接到其他数据库</p>
+<p>SQLite 是目前使用最多的数据库引擎，它功能强大、速度快且易于理解，只是因为 SQLite 数据库只是一个文件.</p>
+</div>
+<div class="section" id="jdbc-options">
+<h3>6.2 JDBC 数据源 Options<a class="headerlink" href="#jdbc-options" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Url: 要连接的 JDBC URL</p></li>
+<li><p>dbtable: 表示要读取的 JDBC 表</p></li>
+<li><p>dirver: 用于连接到此 URL 的 JDBC 驱动器的类名</p></li>
+<li><p>partitionColumn, lowerBound, upperBound: 描述了如何在从多个 worker 并行读取时对表格进行划分</p></li>
+<li><p>numPartitions: 在读取和写入数据表时，数据表可用于并行的最大分区数，这也决定了并发 JDBC 连接的最大数目</p></li>
+<li><p>fetchsize: 表示 JDBC 每次读取多少条记录</p></li>
+<li><p>batchsize: 表示 JDBC 批处理的大小，用于指定每次写入多少条记录</p></li>
+<li><p>isolationLevel: 表示数据库的事务隔离级别(适用于当前连接)</p></li>
+<li><p>truncate:</p></li>
+<li><p>createTableOptions:</p></li>
+<li><p>createTableColumnTypes: 表示创建表时使用的数据库列数据类型，而不使用默认值</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="spark-reading-from-sql-database">
+<h3>6.2 Spark Reading From SQL Database<a class="headerlink" href="#spark-reading-from-sql-database" title="Permalink to this headline">¶</a></h3>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="k">import</span> <span class="nn">java.sql.DirverManager</span>
+
+<span class="c1">// 指定格式和选项</span>
+<span class="k">val</span> <span class="n">dirver</span> <span class="k">=</span> <span class="s">&quot;org.sqlite.JDBC&quot;</span>
+<span class="k">val</span> <span class="n">path</span> <span class="k">=</span> <span class="s">&quot;/data/flight-data/jdbc/my-sqlite.db&quot;</span>
+<span class="k">val</span> <span class="n">url</span> <span class="k">=</span> <span class="s">s&quot;jdbc::sqlite:/</span><span class="si">${</span><span class="n">path</span><span class="si">}</span><span class="s">&quot;</span>
+<span class="k">val</span> <span class="n">tablename</span> <span class="k">=</span> <span class="s">&quot;flight_info&quot;</span>
+
+<span class="c1">// 测试连接</span>
+<span class="k">val</span> <span class="n">connection</span> <span class="k">=</span> <span class="nc">DirverManager</span><span class="o">.</span><span class="n">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">)</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">isClosed</span><span class="o">()</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="o">()</span>
+
+<span class="c1">// 从 SQL 表中读取 DataFrame</span>
+<span class="k">val</span> <span class="n">dbDataFrame</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;jdbc&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;url&quot;</span><span class="o">,</span> <span class="n">url</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;dbtable&quot;</span><span class="o">,</span> <span class="n">tablename</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;driver&quot;</span><span class="o">,</span> <span class="n">driver</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="c1"># 指定格式和选项</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;org.sqlite.JDBC&quot;</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/data/flight-data/jdbc/my-sqlite.db&quot;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;jdbc:sqlite:&quot;</span>  <span class="o">+</span> <span class="n">path</span>
+<span class="n">tablename</span> <span class="o">=</span> <span class="s2">&quot;flight_info&quot;</span>
+
+<span class="c1"># 从 SQL 表中读取 DataFrame</span>
+<span class="n">dbDataFrame</span> <span class="o">=</span> <span class="n">spark</span> \
+   <span class="o">.</span><span class="n">read</span> \
+   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;jdbc&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;dbtable&quot;</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;driver&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>示例 3:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="c1">// 指定格式和选项</span>
+<span class="k">val</span> <span class="n">driver</span> <span class="k">=</span> <span class="s">&quot;org.postgresql.Driver&quot;</span>
+<span class="k">val</span> <span class="n">url</span> <span class="k">=</span> <span class="s">&quot;jdbc:postgresql://database_server&quot;</span>
+<span class="k">val</span> <span class="n">tablename</span> <span class="k">=</span> <span class="s">&quot;schema.tablename&quot;</span>
+<span class="k">val</span> <span class="n">username</span> <span class="k">=</span> <span class="s">&quot;username&quot;</span>
+<span class="k">val</span> <span class="n">password</span> <span class="k">=</span> <span class="s">&quot;my-secret-password&quot;</span>
+
+<span class="c1">// 从 SQL 表中读取 DataFrame</span>
+<span class="k">val</span> <span class="n">pgDF</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;jdbc&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;driver&quot;</span><span class="o">,</span> <span class="n">driver</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;url&quot;</span><span class="o">,</span> <span class="n">url</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;dbtable&quot;</span><span class="o">,</span> <span class="n">tablename</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;user&quot;</span><span class="o">,</span> <span class="n">username</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;password&quot;</span><span class="o">,</span> <span class="n">password</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>示例 4:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="o">//</span> <span class="n">指定格式和选项</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;org.postgresql.Driver&quot;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;jdbc:postgresql://database_server&quot;</span>
+<span class="n">tablename</span> <span class="o">=</span> <span class="s2">&quot;schema.tablename&quot;</span>
+<span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;username&quot;</span>
+<span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;my-secret-password&quot;</span>
+
+<span class="c1"># 从 SQL 表中读取 DataFrame</span>
+<span class="n">pgDF</span> <span class="o">=</span> <span class="n">spark</span> \
+   <span class="o">.</span><span class="n">read</span> \
+   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;jdbc&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;driver&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;dbtable&quot;</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>结果查询:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dbDataFrame</span><span class="o">.</span><span class="n">select</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">).</span><span class="n">distinct</span><span class="o">().</span><span class="n">show</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>6.3 查询下推<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h4>6.3.1 并行读取数据库<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="id3">
+<h4>6.3.2 基于滑动窗口的分区<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="spark-writing-to-sql-database">
+<h3>6.3 Spark Writing To SQL Database<a class="headerlink" href="#spark-writing-to-sql-database" title="Permalink to this headline">¶</a></h3>
+<p>写入 SQL 数据库只需指定 URI 并指定写入模式来写入数据库即可.</p>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="k">val</span> <span class="n">newPath</span> <span class="k">=</span> <span class="s">&quot;jdbc:sqlite://tmp/my-sqlite.db&quot;</span>
+
+<span class="n">csvFile</span>
+   <span class="o">.</span><span class="n">write</span>
+   <span class="o">.</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;overwrite&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">jdbc</span><span class="o">(</span><span class="n">newPath</span><span class="o">,</span> <span class="n">tablename</span><span class="o">,</span> <span class="n">props</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">newPath</span> <span class="o">=</span> <span class="s2">&quot;jdbc:sqlite://tmp/my-sqlite.db&quot;</span>
+
+<span class="n">csvFile</span>
+   <span class="o">.</span><span class="n">write</span>
+   <span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">newPath</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;overwrite&quot;</span><span class="p">,</span> <span class="n">properites</span> <span class="o">=</span> <span class="n">props</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>示例 3:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="k">val</span> <span class="n">newPath</span> <span class="k">=</span> <span class="s">&quot;jdbc:sqlite://tmp/my-sqlite.db&quot;</span>
+
+<span class="n">csvFile</span>
+   <span class="o">.</span><span class="n">write</span>
+   <span class="o">.</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;append&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">jdbc</span><span class="o">(</span><span class="n">newPath</span><span class="o">,</span> <span class="n">tablename</span><span class="o">,</span> <span class="n">props</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>示例 4:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">newPath</span> <span class="o">=</span> <span class="s2">&quot;jdbc:sqlite://tmp/my-sqlite.db&quot;</span>
+
+<span class="n">csvFile</span>
+   <span class="o">.</span><span class="n">write</span>
+   <span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">newPath</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="n">properites</span> <span class="o">=</span> <span class="n">props</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>查看结果:</p>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">jdbc</span><span class="o">(</span><span class="n">newPath</span><span class="o">,</span> <span class="n">tablename</span><span class="o">,</span> <span class="n">props</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">count</span><span class="o">()</span> <span class="c1">// 255</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">newPath</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">properites</span> <span class="o">=</span> <span class="n">props</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># 255</span>
+</pre></div>
+</div>
+<p>示例 3:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">jdbc</span><span class="o">(</span><span class="n">newPath</span><span class="o">,</span> <span class="n">tablename</span><span class="o">,</span> <span class="n">props</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">count</span><span class="o">()</span> <span class="c1">// 765</span>
+</pre></div>
+</div>
+<p>示例 4:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">newPath</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">properites</span> <span class="o">=</span> <span class="n">props</span><span class="p">)</span>
+   <span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># 765</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="spark-text">
 <span id="header-n232"></span><h2>7.Spark 读取 Text 文件<a class="headerlink" href="#spark-text" title="Permalink to this headline">¶</a></h2>
+<p>Spark 还支持读取纯文本文件,文件中每一行将被解析为 DataFrame 中的一条记录,然后根据要求进行转换.</p>
+<p>假设需要将某些 Apache 日志文件解析为结构化的格式,或是想解析一些纯文本以进行自然语言处理,这些都需要操作文本文件.
+由于文本文件能够充分利用原生(native tye)的灵活性,因此它很适合作为 Dataset API 的输入.</p>
+<div class="section" id="spark-reading-text">
+<h3>7.2 Spark Reading Text 文件<a class="headerlink" href="#spark-reading-text" title="Permalink to this headline">¶</a></h3>
+<p>读取文本文件非常简单, 只需指定类型为 <code class="docutils literal notranslate"><span class="pre">textFile</span></code> 即可:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>如果使用 <code class="docutils literal notranslate"><span class="pre">textFile</span></code>, 分区目录名将被忽略.</p></li>
+<li><p>如果要根据分区读取和写入文本文件, 应该使用 <code class="docutils literal notranslate"><span class="pre">text</span></code>,它会在读写时考虑分区.</p></li>
+</ul>
+</div></blockquote>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">textFile</span><span class="o">(</span><span class="s">&quot;/data/flight-data/csv/2010-summary.csv&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">selectExpr</span><span class="o">(</span><span class="s">&quot;split(value, &#39;,&#39;) as rows&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">show</span><span class="o">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spark-writing-text">
+<h3>7.3 Spark Writing Text 文件<a class="headerlink" href="#spark-writing-text" title="Permalink to this headline">¶</a></h3>
+<p>当写文本文件时, 需确保仅有一个字符串类型的列写出; 否则, 写操作将失败.</p>
+<p>示例 1:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">csvFile</span>
+   <span class="o">.</span><span class="n">select</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">text</span><span class="o">(</span><span class="s">&quot;/tmp/simple-text-file.txt&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>示例 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">csvFile</span> \
+   <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;/tmp/five-csv-file2py.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="i-o">
 <span id="header-n234"></span><h2>8.高级 I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>8.1 可分割的文件类型和压缩<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id5">
+<h3>8.2 并行读数据<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id6">
+<h3>8.3 并行写数据<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h4>8.3.1 数据划分<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="id8">
+<h4>8.3.2 数据分桶<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>8.4 写入复杂类型<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id10">
+<h3>8.5 管理文件大小<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="cassandra-connector">
+<h3>8.6 Cassandra Connector<a class="headerlink" href="#cassandra-connector" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><cite>Cassandra Connector</cite> <a class="reference external" href="https://github.com/datastax/spark-cassandra-connector">https://github.com/datastax/spark-cassandra-connector</a></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>有很多方法可以用于实现自定义的数据源, 但由于 API 正在不断演化发展（为了更好地支持结构化流式处理）.</p>
+</div>
+</div>
 </div>
 </div>
 
