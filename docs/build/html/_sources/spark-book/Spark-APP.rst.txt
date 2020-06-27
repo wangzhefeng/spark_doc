@@ -1,12 +1,93 @@
 .. _header-n0:
 
 Spark 应用程序
-==============
+================
 
 .. _header-n3:
 
 1 Spark Run on cluster
 ----------------------
+
+.. note:: 
+
+    本章主题:
+
+        - Spark APP 的体系结构、组件
+        
+        - Spark APP 内部的生命周期
+
+        - Spark APP 外部的生命周期
+
+        - Spark 重要的底层执行属性，例如，流水线处理
+
+        - 运行一个 Spark APP 需要什么
+
+
+1.1 Spark APP 的体系结构
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1.1.1 Spark APP 基本组件
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note:: 
+
+    Spark APP 的体系结构包含三个基本组件:
+
+    - Spark 驱动器
+
+    - Spark 执行器
+
+    - 集群管理器
+
+---------------
+Spark 驱动器:
+---------------
+
+Spark 驱动器是控制应用程序的进程。它负责控制整个 Spark 应用程序的执行并且维护着 Spark 集群的状态，
+即执行器的任务和状态，它必须与集群管理器交互才能获得物理资源并启动执行器。简而言之，
+它只是一个物理机器上的一个进程，负责维护集群上运行的应用程序状态。
+
+
+---------------
+Spark 执行器
+---------------
+
+---------------
+集群管理器
+---------------
+
+1.1.2 Spark APP 选择执行模式
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note:: 
+
+    当在运行 Spark APP 之前，通过选择执行模式将能够确定计算资源的物理位置。Spark 有三种模式可供选择:
+
+        - 集群模式
+
+        - 客户端模式
+
+        - 本地模式
+
+
+
+
+
+1.2 Spark APP 内部、外部的生命周期
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+1.3 Spark 重要的底层执行属性
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+
+
 
 .. _header-n5:
 
@@ -22,12 +103,12 @@ Spark 应用程序：
 .. _header-n12:
 
 2.1 Spark App
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. _header-n13:
 
 2.1.1 Scala App
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 Build applications using Java Virtual Machine(JVM) based build tools:
 
@@ -47,7 +128,7 @@ Build applications using Java Virtual Machine(JVM) based build tools:
 
    -  Dependencies needed for your library
 
-.. code:: sbt
+.. code:: shell
 
    // build.stb
 
@@ -60,19 +141,19 @@ Build applications using Java Virtual Machine(JVM) based build tools:
 
    // allows us to include spark packages
    resolvers += "bintray-spark-packages" at 
-   	"https://dl.bintray.com/spark-package/maven/"
+       "https://dl.bintray.com/spark-package/maven/"
 
    resolvers += "Typesafe Simple Repository" at
-   	"http://repo.typesafe.com/typesafe/simple/maven-releases/"
+       "http://repo.typesafe.com/typesafe/simple/maven-releases/"
 
    resolvers += "MavenRepository" at
-   	"https://mvnrepository.com/"
+       "https://mvnrepository.com/"
 
    libraryDependencies ++= Seq(
-   	// Spark core
-   	"org.apache.spark" %% "spark-core" % sparkVersion,
-   	"org.apache.spark" %% "spark-sql" % sparkVersion,
-   	// the rest of the file is omitted for brevity
+       // Spark core
+       "org.apache.spark" %% "spark-core" % sparkVersion,
+       "org.apache.spark" %% "spark-sql" % sparkVersion,
+       // the rest of the file is omitted for brevity
    )
 
 **2.Build the Project directories using standard Scala project
@@ -81,20 +162,20 @@ structure**
 .. code:: shell
 
    src/
-   	main/
-   		resources/
-   			<files to include in main jar here>
-   		scala/
-   			<main Scala sources>
-   		java/
-   			<main Java sources>
-   	test/
-   		resources/
-   			<files to include in test jar here>
-   		scala/
-   			<test Scala sources>
-   		java/
-   			<test Java sources>
+       main/
+           resources/
+               <files to include in main jar here>
+           scala/
+               <main Scala sources>
+           java/
+               <main Java sources>
+       test/
+           resources/
+               <files to include in test jar here>
+           scala/
+               <test Scala sources>
+           java/
+               <test Java sources>
 
 **3.Put the source code in the Scala and Java directories**
 
@@ -106,36 +187,36 @@ structure**
    import org.apache.spark.sql.SparkSession
 
    object DataFrameExample extends Seriallizable {
-   	def main(args: Array[String]) = {
+       def main(args: Array[String]) = {
 
-   		// data source path
-   		val pathToDataFolder = args(0)
+           // data source path
+           val pathToDataFolder = args(0)
 
-   		// start up the SparkSession along with explicitly setting a given config
-   		val spark = SparkSession
-   			.builder()
-   			.appName("Spark Example")
-   			.config("spark.sql.warehouse.dir", "/user/hive/warehouse")
-   			.getOrCreate()
+           // start up the SparkSession along with explicitly setting a given config
+           val spark = SparkSession
+               .builder()
+               .appName("Spark Example")
+               .config("spark.sql.warehouse.dir", "/user/hive/warehouse")
+               .getOrCreate()
 
-   		// udf registration
-   		spark.udf.register(
-   			"myUDF", someUDF(_: String): String
-   		)
+           // udf registration
+           spark.udf.register(
+               "myUDF", someUDF(_: String): String
+           )
 
-   		// create DataFrame
-   		val df = spark
-   			.read
-   			.format("json")
-   			.option("path", pathToDataFolder + "data.json")
+           // create DataFrame
+           val df = spark
+               .read
+               .format("json")
+               .option("path", pathToDataFolder + "data.json")
 
-   		// DataFrame transformations an actions
-   		val manipulated = df
-   			.groupBy(expr("myUDF(group"))
-   			.sum()
-   			.collect()
-   			.foreach(x => println(x))
-   	}
+           // DataFrame transformations an actions
+           val manipulated = df
+               .groupBy(expr("myUDF(group"))
+               .sum()
+               .collect()
+               .foreach(x => println(x))
+       }
    }
 
 **4.Build Project**
@@ -161,14 +242,14 @@ structure**
 
    # in Shell
    $ SPARK_HOME/bin/spark-submit \
-   	--class com.databricks.example.DataFrameExample\
-   	--master local \
-   	target/scala-2.11/example_2.11-0.1-SNAPSHOT.jar "hello"
+       --class com.databricks.example.DataFrameExample\
+       --master local \
+       target/scala-2.11/example_2.11-0.1-SNAPSHOT.jar "hello"
 
 .. _header-n56:
 
 2.1.2 Python App
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 -  build Python scripts;
 
@@ -187,20 +268,20 @@ structure**
    from __future__ import print_function
 
    if __name__ == "__main__":
-   	from pyspark.sql import SparkSession
-   	spark = SparkSession \
-   		.builder \
-   		.master("local") \
-   		.appName("Word Count") \
-   		.config("spark.some.config.option", "some-value") \
-   		.getOrCreate()
+       from pyspark.sql import SparkSession
+       spark = SparkSession \
+           .builder \
+           .master("local") \
+           .appName("Word Count") \
+           .config("spark.some.config.option", "some-value") \
+           .getOrCreate()
 
-   	result = spark \
-   		.range(5000) \
-   		.where("id > 500") \
-   		.selectExpr("sum(id)") \
-   		.collect()
-   	print(result)
+       result = spark \
+           .range(5000) \
+           .where("id > 500") \
+           .selectExpr("sum(id)") \
+           .collect()
+       print(result)
 
 **2.Running the application**
 
@@ -212,7 +293,7 @@ structure**
 .. _header-n69:
 
 2.1.3 Java App
-^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 **1.Build applications using mvn**
 
@@ -221,28 +302,28 @@ structure**
    <!-- pom.xml -->
    <!-- in XML -->
    <dependencies>
-   	<dependency>
-   		<groupId>org.apache.spark</groupId>
-   		<artifactId>spark-core_2.11</artifactId>
-   		<version>2.1.0</version>
-   	</dependency>
-   	<dependency>
-   		<groupId>org.apahce.spark</groupId>
-   		<artifactId>spark-sql_2.11</artifactId>
-   		<version>2.1.0</version>
-   	</dependency>
-   	<dependency>
-   		<groupId>org.apache.spark</groupId>
-   		<artifactId>graphframes</artifactId>
-   		<version>0.4.0-spark2.1-s_2.11</version>
-   	</dependency>
+       <dependency>
+           <groupId>org.apache.spark</groupId>
+           <artifactId>spark-core_2.11</artifactId>
+           <version>2.1.0</version>
+       </dependency>
+       <dependency>
+           <groupId>org.apahce.spark</groupId>
+           <artifactId>spark-sql_2.11</artifactId>
+           <version>2.1.0</version>
+       </dependency>
+       <dependency>
+           <groupId>org.apache.spark</groupId>
+           <artifactId>graphframes</artifactId>
+           <version>0.4.0-spark2.1-s_2.11</version>
+       </dependency>
    </dependencies>
    <repositories>
-   	<!-- list of other repositores -->
-   	<repository>
-   		<id>SparkPackageRepo</id>
-   		<url>http://dl.bintray.com/spark-packages/maven</url>
-   	</repository>
+       <!-- list of other repositores -->
+       <repository>
+           <id>SparkPackageRepo</id>
+           <url>http://dl.bintray.com/spark-packages/maven</url>
+       </repository>
    </repositories>
 
 **2.Build the Project directories using standard Scala project
@@ -251,20 +332,20 @@ structure**
 .. code:: 
 
    src/
-   	main/
-   		resources/
-   			<files to include in main jar here>
-   		scala/
-   			<main Scala sources>
-   		java/
-   			<main Java sources>
-   	test/
-   		resources/
-   			<files to include in test jar here>
-   		scala/
-   			<test Scala sources>
-   		java/
-   			<test Java sources>
+       main/
+           resources/
+               <files to include in main jar here>
+           scala/
+               <main Scala sources>
+           java/
+               <main Java sources>
+       test/
+           resources/
+               <files to include in test jar here>
+           scala/
+               <test Scala sources>
+           java/
+               <test Java sources>
 
 **3.Put the source code in the Scala and Java directories**
 
@@ -273,12 +354,12 @@ structure**
    // in Java
    import org.apache.spark.sql.SparkSession;
    public class SimpleExample {
-   	public static void main(String[] args) {
-   		SparkSession spark = SparkSession
-   			.builder()
-   			.getOrCreate();
-   		spark.range(1, 2000).count();
-   	}
+       public static void main(String[] args) {
+           SparkSession spark = SparkSession
+               .builder()
+               .getOrCreate();
+           spark.range(1, 2000).count();
+       }
    }
 
 **4.Build Project**
@@ -291,9 +372,9 @@ structure**
 
    # in Shell
    $SPARK_HOME/bin/spark-submit \
-   	--class com.databricks.example.SimpleExample \
-   	--master local \
-   	target/spark-example-0.1-SNAPSHOT.jar "Hello"
+       --class com.databricks.example.SimpleExample \
+       --master local \
+       target/spark-example-0.1-SNAPSHOT.jar "Hello"
 
 .. _header-n82:
 
@@ -311,24 +392,42 @@ structure**
 .. _header-n93:
 
 2.3 
-~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. _header-n94:
 
 2.4 Configuring Spark App 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+
+
+
+
+
+
+
 .. _header-n96:
 
 3 部署 Spark 应用程序
 ---------------------
+
+
+
+
 
 .. _header-n98:
 
 4 Spark 应用程序监控和Debug(Monitoring and Debugging)
 -----------------------------------------------------
 
+
+
+
+
 .. _header-n100:
 
 5 Spark 应用程序性能调优
 ------------------------
+
+

@@ -249,6 +249,8 @@
             
   <div class="section" id="spark-data-sources">
 <span id="header-n0"></span><h1>Spark Data Sources<a class="headerlink" href="#spark-data-sources" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Spark 核心数据源:</p>
 <blockquote>
 <div><ul class="simple">
@@ -271,6 +273,7 @@
 <li><p>others…</p></li>
 </ul>
 </div></blockquote>
+</div>
 <div class="section" id="spark-api">
 <span id="header-n31"></span><h2>1.Spark 数据源 API<a class="headerlink" href="#spark-api" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="read-api-structure">
@@ -917,9 +920,9 @@ Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.<
 </div>
 <div class="section" id="spark-sql-database">
 <span id="header-n230"></span><h2>6.Spark 读取 SQL Database<a class="headerlink" href="#spark-sql-database" title="Permalink to this headline">¶</a></h2>
-<p>数据库不仅仅是一些数据文件，而是一个系统，有许多连接数据库的方式可供选择。
+<p>数据库不仅仅是一些数据文件,而是一个系统,有许多连接数据库的方式可供选择.
 需要确定 Spark 集群网络是否容易连接到数据库系统所在的网络上</p>
-<p>读写数据库中的文件需要两步：</p>
+<p>读写数据库中的文件需要两步;</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>在 Spark 类路径中为指定的数据库包含 Java Database Connectivity(JDBC) 驱动;</p></li>
@@ -936,24 +939,24 @@ Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.<
 </div></blockquote>
 <div class="section" id="sqlite">
 <h3>6.1 SQLite<a class="headerlink" href="#sqlite" title="Permalink to this headline">¶</a></h3>
-<p>SQLite 可以在本地计算机以最简配置工作，但在分布式环境中不行，如果想在分布式环境中运行这里的示例，则需要连接到其他数据库</p>
-<p>SQLite 是目前使用最多的数据库引擎，它功能强大、速度快且易于理解，只是因为 SQLite 数据库只是一个文件.</p>
+<p>SQLite 可以在本地计算机以最简配置工作,但在分布式环境中不行,如果想在分布式环境中运行这里的示例,则需要连接到其他数据库</p>
+<p>SQLite 是目前使用最多的数据库引擎,它功能强大、速度快且易于理解,只是因为 SQLite 数据库只是一个文件.</p>
 </div>
 <div class="section" id="jdbc-options">
 <h3>6.2 JDBC 数据源 Options<a class="headerlink" href="#jdbc-options" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
-<li><p>Url: 要连接的 JDBC URL</p></li>
-<li><p>dbtable: 表示要读取的 JDBC 表</p></li>
-<li><p>dirver: 用于连接到此 URL 的 JDBC 驱动器的类名</p></li>
-<li><p>partitionColumn, lowerBound, upperBound: 描述了如何在从多个 worker 并行读取时对表格进行划分</p></li>
-<li><p>numPartitions: 在读取和写入数据表时，数据表可用于并行的最大分区数，这也决定了并发 JDBC 连接的最大数目</p></li>
-<li><p>fetchsize: 表示 JDBC 每次读取多少条记录</p></li>
-<li><p>batchsize: 表示 JDBC 批处理的大小，用于指定每次写入多少条记录</p></li>
-<li><p>isolationLevel: 表示数据库的事务隔离级别(适用于当前连接)</p></li>
-<li><p>truncate:</p></li>
-<li><p>createTableOptions:</p></li>
-<li><p>createTableColumnTypes: 表示创建表时使用的数据库列数据类型，而不使用默认值</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Url</span></code>: 要连接的 JDBC URL</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dbtable</span></code>: 表示要读取的 JDBC 表</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dirver</span></code>: 用于连接到此 URL 的 JDBC 驱动器的类名</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">partitionColumn</span></code>, lowerBound, upperBound: 描述了如何在从多个 worker 并行读取时对表格进行划分</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numPartitions</span></code>: 在读取和写入数据表时,数据表可用于并行的最大分区数,这也决定了并发 JDBC 连接的最大数目</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fetchsize</span></code>: 表示 JDBC 每次读取多少条记录</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">batchsize</span></code>: 表示 JDBC 批处理的大小,用于指定每次写入多少条记录</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isolationLevel</span></code>: 表示数据库的事务隔离级别(适用于当前连接)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">truncate</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">createTableOptions</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">createTableColumnTypes</span></code>: 表示创建表时使用的数据库列数据类型,而不使用默认值</p></li>
 </ul>
 </div></blockquote>
 </div>
@@ -1029,7 +1032,7 @@ Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.<
 <p>示例 4:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
 
-<span class="o">//</span> <span class="n">指定格式和选项</span>
+<span class="c1"># 指定格式和选项</span>
 <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;org.postgresql.Driver&quot;</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;jdbc:postgresql://database_server&quot;</span>
 <span class="n">tablename</span> <span class="o">=</span> <span class="s2">&quot;schema.tablename&quot;</span>
@@ -1055,11 +1058,118 @@ Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.<
 </div>
 <div class="section" id="id1">
 <h3>6.3 查询下推<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>在创建 DataFrame 之前,Spark 会尽力过滤数据库中的数据.例如,在查询中,从查询计划可以看到它从表中只选择相关的列名.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">dbDataFrame</span><span class="o">.</span><span class="n">select</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">).</span><span class="n">distinct</span><span class="o">().</span><span class="n">explain</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>在某些查询中,Spark 实际上可以做得更好,例如,如果在DataFrame上指定一个 <code class="docutils literal notranslate"><span class="pre">filter</span></code>,Spark 就会将过滤器函数下推到数据库端, 在下面的解释计划中可以看到 PushedFilters 的操作.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">dbDataFrame</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME in (&#39;Anguilla&#39;, &#39;Sweden&#39;)&quot;</span><span class="o">).</span><span class="n">explain</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dbDataFrame</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME in (&#39;Anguilla&#39;, &#39;Sweden&#39;)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">explain</span>
+</pre></div>
+</div>
 <div class="section" id="id2">
 <h4>6.3.1 并行读取数据库<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>Spark 有一个底层算法,可以将多个文件放入一个数据分片,或者反过来将一个文件划分到多个数据分片,这取决于文件大小及文件类型和压缩格式是否允许划分.</p>
+<p>SQL 数据库中也存在与文件一样的分片灵活性,但必须手动配置它,可以通过指定最大分区数量来限制并行读写的最大数量.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="c1">// 指定格式和选项</span>
+<span class="k">val</span> <span class="n">driver</span> <span class="k">=</span> <span class="s">&quot;org.postgresql.Driver&quot;</span>
+<span class="k">val</span> <span class="n">url</span> <span class="k">=</span> <span class="s">&quot;jdbc:postgresql://database_server&quot;</span>
+<span class="k">val</span> <span class="n">tablename</span> <span class="k">=</span> <span class="s">&quot;schema.tablename&quot;</span>
+
+<span class="k">val</span> <span class="n">dbDataFrame</span> <span class="k">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;jdbc&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;url&quot;</span><span class="o">,</span> <span class="n">url</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;dbtable&quot;</span><span class="o">,</span> <span class="n">tablename</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;driver&quot;</span><span class="o">,</span> <span class="n">driver</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">&quot;numPartitions&quot;</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">load</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="o">//</span> <span class="n">指定格式和选项</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;org.postgresql.Driver&quot;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;jdbc:postgresql://database_server&quot;</span>
+<span class="n">tablename</span> <span class="o">=</span> <span class="s2">&quot;schema.tablename&quot;</span>
+
+<span class="n">dbDataFrame</span> <span class="o">=</span> <span class="n">spark</span>
+   <span class="o">.</span><span class="n">read</span> \
+   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;jdbc&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;dbtable&quot;</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;driver&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;numPartitions&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>可以通过在连接中显式地将谓词下推到 SQl 数据库中执行,这有利于通过制定谓词来控制分区数据的物理存放位置.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="k">val</span> <span class="n">props</span> <span class="k">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="nc">Properties</span>
+<span class="n">props</span><span class="o">.</span><span class="n">setProperty</span><span class="o">(</span><span class="s">&quot;driver&quot;</span><span class="o">,</span> <span class="s">&quot;org.sqlite.JDBC&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">predicates</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span>
+   <span class="s">&quot;DEST_COUNTRY_NAME = &#39;Sweden&#39; OR ORIGIN_COUNTRY_NAME = &#39;Sweden&#39;&quot;</span><span class="o">,</span>
+   <span class="s">&quot;DEST_COUNTRY_NAME = &#39;Anguilla&#39; OR ORIGIN_COUNTRY_NAME = &#39;Anguilla&#39;&quot;</span>
+<span class="o">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">jdbc</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">tablename</span><span class="o">,</span> <span class="n">predicates</span><span class="o">,</span> <span class="n">props</span><span class="o">).</span><span class="n">show</span><span class="o">()</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">jdbc</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">tablename</span><span class="o">,</span> <span class="n">predicates</span><span class="o">,</span> <span class="n">props</span><span class="o">).</span><span class="n">rdd</span><span class="o">.</span><span class="n">getNumPartitions</span> <span class="c1">// 2</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">props</span><span class="o">.</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="s2">&quot;org.sqlite.JDBC&quot;</span><span class="p">}</span>
+<span class="n">predicates</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="s2">&quot;DEST_COUNTRY_NAME = &#39;Sweden&#39; OR ORIGIN_COUNTRY_NAME = &#39;Sweden&#39;&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;DEST_COUNTRY_NAME = &#39;Anguilla&#39; OR ORIGIN_COUNTRY_NAME = &#39;Anguilla&#39;&quot;</span>
+<span class="p">]</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">predicates</span> <span class="o">=</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">props</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">predicates</span> <span class="o">=</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">props</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">getNumPartitions</span> <span class="o">//</span> <span class="mi">2</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id3">
 <h4>6.3.2 基于滑动窗口的分区<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>如何基于谓词进行分区？</p>
+<p>在下面的例子中,将基于数值型的 count 列进行分区.在这里,为第一个分区和最后一个分区分别制定一个最小值和一个最大值,
+超出该范围的数据将存放到第一个分区和最后一个分区;接下来,指定分区总数(这是为了并行操作的).然后 Spark 会并行查询数据库,
+并返回 numPartitions 个分区.只需修改 count 列数值的上界和下界,即可将数据相应地存放到各个分区中.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="k">val</span> <span class="k">=</span> <span class="n">colName</span> <span class="k">=</span> <span class="s">&quot;count&quot;</span>
+<span class="k">val</span> <span class="n">lowerBound</span> <span class="k">=</span> <span class="mi">0L</span>
+<span class="k">val</span> <span class="n">upperBound</span> <span class="k">=</span> <span class="mi">348113L</span> <span class="c1">// 这是数据集最大行数</span>
+<span class="k">val</span> <span class="n">numPartitions</span> <span class="k">=</span> <span class="mi">10</span>
+
+<span class="c1">// 根据 count 列数值从小到大均匀划分 10 个间隔区间的数据,之后每个区间数据被分配到一个分区</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">jdbc</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">tablename</span><span class="o">,</span> <span class="n">colName</span><span class="o">,</span> <span class="n">lowerBound</span><span class="o">,</span> <span class="n">upperBound</span><span class="o">,</span> <span class="n">numPartitions</span><span class="o">,</span> <span class="n">props</span><span class="o">).</span><span class="n">count</span><span class="o">()</span> <span class="c1">// 255</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Python</span>
+
+<span class="n">colName</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span>
+<span class="n">lowerBound</span> <span class="o">=</span> <span class="mi">0</span><span class="n">L</span>
+<span class="n">upperBound</span> <span class="o">=</span> <span class="mi">348113</span><span class="n">L</span>  <span class="c1"># 这是数据集最大行数</span>
+<span class="n">numPartitions</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># 根据 count 列数值从小到大均匀划分 10 个间隔区间的数据,之后每个区间数据被分配到一个分区</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
+                <span class="n">tablename</span><span class="p">,</span>
+                <span class="n">column</span> <span class="o">=</span> <span class="n">colName</span><span class="p">,</span>
+                <span class="n">properties</span> <span class="o">=</span> <span class="n">props</span><span class="p">,</span>
+                <span class="n">lowerBound</span> <span class="o">=</span> <span class="n">lowerBound</span><span class="p">,</span>
+                <span class="n">upperBound</span> <span class="o">=</span> <span class="n">upperBound</span><span class="p">,</span>
+                <span class="n">numPartitions</span> <span class="o">=</span> <span class="n">numPartitions</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># 255</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="spark-writing-to-sql-database">
@@ -1192,26 +1302,109 @@ Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.<
 </div>
 <div class="section" id="i-o">
 <span id="header-n234"></span><h2>8.高级 I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
+<p>可以通过在写入之前控制数据分片来控制写入文件的并行度,还可以通过控制数据分桶(bucketing)和数据划分(partition)来控制特定的数据布局方式</p>
 <div class="section" id="id4">
 <h3>8.1 可分割的文件类型和压缩<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>某些文件格式是“可分割的”,因此 Spark 可以只获取该文件中满足查询条件的某一个部分,无需读取整个文件,从而提高读取效率.
+此外,假设你使用的是 Hadoop 分布式文件系统(HDFS),则如果该文件包含多个文件夹,分割文件则可进一步优化提高性能.
+与此同时需要进行压缩管理,并非所有的压缩格式都是可分割的.存储数据的方式对 Spark 作业稳定运行至关重要,
+我们推荐采用 gzip 压缩格式的 Parquet 文件格式.</p>
 </div>
 <div class="section" id="id5">
 <h3>8.2 并行读数据<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>多个执行器不能同时读取统一文件,但可以同时读取不同的文件.
+通常,这意味着当你从包含多个文件的文件夹中读取时,每个文件都将被视为 DataFrame 的一个分片,
+并由执行器并行读取,多余的额文件会进入读取队列等候.</p>
 </div>
 <div class="section" id="id6">
 <h3>8.3 并行写数据<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>写数据涉及的文件数量取决于 DataFrame 的分区数.默认情况是每个数据分片都还有一定的数据写入,
+这意味着虽然我们指定的是一个“文件”,但实际上它是由一个文件夹中的多个文件组成,每个文件对应着一个数据分片.</p>
+<p>示例;</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">csvFile</span>
+   <span class="o">.</span><span class="n">repartition</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">write</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;csv&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">save</span><span class="o">(</span><span class="s">&quot;/tmp/multiple.csv&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>它会生成包含 5 个文件的 文件夹,调用 <code class="docutils literal notranslate"><span class="pre">ls</span></code> 命令就可以查看到:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ls /tmp/multiple.csv
+</pre></div>
+</div>
+</div>
 <div class="section" id="id7">
 <h4>8.3.1 数据划分<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>数据划分工具支持你在写入数据时控制存储数据以及存储数据的位置.
+将文件写出时,可以将列编码为文件夹,这使得你在之后读取时可跳过大量数据,
+只读入与问题相关的列数据而不必扫描整个数据集.所有基于文件的数据源都支持这些;</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">csvFile</span><span class="o">.</span><span class="n">limit</span><span class="o">(</span><span class="mi">10</span><span class="o">).</span><span class="n">write</span><span class="o">.</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;overwrite&quot;</span><span class="o">).</span><span class="n">partitionBy</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME&quot;</span><span class="o">).</span><span class="n">save</span><span class="o">(</span><span class="s">&quot;/tmp/partitioned-files.parquet&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in python</span>
+
+<span class="n">csvFile</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;/tmp/partitioned-files.parquet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>写操作完成后,Parquet “文件” 中就会有一个文件夹列表;</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ls /tmp/partitioned-files.parquet
+</pre></div>
+</div>
+<p>其中每一个都将包含 Parquet 文件,这些文件包含文件夹名称中谓词为 true 的数据;</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ls /tmp/partitioned-files.parquet/DEST_COUNTRY_NAME<span class="o">=</span>Senegal/
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>读取程序对某表执行操作之前经常执行过滤操作,这时数据划分就是最简单的优化.例如,基于日期来划分数据最常见,
+因为通常我们只想查看前一周(而不是扫描所有日期数据),这个优化可以极大提升读取程序的速度.</p>
+</div>
 </div>
 <div class="section" id="id8">
 <h4>8.3.2 数据分桶<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>数据分桶是另一种文件组织方法,可以使用该方法控制写入每个文件的数据.
+具有相同桶 ID (哈希分桶的 ID) 的数据将放置到一个物理分区中,
+这样就可以避免在稍后读取数据时进行洗牌(shuffle).根据你之后希望如何使用该数据来对数据进行预分区,
+就可以避免连接或聚合操作时执行代价很大的 shuffle 操作.</p>
+<p>与其根据某列进行数据划分,不如考虑对数据进行分桶,因为某列如果存在很多不同的值,就可能写出一大堆目录.这将创建一定数量的文件,数据也可以按照组织起来放置到这些“桶”中;</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="k">val</span> <span class="n">numberBuckets</span> <span class="k">=</span> <span class="mi">10</span>
+<span class="k">val</span> <span class="n">columnToBucketBy</span> <span class="k">=</span> <span class="s">&quot;count&quot;</span>
+
+<span class="n">csvFile</span>
+   <span class="o">.</span><span class="n">write</span>
+   <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;overwrite&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">bucketBy</span><span class="o">(</span><span class="n">numberBuckets</span><span class="o">,</span> <span class="n">columnToBucketBy</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">save</span><span class="o">(</span><span class="s">&quot;bucketedFiles&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>数据分桶仅支持 Spark 管理的表.有关数据分桶和数据划分的更多信息,
+请参阅 2017 年 Spark Summit 的演讲(<a class="reference external" href="https://spark-summit.org/2017/event/why-you-should-care-about-data-layout-in-the-filesystem/">https://spark-summit.org/2017/event/why-you-should-care-about-data-layout-in-the-filesystem/</a>).</p>
+</div>
 </div>
 </div>
 <div class="section" id="id9">
 <h3>8.4 写入复杂类型<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>Spark 具有多种不同的内部类型.尽管 Spark 可以使用所有这些类型,但并不是每种数据文件格式都支持这些内部类型.
+例如,CSV 文件不支持复杂类型,而 Parquet 和 ORC 文件则支持复杂类型.</p>
 </div>
 <div class="section" id="id10">
 <h3>8.5 管理文件大小<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>管理文件大小对数据写入不那么重要,但对之后的读取很重要.当你写入大量的小文件时,由于管理所有的这些小文件而产生很大的元数据开销.
+许多文件系统(如 HDFS)都不能很好的处理大量的小文件,而 Spark 特别不适合处理小文件.
+你可能听过“小文件问题”,反之亦然,你也不希望文件太大,因为你只需要其中几行时,必须读取整个数据块就会使效率低下.</p>
+<p>Spark 2.2 中引入了一种更自动化地控制文件大小的新方法.之前介绍了输出文件数量与写入时数据分片数量以及选取的划分列有关.
+现在,则可以利用另一个工具来限制输出文件大小,从而可以选出最优的文件大小.
+可以使用 <code class="docutils literal notranslate"><span class="pre">maxRecordsPerFile</span></code> 选项来指定每个文件的最大记录数,这使得你可以通过控制写入每个文件的记录数来控制文件大小.
+例如,如果你将程序(writer)的选项设置为 <code class="docutils literal notranslate"><span class="pre">df.write.option(&quot;maxRecordsPerFile&quot;,</span> <span class="pre">5000)</span></code>,Spark 将确保每个文件最多包含5000条记录.</p>
 </div>
 <div class="section" id="cassandra-connector">
 <h3>8.6 Cassandra Connector<a class="headerlink" href="#cassandra-connector" title="Permalink to this headline">¶</a></h3>
@@ -1220,7 +1413,7 @@ Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.<
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>有很多方法可以用于实现自定义的数据源, 但由于 API 正在不断演化发展（为了更好地支持结构化流式处理）.</p>
+<p>有很多方法可以用于实现自定义的数据源, 但由于 API 正在不断演化发展(为了更好地支持结构化流式处理).</p>
 </div>
 </div>
 </div>

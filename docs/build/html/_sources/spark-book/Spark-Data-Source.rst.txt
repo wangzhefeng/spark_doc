@@ -3,33 +3,36 @@
 Spark Data Sources
 ===============================
 
-Spark 核心数据源:
 
-   -  CSV
+.. note:: 
 
-   -  JSON
+   Spark 核心数据源:
 
-   -  Parquet
+      -  CSV
 
-   -  ORC
+      -  JSON
 
-   -  JDBC/ODBC connection
+      -  Parquet
 
-   -  Plain-text file
+      -  ORC
 
-其他数据源(Spark Community):
+      -  JDBC/ODBC connection
 
-   -  Cassandra
+      -  Plain-text file
 
-   -  HBase
+   其他数据源(Spark Community):
 
-   -  MongoDB
+      -  Cassandra
 
-   -  AWS Redshift
+      -  HBase
 
-   -  XML
+      -  MongoDB
 
-   -  others...
+      -  AWS Redshift
+
+      -  XML
+
+      -  others...
 
 .. _header-n31:
 
@@ -586,10 +589,10 @@ Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.
 6.Spark 读取 SQL Database
 -------------------------
 
-数据库不仅仅是一些数据文件，而是一个系统，有许多连接数据库的方式可供选择。
+数据库不仅仅是一些数据文件,而是一个系统,有许多连接数据库的方式可供选择.
 需要确定 Spark 集群网络是否容易连接到数据库系统所在的网络上
 
-读写数据库中的文件需要两步：
+读写数据库中的文件需要两步;
 
    1. 在 Spark 类路径中为指定的数据库包含 Java Database Connectivity(JDBC) 驱动;
 
@@ -607,36 +610,36 @@ Parquet 针对 Spark 进行了优化,而 ORC 则是针对 Hive 进行了优化.
 6.1 SQLite
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-SQLite 可以在本地计算机以最简配置工作，但在分布式环境中不行，如果想在分布式环境中运行这里的示例，则需要连接到其他数据库
+SQLite 可以在本地计算机以最简配置工作,但在分布式环境中不行,如果想在分布式环境中运行这里的示例,则需要连接到其他数据库
 
-SQLite 是目前使用最多的数据库引擎，它功能强大、速度快且易于理解，只是因为 SQLite 数据库只是一个文件.
+SQLite 是目前使用最多的数据库引擎,它功能强大、速度快且易于理解,只是因为 SQLite 数据库只是一个文件.
 
 
 
 6.2 JDBC 数据源 Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   - Url: 要连接的 JDBC URL
+   - ``Url``: 要连接的 JDBC URL
 
-   - dbtable: 表示要读取的 JDBC 表
+   - ``dbtable``: 表示要读取的 JDBC 表
 
-   - dirver: 用于连接到此 URL 的 JDBC 驱动器的类名
+   - ``dirver``: 用于连接到此 URL 的 JDBC 驱动器的类名
 
-   - partitionColumn, lowerBound, upperBound: 描述了如何在从多个 worker 并行读取时对表格进行划分
+   - ``partitionColumn``, lowerBound, upperBound: 描述了如何在从多个 worker 并行读取时对表格进行划分
 
-   - numPartitions: 在读取和写入数据表时，数据表可用于并行的最大分区数，这也决定了并发 JDBC 连接的最大数目
+   - ``numPartitions``: 在读取和写入数据表时,数据表可用于并行的最大分区数,这也决定了并发 JDBC 连接的最大数目
 
-   - fetchsize: 表示 JDBC 每次读取多少条记录
+   - ``fetchsize``: 表示 JDBC 每次读取多少条记录
 
-   - batchsize: 表示 JDBC 批处理的大小，用于指定每次写入多少条记录
+   - ``batchsize``: 表示 JDBC 批处理的大小,用于指定每次写入多少条记录
 
-   - isolationLevel: 表示数据库的事务隔离级别(适用于当前连接)
+   - ``isolationLevel``: 表示数据库的事务隔离级别(适用于当前连接)
 
-   - truncate: 
+   - ``truncate``: 
 
-   - createTableOptions: 
+   - ``createTableOptions``: 
 
-   - createTableColumnTypes: 表示创建表时使用的数据库列数据类型，而不使用默认值
+   - ``createTableColumnTypes``: 表示创建表时使用的数据库列数据类型,而不使用默认值
 
 
 
@@ -717,13 +720,14 @@ SQLite 是目前使用最多的数据库引擎，它功能强大、速度快且�
       .option("password", password)
       .load()
 
+
 示例 4:
 
 .. code-block:: python
    
    # in Python
 
-   // 指定格式和选项
+   # 指定格式和选项
    driver = "org.postgresql.Driver"
    url = "jdbc:postgresql://database_server"
    tablename = "schema.tablename"
@@ -748,18 +752,148 @@ SQLite 是目前使用最多的数据库引擎，它功能强大、速度快且�
 
    dbDataFrame.select("DEST_COUNTRY_NAME").distinct().show(5)
 
-
 6.3 查询下推
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+在创建 DataFrame 之前,Spark 会尽力过滤数据库中的数据.例如,在查询中,从查询计划可以看到它从表中只选择相关的列名.
+
+.. code-block:: scala
+
+   // in Scala
+
+   dbDataFrame.select("DEST_COUNTRY_NAME").distinct().explain()
+
+
+在某些查询中,Spark 实际上可以做得更好,例如,如果在DataFrame上指定一个 ``filter``,Spark 就会将过滤器函数下推到数据库端, 在下面的解释计划中可以看到 PushedFilters 的操作.
+
+.. code-block:: scala
+
+   // in Scala
+
+   dbDataFrame.filter("DEST_COUNTRY_NAME in ('Anguilla', 'Sweden')").explain
+
+
+.. code-block:: python
+
+   dbDataFrame.filter("DEST_COUNTRY_NAME in ('Anguilla', 'Sweden')").explain
 
 
 6.3.1 并行读取数据库
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Spark 有一个底层算法,可以将多个文件放入一个数据分片,或者反过来将一个文件划分到多个数据分片,这取决于文件大小及文件类型和压缩格式是否允许划分.
+
+SQL 数据库中也存在与文件一样的分片灵活性,但必须手动配置它,可以通过指定最大分区数量来限制并行读写的最大数量.
+
+.. code-block:: scala
+
+   // in Scala
+
+   // 指定格式和选项
+   val driver = "org.postgresql.Driver"
+   val url = "jdbc:postgresql://database_server"
+   val tablename = "schema.tablename"
+
+   val dbDataFrame = spark
+      .read
+      .format("jdbc")
+      .option("url", url)
+      .option("dbtable", tablename)
+      .option("driver", driver)
+      .option("numPartitions", 10)
+      .load()
+
+
+.. code-block:: python
+
+   # in Python
+
+   // 指定格式和选项
+   driver = "org.postgresql.Driver"
+   url = "jdbc:postgresql://database_server"
+   tablename = "schema.tablename"
+
+   dbDataFrame = spark
+      .read \
+      .format("jdbc") \
+      .option("url", url) \
+      .option("dbtable", tablename) \
+      .option("driver", driver) \
+      .option("numPartitions", 10) \
+      .load()
+
+可以通过在连接中显式地将谓词下推到 SQl 数据库中执行,这有利于通过制定谓词来控制分区数据的物理存放位置.
+
+.. code-block:: scala
+
+   // in Scala
+
+   val props = new java.util.Properties
+   props.setProperty("driver", "org.sqlite.JDBC")
+   val predicates = Array(
+      "DEST_COUNTRY_NAME = 'Sweden' OR ORIGIN_COUNTRY_NAME = 'Sweden'",
+      "DEST_COUNTRY_NAME = 'Anguilla' OR ORIGIN_COUNTRY_NAME = 'Anguilla'"
+   )
+   spark.read.jdbc(url, tablename, predicates, props).show()
+   spark.read.jdbc(url, tablename, predicates, props).rdd.getNumPartitions // 2
+
+.. code-block:: python
+
+   # in Python
+
+   props. = {"driver": "org.sqlite.JDBC"}
+   predicates = [
+      "DEST_COUNTRY_NAME = 'Sweden' OR ORIGIN_COUNTRY_NAME = 'Sweden'",
+      "DEST_COUNTRY_NAME = 'Anguilla' OR ORIGIN_COUNTRY_NAME = 'Anguilla'"
+   ]
+   spark.read.jdbc(url, tablename, predicates = predicates, properties = props).show()
+   spark.read.jdbc(url, tablename, predicates = predicates, properties = props).rdd.getNumPartitions // 2
+
+
 
 
 6.3.2 基于滑动窗口的分区
 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+如何基于谓词进行分区？
+
+在下面的例子中,将基于数值型的 count 列进行分区.在这里,为第一个分区和最后一个分区分别制定一个最小值和一个最大值,
+超出该范围的数据将存放到第一个分区和最后一个分区;接下来,指定分区总数(这是为了并行操作的).然后 Spark 会并行查询数据库,
+并返回 numPartitions 个分区.只需修改 count 列数值的上界和下界,即可将数据相应地存放到各个分区中.
+
+
+.. code-block:: scala
+
+   // in Scala
+
+   val = colName = "count"
+   val lowerBound = 0L
+   val upperBound = 348113L // 这是数据集最大行数
+   val numPartitions = 10
+   
+   // 根据 count 列数值从小到大均匀划分 10 个间隔区间的数据,之后每个区间数据被分配到一个分区
+   spark.read.jdbc(url, tablename, colName, lowerBound, upperBound, numPartitions, props).count() // 255
+
+
+.. code-block:: python
+
+   # Python
+
+   colName = "count"
+   lowerBound = 0L
+   upperBound = 348113L  # 这是数据集最大行数
+   numPartitions = 10
+
+   # 根据 count 列数值从小到大均匀划分 10 个间隔区间的数据,之后每个区间数据被分配到一个分区
+   spark.read.jdbc(url, 
+                   tablename, 
+                   column = colName, 
+                   properties = props, 
+                   lowerBound = lowerBound, 
+                   upperBound = upperBound, 
+                   numPartitions = numPartitions).count() # 255
+
+
 
 
 
@@ -928,37 +1062,138 @@ Spark 还支持读取纯文本文件,文件中每一行将被解析为 DataFrame
 8.高级 I/O
 ----------
 
+可以通过在写入之前控制数据分片来控制写入文件的并行度,还可以通过控制数据分桶(bucketing)和数据划分(partition)来控制特定的数据布局方式
+
+
 8.1 可分割的文件类型和压缩
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+某些文件格式是“可分割的”,因此 Spark 可以只获取该文件中满足查询条件的某一个部分,无需读取整个文件,从而提高读取效率.
+此外,假设你使用的是 Hadoop 分布式文件系统(HDFS),则如果该文件包含多个文件夹,分割文件则可进一步优化提高性能.
+与此同时需要进行压缩管理,并非所有的压缩格式都是可分割的.存储数据的方式对 Spark 作业稳定运行至关重要,
+我们推荐采用 gzip 压缩格式的 Parquet 文件格式.
 
 
 8.2 并行读数据
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
+多个执行器不能同时读取统一文件,但可以同时读取不同的文件.
+通常,这意味着当你从包含多个文件的文件夹中读取时,每个文件都将被视为 DataFrame 的一个分片,
+并由执行器并行读取,多余的额文件会进入读取队列等候.
 
 8.3 并行写数据
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+写数据涉及的文件数量取决于 DataFrame 的分区数.默认情况是每个数据分片都还有一定的数据写入,
+这意味着虽然我们指定的是一个“文件”,但实际上它是由一个文件夹中的多个文件组成,每个文件对应着一个数据分片.
+
+示例;
+
+.. code-block:: scala
+
+   csvFile
+      .repartition(5)
+      .write
+      .format("csv")
+      .save("/tmp/multiple.csv")
+
+
+.. note:: 
+
+   它会生成包含 5 个文件的 文件夹,调用 ``ls`` 命令就可以查看到:
+
+   .. code-block:: shell
+
+      ls /tmp/multiple.csv
+
+
+
 8.3.1 数据划分
 ^^^^^^^^^^^^^^^^^^^^^
 
+数据划分工具支持你在写入数据时控制存储数据以及存储数据的位置.
+将文件写出时,可以将列编码为文件夹,这使得你在之后读取时可跳过大量数据,
+只读入与问题相关的列数据而不必扫描整个数据集.所有基于文件的数据源都支持这些;
+
+
+.. code-block:: scala
+
+   // in Scala
+
+   csvFile.limit(10).write.mode("overwrite").partitionBy("DEST_COUNTRY_NAME").save("/tmp/partitioned-files.parquet")
+
+.. code-block:: python
+
+   # in python
+
+   csvFile.limit(10).write.mode("overwrite").partitionBy("DEST_COUNTRY_NAME").save("/tmp/partitioned-files.parquet")
+
+写操作完成后,Parquet “文件” 中就会有一个文件夹列表;
+
+.. code-block:: shell
+
+   ls /tmp/partitioned-files.parquet
+
+
+其中每一个都将包含 Parquet 文件,这些文件包含文件夹名称中谓词为 true 的数据;
+
+.. code-block:: shell
+
+   ls /tmp/partitioned-files.parquet/DEST_COUNTRY_NAME=Senegal/
+
+.. note:: 
+
+   读取程序对某表执行操作之前经常执行过滤操作,这时数据划分就是最简单的优化.例如,基于日期来划分数据最常见,
+   因为通常我们只想查看前一周(而不是扫描所有日期数据),这个优化可以极大提升读取程序的速度.
 
 
 8.3.2 数据分桶
 ^^^^^^^^^^^^^^^^^^^^^
 
+数据分桶是另一种文件组织方法,可以使用该方法控制写入每个文件的数据.
+具有相同桶 ID (哈希分桶的 ID) 的数据将放置到一个物理分区中,
+这样就可以避免在稍后读取数据时进行洗牌(shuffle).根据你之后希望如何使用该数据来对数据进行预分区,
+就可以避免连接或聚合操作时执行代价很大的 shuffle 操作.
 
+与其根据某列进行数据划分,不如考虑对数据进行分桶,因为某列如果存在很多不同的值,就可能写出一大堆目录.这将创建一定数量的文件,数据也可以按照组织起来放置到这些“桶”中;
+
+.. code-block:: scala
+
+   // in Scala 
+
+   val numberBuckets = 10
+   val columnToBucketBy = "count"
+
+   csvFile
+      .write
+      .format("parquet")
+      .mode("overwrite")
+      .bucketBy(numberBuckets, columnToBucketBy)
+      .save("bucketedFiles")
+
+
+.. note:: 
+
+   数据分桶仅支持 Spark 管理的表.有关数据分桶和数据划分的更多信息,
+   请参阅 2017 年 Spark Summit 的演讲(https://spark-summit.org/2017/event/why-you-should-care-about-data-layout-in-the-filesystem/).
 
 8.4 写入复杂类型
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Spark 具有多种不同的内部类型.尽管 Spark 可以使用所有这些类型,但并不是每种数据文件格式都支持这些内部类型.
+例如,CSV 文件不支持复杂类型,而 Parquet 和 ORC 文件则支持复杂类型.
 
 8.5 管理文件大小
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+管理文件大小对数据写入不那么重要,但对之后的读取很重要.当你写入大量的小文件时,由于管理所有的这些小文件而产生很大的元数据开销.
+许多文件系统(如 HDFS)都不能很好的处理大量的小文件,而 Spark 特别不适合处理小文件.
+你可能听过“小文件问题”,反之亦然,你也不希望文件太大,因为你只需要其中几行时,必须读取整个数据块就会使效率低下.
+
+Spark 2.2 中引入了一种更自动化地控制文件大小的新方法.之前介绍了输出文件数量与写入时数据分片数量以及选取的划分列有关.
+现在,则可以利用另一个工具来限制输出文件大小,从而可以选出最优的文件大小.
+可以使用 ``maxRecordsPerFile`` 选项来指定每个文件的最大记录数,这使得你可以通过控制写入每个文件的记录数来控制文件大小.
+例如,如果你将程序(writer)的选项设置为 ``df.write.option("maxRecordsPerFile", 5000)``,Spark 将确保每个文件最多包含5000条记录.
 
 
 8.6 Cassandra Connector
@@ -968,4 +1203,4 @@ Spark 还支持读取纯文本文件,文件中每一行将被解析为 DataFrame
 
 .. note:: 
 
-   有很多方法可以用于实现自定义的数据源, 但由于 API 正在不断演化发展（为了更好地支持结构化流式处理）.
+   有很多方法可以用于实现自定义的数据源, 但由于 API 正在不断演化发展(为了更好地支持结构化流式处理).
