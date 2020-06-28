@@ -104,22 +104,36 @@
 <li class="toctree-l3"><a class="reference internal" href="#spark-hive">1.4 Spark 与 Hive 的关系</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#header-n4">2.Spark SQL 查询</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#header-n4">2.Spark SQL 查询</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spark-sql-cli">2.1 Spark SQL CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">2.2 Spark 的可编程 SQL 接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-sql-thrift-jdbc-odbc">2.3 Spark SQL Thrift JDBC/ODBC 服务器</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#catalog">3. Catalog</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#tables">3.1 数据表(tables)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#header-n1010">3.1.1 Spark SQL 创建表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#header-n1018">3.1.2 Spark SQL 创建外部表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#header-n1019">3.1.3 Spark SQL 插入表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#spark-sql-describing-matadata">3.1.4 Spark SQL Describing 表 Matadata</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#spark-sql-refreshing-matadata">3.1.5 Spark SQL Refreshing 表 Matadata</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#header-n1030">3.1.6 Spark SQL 删除表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#caching">3.1.7 Caching 表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1009">3.1 数据表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark">3.2 Spark 托管表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1010">3.3 Spark SQL 创建表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1018">3.4 Spark SQL 创建外部表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1019">3.5 Spark SQL 插入表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-sql-describing-matadata">3.6 Spark SQL Describing 表 Matadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-sql-refreshing-matadata">3.7 Spark SQL Refreshing 表 Matadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1030">3.8 Spark SQL 删除表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#caching">3.9 Caching 表</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#views">4. 视图 (views)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1049">4.1 创建视图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1057">4.2 删除视图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataframe-view">4.3 DataFrame 和 View</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#views">4. 视图 (views)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#databases">5. 数据库 (databases)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#databases">5. 数据库 (databases)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1066">5.1 创建数据库</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1067">5.2 配置数据库</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-n1068">5.3 删除数据库</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#header-n1070">6. 数据查询语句</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#header-n1104">7. 其他</a></li>
 </ul>
@@ -218,48 +232,264 @@
 <span id="header-n0"></span><h1>Spark SQL<a class="headerlink" href="#spark-sql" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="header-n3">
 <span id="id1"></span><h2>1.Spark SQL 背景<a class="headerlink" href="#header-n3" title="Permalink to this headline">¶</a></h2>
-<p>使用 Spark SQL，可以对存储到数据库中的视图或表进行 SQL 查询，还可以使用系统函数或用户自定义函数来分析和查询计划以优化器工作负载. 这直接集成到 DataFrame 和 Dataset API 中.</p>
+<p>使用 Spark SQL,可以对存储到数据库中的视图或表进行 SQL 查询,
+还可以使用系统函数或用户自定义函数来分析和查询计划以优化其工作负载.
+这直接集成到 DataFrame 和 Dataset API 中.</p>
 <div class="section" id="sql">
 <h3>1.1 SQL<a class="headerlink" href="#sql" title="Permalink to this headline">¶</a></h3>
-<p>结构化查询语言(Structured Query Language, SQL) 是一种表示数据关系操作的特定领域语言。SQL 广泛应用在关系型数据库中，许多“NoSQL”数据库也支持类 SQL 语言以使其更便于使用。</p>
-<p>Spark 实现了 ANSI SQL 2003 标准(<a class="reference external" href="https://en.wikipedia.org/wiki/SQL:2003">https://en.wikipedia.org/wiki/SQL:2003</a>)的子集，此 SQL 标准是在大多数 SQL 数据库中都支持的，这种支持意味着 Spark 能够运行各种流行的 TPC-DS 基准测试(<a class="reference external" href="http://www.tpc.org/default.asp">http://www.tpc.org/default.asp</a>).</p>
+<p>结构化查询语言(Structured Query Language, SQL) 是一种表示数据关系操作的特定领域语言.
+SQL 广泛应用在关系型数据库中,许多“NoSQL”数据库也支持类 SQL 语言以使其更便于使用.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Spark 实现了 ANSI SQL 2003 标准(<a class="reference external" href="https://en.wikipedia.org/wiki/SQL:2003">https://en.wikipedia.org/wiki/SQL:2003</a>)的子集,
+此 SQL 标准是在大多数 SQL 数据库中都支持的,这种支持意味着 Spark 能够运行各种流行的
+TPC-DS 基准测试(<a class="reference external" href="http://www.tpc.org/default.asp">http://www.tpc.org/default.asp</a>).</p>
+</div>
 </div>
 <div class="section" id="apache-hive">
 <h3>1.2 Apache Hive<a class="headerlink" href="#apache-hive" title="Permalink to this headline">¶</a></h3>
-<p>在 Spark 流行之前，Hive 是支持 SQL 的主流大数据处理工具。Hive 最初是由 Facebook 开发，曾经是支持大数据 SQL 操作的一个非常流行的工具。它在许多方面将 Hadoop 推广到不同的行业，因为分析师可以运行 SQL 查询命令来实现他们的操作。尽管 Spark 最初是作为一个基于弹性分布式数据集(RDD)的通用处理引擎开发的，但现在大量用户都在使用 Spark SQL.</p>
+<p>在 Spark 流行之前,Hive 是支持 SQL 的主流大数据处理工具.
+Hive 最初是由 Facebook 开发,曾经是支持大数据 SQL 操作的一个非常流行的工具.
+它在许多方面将 Hadoop 推广到不同的行业,因为分析师可以运行 SQL 查询命令来实现他们的操作.
+尽管 Spark 最初是作为一个基于弹性分布式数据集(RDD)的通用处理引擎开发的,
+但现在大量用户都在使用 Spark SQL.</p>
 </div>
 <div class="section" id="id2">
 <h3>1.3 Spark SQL<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>Spark 2.0 发布了一个支持 Hive 操作的超集，并提供了一个能够同时支持 ANSI-SQL 和 HiveQL 的原生 SQL 解析器。Spark SQL 和 DataFrame 的互操作性，使得 Spark SQL 成为各大公司强有力的工具。2016年末，发布 Hive 的 Facebook 公司宣布已经开始运行 Spark 工作负载，并取得很好的效果.</p>
-<p>Spark SQL 在以下关键方面具有强大的能力：</p>
+<p>Spark 2.0 发布了一个支持 Hive 操作的超集,并提供了一个能够同时支持 ANSI-SQL 和 HiveQL 的原生 SQL 解析器.
+Spark SQL 和 DataFrame 的互操作性,使得 Spark SQL 成为各大公司强有力的工具.2016年末,
+发布 Hive 的 Facebook 公司宣布已经开始运行 Spark 工作负载,并取得很好的效果.</p>
+<p>Spark SQL 在以下关键方面具有强大的能力:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>SQL 分析人员可通过 Thrift Server 或者 Spark 的 SQL 接口利用 Spark 的计算能力</p></li>
 <li><p>数据工程师或者科学家可以在任何数据流中使用 Spark SQL</p></li>
-<li><p>Spark SQL 这个统一的 API 功能强大，允许使用 SQL 提取数据，并将数据转化成 DataFrame 进行处理</p></li>
-<li><p>可以把数据交由 Spark MLlib 的大型机器学习算法处理，还可以将数据写到另一个数据源中</p></li>
+<li><p>Spark SQL 这个统一的 API 功能强大,允许使用 SQL 提取数据,并将数据转化成 DataFrame 进行处理</p></li>
+<li><p>可以把数据交由 Spark MLlib 的大型机器学习算法处理,还可以将数据写到另一个数据源中</p></li>
 </ul>
 </div></blockquote>
-<p>Spark SQL 的目的是作为一个在线分析处理(OLAP)数据库而存在，而不是在线事务处理(OLTP)数据库，这意味着 Spark SQL 现在还不适合执行对低延迟要求极高的查询，但是未来，Spark SQL 将会支持这一点.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Spark SQL 的目的是作为一个在线分析处理(OLAP)数据库而存在, 而不是在线事务处理(OLTP)数据库,
+这意味着 Spark SQL 现在还不适合执行对低延迟要求极高的查询, 但是未来,Spark SQL 将会支持这一点.</p>
+</div>
 </div>
 <div class="section" id="spark-hive">
 <h3>1.4 Spark 与 Hive 的关系<a class="headerlink" href="#spark-hive" title="Permalink to this headline">¶</a></h3>
+<p>Spark SQL 与 Hive 的联系很紧密，因为 Spark SQL 可以与 Hive metastore 连接。</p>
+<p>Hive metastore 维护了 Hive 跨会话数据表的信息，使用 Spark SQL 可以连接到 Hive metastore 访问表的元数据。
+这可以在访问信息的时候减少文件列表操作带来的开销。对传统 Hadoop 环境转而使用 Spark 环境运行工作负载的用户来说，这很受欢迎。</p>
+<p>要连接到 Hive metastore, 需要设置几个属性：</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.SQL.hive.metastore.version</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>设置 Metastore 版本, 对应于要访问的 Hive metastore，默认情况为 <code class="docutils literal notranslate"><span class="pre">1.2.1</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.SQL.hive.metastore.jars</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>如果要更改 Hive MetastoreClient 的初始化方式，还需要设置 Hive metastore JAR 包. Spark 使用默认版本，但也可以通过设置 Java 虚拟机(JVM)来指定 Maven repositories 或 classpath</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spark.SQL.hive.metastore.sharedPrefixes</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>可能还需要提供适当的类前缀，以便与存储 Hive metastore 的不同数据库进行通信。要将这些设置为 “Spark” 和 “Hive” 共享的前缀</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果要连接到自己的 metastore, 则要查询该文档以了解相关的更新信息.</p>
+</div>
 </div>
 </div>
 <div class="section" id="header-n4">
 <span id="id3"></span><h2>2.Spark SQL 查询<a class="headerlink" href="#header-n4" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><p>Spark SQL CLI</p></li>
 <li><p>Spark 的可编程 SQL 接口</p></li>
 <li><p>Spark SQL Thrift JDBC/ODBC 服务器</p></li>
 </ul>
+</div></blockquote>
+<div class="section" id="spark-sql-cli">
+<h3>2.1 Spark SQL CLI<a class="headerlink" href="#spark-sql-cli" title="Permalink to this headline">¶</a></h3>
+<p>使用 Spark SQL CLI，可以在本地模式命令行中实现基本的 Spark SQL 查询. Spark SQL CLI 无法与 Thrift JDBC 服务端通信.</p>
+<p>要启动 Spark SQL CLI，需要在 Spark 目录中运行以下命令：</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./bin/spark-sql
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>可以通过修改 <code class="docutils literal notranslate"><span class="pre">conf\</span></code> 文件夹下的 <code class="docutils literal notranslate"><span class="pre">hive-site.xml</span></code>，<code class="docutils literal notranslate"><span class="pre">core-site.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">hdfs-site.xml</span></code> 等文件来配置 Spark SQL CLI.</p></li>
+<li><p>可以运行 <code class="docutils literal notranslate"><span class="pre">./bin/spark-sql</span> <span class="pre">-help</span></code> 查看所有的可选选项的完整列表.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>2.2 Spark 的可编程 SQL 接口<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>可以通过任何 Spark 支持语言的 API 执行 SQL。可以通过 <code class="docutils literal notranslate"><span class="pre">SparkSession</span></code> 对象上的 <code class="docutils literal notranslate"><span class="pre">sql</span></code> 方法来实现，这将返回一个 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>。</p>
+<dl>
+<dt>示例 1:</dt><dd><ul class="simple">
+<li><p>命令 <code class="docutils literal notranslate"><span class="pre">spark.sql(&quot;SELECT</span> <span class="pre">1</span> <span class="pre">+</span> <span class="pre">1&quot;)</span></code> 返回一个 DataFrame，可以被后续处理，这是一个强大的接口，
+因为有一些转换操作通过 SQL 代码表达要比通过 DataFrame 表达要简单得多。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT 1 + 1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+<dt>示例 2:</dt><dd><ul class="simple">
+<li><p>通过将多行字符串传入 <code class="docutils literal notranslate"><span class="pre">sql</span></code> 函数中，可以很简单地表示多行查询.</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">      SELECT user_id, department, first_name</span>
+<span class="s">      FROM professors</span>
+<span class="s">      WHERE department IN (SELECT name FROM department WHERE created_date &gt;= &#39;2016-01-01&#39;)</span>
+<span class="s">&quot;&quot;&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">      SELECT user_id, department, first_name</span>
+<span class="s2">      FROM professors</span>
+<span class="s2">      WHERE department IN (SELECT name FROM department WHERE created_date &gt;= &#39;2016-01-01&#39;)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>示例 3:</dt><dd><ul class="simple">
+<li><p>可以根据需要在 SQL 和 DataFrame 之间实现完全的互操作.</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// in Scala</span>
+
+<span class="c1">// DataFrame =&gt; SQL</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="o">(</span><span class="s">&quot;some_sql_view&quot;</span><span class="o">)</span>
+
+<span class="c1">// SQL =&gt; DataFrame</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">   SELECT DEST_COUNTRY_NAME, sum(count)</span>
+<span class="s">   FROM some_sql_view</span>
+<span class="s">   GROUP BY DEST_COUNTRY_NAME</span>
+<span class="s">&quot;&quot;&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">where</span><span class="o">(</span><span class="s">&quot;DEST_COUNTRY_NAME like &#39;S%&#39;&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">where</span><span class="o">(</span><span class="s">&quot;`sum(count)` &gt; 10&quot;</span><span class="o">)</span>
+   <span class="o">.</span><span class="n">count</span><span class="o">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in Python</span>
+
+<span class="o">//</span> <span class="n">DataFrame</span> <span class="o">=&gt;</span> <span class="n">SQL</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;some_sql_view&quot;</span><span class="p">)</span>
+
+<span class="o">//</span> <span class="n">SQL</span> <span class="o">=&gt;</span> <span class="n">DataFrame</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">   SELECT DEST_COUNTRY_NAME, sum(count)</span>
+<span class="s2">   FROM some_sql_view</span>
+<span class="s2">   GROUP BY DEST_COUNTRY_NAME</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;DEST_COUNTRY_NAME like &#39;S%&#39;&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;`sum(count)` &gt; 10&quot;</span><span class="p">)</span> \
+   <span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="spark-sql-thrift-jdbc-odbc">
+<h3>2.3 Spark SQL Thrift JDBC/ODBC 服务器<a class="headerlink" href="#spark-sql-thrift-jdbc-odbc" title="Permalink to this headline">¶</a></h3>
+<p>Spark 提供了一个 Java 数据库连接 (JDBC) 接口，通过它远程程序可以连接到 Spark 驱动器，以便执行 Spark SQL 查询.
+此处实现的 Thrift JDBC/ODBC 服务器对应 Hive 1.2.1 中的 HiveServer2, 可以使用带有 Spark 或 Hive 1.2.1 的 beeline 脚本来测试 JDBC 服务器.</p>
+<p>要启动 JDBC/ODBC 服务器，需要在 Spark 目录下运行以下命令:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./sbin/start-thriftserver.sh
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li><p>上面的脚本支持全部的 <code class="docutils literal notranslate"><span class="pre">bin/spark-submit</span></code> 命令行选项.</p></li>
+<li><p>要查看配置此 Thrift 服务器的所有可用选项，需要运行 <code class="docutils literal notranslate"><span class="pre">./sbin/start-thriftserver.sh</span> <span class="pre">--help</span></code>.</p></li>
+<li><p>默认情况下，服务器监听 <code class="docutils literal notranslate"><span class="pre">localhost:10000</span></code>，可以通过更改环境变量或系统属性来更新该监听地址和端口.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>对于环境变量配置:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">HIVE_SERVER2_THRIFT_PORT</span><span class="o">=</span>&lt;listening-port&gt;
+<span class="nb">export</span> <span class="nv">HIVE_SERVER2_THRIFT_BIND_HOST</span><span class="o">=</span>&lt;listening-host&gt;
+./sbin/start-thriftserver.sh <span class="se">\</span>
+   --master &lt;master-uri&gt; <span class="se">\</span>
+   ...
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>对于系统属性:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./sbin/start-thriftserver.sh <span class="se">\</span>
+   --hiveconf hive.server2.thrift.port<span class="o">=</span>&lt;listening-port&gt; <span class="se">\</span>
+   --hiveconf hive.server2.thrift.bind.host<span class="o">=</span>&lt;listening-host&gt; <span class="se">\</span>
+   --master &lt;master-uri&gt; <span class="se">\</span>
+   ...
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>通过运行一下命令来测试侧连接</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># beeline 将询问你的用户名和密码，在非安全模式下，只需要在计算机上输入用户名和一个空白密码即可,对于安全模式，请按照 beeline 文档中给出的说明进行操作</span>
+./bin/beeline
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="section" id="catalog">
 <h2>3. Catalog<a class="headerlink" href="#catalog" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="tables">
-<span id="header-n1009"></span><h3>3.1 数据表(tables)<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h3>
+<p>Spark SQL 中最高级别的抽象是 Catalog.</p>
+<p>Catalog 是一个抽象，用于存储用户数据中的元数据以及其他有用的东西，如：数据库、数据表、函数、视图.
+它在 <code class="docutils literal notranslate"><span class="pre">org.apache.spark.sql.catalog.Catalog</span></code> 包中，它包含许多有用的函数，用于执行诸如列举表、数据库和函数之类的操作。</p>
+<p>对于用户来说，Catalog 具有自解释性，它实际上只是 Spark SQL 的另一个编程接口.
+因此如果使用该编程接口，需要将所有内容放在 <code class="docutils literal notranslate"><span class="pre">spark.sql()</span></code> 函数中以执行相关代码.</p>
+<div class="section" id="header-n1009">
+<span id="id5"></span><h3>3.1 数据表<a class="headerlink" href="#header-n1009" title="Permalink to this headline">¶</a></h3>
+<p>要使用 Spark SQL 来执行任何操作之前，首先需要定义数据表，数据表在逻辑上等同于 DataFrame，因为他们都是承载数据的数据结构。</p>
+<p>数据表和 DataFrame 的核心区别在于:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>DataFrame 是在编程语言范围内定义的</p></li>
+<li><p>数据表是在数据库中定义的</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>在 Spark 2.X 中，数据表始终是实际包含数据的，没有类似视图表的概念，只有视图不包含数据，这一点很重要，因为如果要删除一个表，那么可能会导致丢失数据.</p>
+</div>
+</div>
+<div class="section" id="spark">
+<h3>3.2 Spark 托管表<a class="headerlink" href="#spark" title="Permalink to this headline">¶</a></h3>
+</div>
 <div class="section" id="header-n1010">
-<span id="id4"></span><h4>3.1.1 Spark SQL 创建表<a class="headerlink" href="#header-n1010" title="Permalink to this headline">¶</a></h4>
+<span id="id6"></span><h3>3.3 Spark SQL 创建表<a class="headerlink" href="#header-n1010" title="Permalink to this headline">¶</a></h3>
 <p>读取 flight data 并创建为一张表:</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">flights</span> <span class="p">(</span>
     <span class="n">DEST_COUNTRY_NAME</span> <span class="n">STRING</span><span class="p">,</span>
@@ -298,10 +528,10 @@
 </div>
 </div>
 <div class="section" id="header-n1018">
-<span id="id5"></span><h4>3.1.2 Spark SQL 创建外部表<a class="headerlink" href="#header-n1018" title="Permalink to this headline">¶</a></h4>
+<span id="id7"></span><h3>3.4 Spark SQL 创建外部表<a class="headerlink" href="#header-n1018" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="header-n1019">
-<span id="id6"></span><h4>3.1.3 Spark SQL 插入表<a class="headerlink" href="#header-n1019" title="Permalink to this headline">¶</a></h4>
+<span id="id8"></span><h3>3.5 Spark SQL 插入表<a class="headerlink" href="#header-n1019" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">flights_from_select</span>
 <span class="k">SELECT</span>
     <span class="n">DEST_COUNTRY_NAME</span><span class="p">,</span>
@@ -323,13 +553,13 @@
 </div>
 </div>
 <div class="section" id="spark-sql-describing-matadata">
-<span id="header-n1024"></span><h4>3.1.4 Spark SQL Describing 表 Matadata<a class="headerlink" href="#spark-sql-describing-matadata" title="Permalink to this headline">¶</a></h4>
+<span id="header-n1024"></span><h3>3.6 Spark SQL Describing 表 Matadata<a class="headerlink" href="#spark-sql-describing-matadata" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DESCRIBE</span> <span class="k">TABLE</span> <span class="n">flights_csv</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="spark-sql-refreshing-matadata">
-<span id="header-n1026"></span><h4>3.1.5 Spark SQL Refreshing 表 Matadata<a class="headerlink" href="#spark-sql-refreshing-matadata" title="Permalink to this headline">¶</a></h4>
+<span id="header-n1026"></span><h3>3.7 Spark SQL Refreshing 表 Matadata<a class="headerlink" href="#spark-sql-refreshing-matadata" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="n">REFRESH</span> <span class="k">TABLE</span> <span class="n">partitioned_flights</span>
 </pre></div>
 </div>
@@ -338,24 +568,23 @@
 </div>
 </div>
 <div class="section" id="header-n1030">
-<span id="id7"></span><h4>3.1.6 Spark SQL 删除表<a class="headerlink" href="#header-n1030" title="Permalink to this headline">¶</a></h4>
+<span id="id9"></span><h3>3.8 Spark SQL 删除表<a class="headerlink" href="#header-n1030" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><p>当删除管理表(managed table)时，表中的数据和表的定义都会被删除；</p>
+<div><p>当删除管理表(managed table)时,表中的数据和表的定义都会被删除；</p>
 </div></blockquote>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">flights_csv</span><span class="p">;</span>
 <span class="k">DROP</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">flights_csv</span><span class="p">;</span>
 </pre></div>
 </div>
 <blockquote>
-<div><p>当删除非管理表时，表中的数据不会被删除，但是不能够再引用原来表的名字对表进行操作；</p>
+<div><p>当删除非管理表时,表中的数据不会被删除,但是不能够再引用原来表的名字对表进行操作；</p>
 </div></blockquote>
 </div>
 <div class="section" id="caching">
-<span id="header-n1038"></span><h4>3.1.7 Caching 表<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h4>
+<span id="header-n1038"></span><h3>3.9 Caching 表<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CACHE</span> <span class="k">TABLE</span> <span class="n">flights</span>
 <span class="n">UNCACHE</span> <span class="k">TABLE</span> <span class="n">flights</span>
 </pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -371,6 +600,8 @@ only at query time, views are equivalent to create a new DataFrame
 from an existing DataFrame.</p></li>
 </ul>
 </div></blockquote>
+<div class="section" id="header-n1049">
+<span id="id10"></span><h3>4.1 创建视图<a class="headerlink" href="#header-n1049" title="Permalink to this headline">¶</a></h3>
 <p>创建 View:</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">VIEW</span> <span class="n">just_usa_view</span> <span class="k">AS</span>
 <span class="k">SELECT</span> <span class="o">*</span>
@@ -400,9 +631,15 @@ from an existing DataFrame.</p></li>
 <span class="k">SHOW</span> <span class="n">TABLES</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="header-n1057">
+<span id="id11"></span><h3>4.2 删除视图<a class="headerlink" href="#header-n1057" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DROP</span> <span class="k">VIEW</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">just_usa_view</span><span class="p">;</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="dataframe-view">
+<span id="header-n1059"></span><h3>4.3 DataFrame 和 View<a class="headerlink" href="#dataframe-view" title="Permalink to this headline">¶</a></h3>
 <p><strong>DataFrame:</strong></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">flights</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;json&quot;</span><span class="o">)</span>
     <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">&quot;/data/flight-data/json/2015-summary.json&quot;</span><span class="o">)</span>
@@ -418,11 +655,21 @@ from an existing DataFrame.</p></li>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="databases">
 <span id="header-n1065"></span><h2>5. 数据库 (databases)<a class="headerlink" href="#databases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-n1066">
+<span id="id12"></span><h3>5.1 创建数据库<a class="headerlink" href="#header-n1066" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="header-n1067">
+<span id="id13"></span><h3>5.2 配置数据库<a class="headerlink" href="#header-n1067" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="header-n1068">
+<span id="id14"></span><h3>5.3 删除数据库<a class="headerlink" href="#header-n1068" title="Permalink to this headline">¶</a></h3>
+</div>
 </div>
 <div class="section" id="header-n1070">
-<span id="id8"></span><h2>6. 数据查询语句<a class="headerlink" href="#header-n1070" title="Permalink to this headline">¶</a></h2>
+<span id="id15"></span><h2>6. 数据查询语句<a class="headerlink" href="#header-n1070" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p>ANSI SQL</p>
 </div></blockquote>
@@ -477,7 +724,7 @@ from an existing DataFrame.</p></li>
 </div>
 </div>
 <div class="section" id="header-n1104">
-<span id="id9"></span><h2>7. 其他<a class="headerlink" href="#header-n1104" title="Permalink to this headline">¶</a></h2>
+<span id="id16"></span><h2>7. 其他<a class="headerlink" href="#header-n1104" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
