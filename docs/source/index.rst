@@ -68,3 +68,4 @@ Welcome to Spark's documentation!
 
    spark-dependence
    spark-partitions
+   spark-buckets
