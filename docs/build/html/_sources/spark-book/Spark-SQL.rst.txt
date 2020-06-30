@@ -100,6 +100,8 @@ Hive metastore 维护了 Hive 跨会话数据表的信息, 使用 Spark SQL 可�
 
    .. code-block:: shell
 
+      # in Bash
+
       ./bin/spark-sql
 
 .. note:: 
@@ -198,6 +200,8 @@ Spark 提供了一个 Java 数据库连接 (JDBC) 接口, 通过它远程程序�
 
    .. code-block:: shell
 
+      # in Bash
+      
       ./sbin/start-thriftserver.sh
 
 
@@ -213,6 +217,8 @@ Spark 提供了一个 Java 数据库连接 (JDBC) 接口, 通过它远程程序�
 
       .. code-block:: shell
 
+         # in Bash 
+
          export HIVE_SERVER2_THRIFT_PORT=<listening-port>
          export HIVE_SERVER2_THRIFT_BIND_HOST=<listening-host>
          ./sbin/start-thriftserver.sh \
@@ -222,6 +228,8 @@ Spark 提供了一个 Java 数据库连接 (JDBC) 接口, 通过它远程程序�
       - 对于系统属性:
 
       .. code-block:: shell
+
+         # in Bash
 
          ./sbin/start-thriftserver.sh \
             --hiveconf hive.server2.thrift.port=<listening-port> \
@@ -233,6 +241,8 @@ Spark 提供了一个 Java 数据库连接 (JDBC) 接口, 通过它远程程序�
 
       .. code-block:: shell
          
+         # in Bash 
+
          # beeline 将询问你的用户名和密码, 在非安全模式下, 只需要在计算机上输入用户名和一个空白密码即可,对于安全模式, 请按照 beeline 文档中给出的说明进行操作
          ./bin/beeline
       
@@ -302,6 +312,8 @@ Catalog 是一个抽象, 用于存储用户数据中的元数据以及其他有�
 
 .. code:: sql
 
+   -- in SQL
+
    CREATE TABLE flights (
        DEST_COUNTRY_NAME STRING, 
        ORIGIN_COUNTRY_NAME STRING, 
@@ -320,6 +332,8 @@ Catalog 是一个抽象, 用于存储用户数据中的元数据以及其他有�
 
 .. code:: sql
 
+   -- in SQL
+
    CREATE TABLE flights_csv (
        DEST_COUNTRY_NAME STRING, 
        ORIGIN_COUNTRY_NAME STRING "remember, the US will be most prevalent", 
@@ -334,6 +348,8 @@ Catalog 是一个抽象, 用于存储用户数据中的元数据以及其他有�
 
 .. code:: sql
 
+   -- in SQL
+
    CREATE TABLE flights_from_select USING parquet AS 
    SELECT * 
    FROM flights
@@ -342,6 +358,8 @@ Catalog 是一个抽象, 用于存储用户数据中的元数据以及其他有�
 - 只有表不存在时才能创建该表:
 
 .. code-block:: sql
+   
+   -- in SQL
 
    CREATE TALBE IF NOT EXISTS flights_from_select AS 
    SELECT *
@@ -357,6 +375,8 @@ Catalog 是一个抽象, 用于存储用户数据中的元数据以及其他有�
    - 可以通过写出已分区的数据集来控制数据布局, 这些表可以在整个 Spark 会话中使用, 而临时表不存在 Spark 中, 所以必须创建临时的视图:
 
 .. code:: sql
+
+   -- in SQL
 
    CREATE TABLE partitioned_flights USING parquet PARTITION BY (DEST_COUNTRY_NAME) AS 
    SELECT 
@@ -382,6 +402,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
    - 创建一个非托管表, Spark 将管理表的元数据, 但是数据文件不是由 Spark 管理.可以使用 ``CREATE EXTERNAL TABLE`` 语句来创建此表:
 
 .. code-block:: sql
+   
+   -- in SQL
 
    CREATE EXTERNAL TABLE hive_flights (
       DEST_COUNTRY_NAME STRING,
@@ -394,6 +416,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
    - 可以从 ``SELECT`` 子句创建外部表:
 
 .. code-block:: sql
+
+   -- in SQL
 
    CREATE EXTERNAL TABLE hive_flights_2
    ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
@@ -412,6 +436,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code:: sql
 
+   -- in SQL
+
    INSERT INTO flights_from_select
       SELECT 
          DEST_COUNTRY_NAME,
@@ -425,6 +451,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
    - 如果想要只写入某个分区, 可以选择提供分区方案:
 
 .. code:: sql
+
+   -- in SQL
 
    INSERT INTO partitioned_flights
       PARTITION (DEST_COUNTRY_NAME="UNITED STATES")
@@ -451,12 +479,16 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code:: sql
 
+   -- in SQL
+
    DESCRIBE TABLE flights_csv
 
 示例 2:
    - 可以使用以下方法查看数据的分区方案(仅适用于已分区的表):
 
 .. code-block:: sql
+
+   -- in SQL
 
    SHOW PARTITIONS partitioned_flights
 
@@ -477,12 +509,16 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code:: sql
 
+   -- in SQL
+
    REFRESH TABLE partitioned_flights
 
 示例 2:
    - 可以手动写出新分区, 并相应地修复表：
 
 .. code:: sql
+
+   -- in SQL
 
    MSCK REPAIR TABLE partitioned_flights
 
@@ -492,7 +528,7 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 3.8 Spark SQL 删除表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-不能删除表，只能 drop 它们，可以使用 ``DROP`` 关键字.
+不能删除表, 只能 drop 它们, 可以使用 ``DROP`` 关键字.
 
    - 如果 drop 托管表(managed table), 则表中的数据和表的定义都会被删除.
 
@@ -504,6 +540,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code:: sql
 
+   -- in SQL
+
    DROP TABLE flights_csv;
 
    DROP TABLE IF EXISTS flights_csv;
@@ -513,6 +551,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
    - 删除非托管表 flights_csv
 
 .. code:: sql
+
+   -- in SQL
 
    DROP TABLE flights;
    DROP TABLE IF EXISTS flights;
@@ -528,6 +568,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code:: sql
 
+   -- in SQL
+
    CACHE TABLE flights
 
 
@@ -536,6 +578,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code:: sql
 
+   -- in SQL
+
    UNCACHE TABLE flights
 
 .. _header-n1042:
@@ -543,72 +587,110 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 4. 视图 (views)
 ------------------
 
-   -  A view specifies a set of transformations on top of an existing
-      table-basically just saved query plans, which cna be convenient
-      for organizing or resuing query logic.
+   -  定义视图即指定基于现有表的一组转换操作, 基本上只是保存查询计划, 可以方便地组织或重用查询逻辑.
+   
+   - Spark 有几种不同的视图概念, 视图可以是全局的, 也可以是针对某个数据库的或针对每个会话的.
 
-   -  A view is effectively a transformation and Spark will perform it
-      only at query time, views are equivalent to create a new DataFrame
-      from an existing DataFrame.
+   - 视图实际上是一种转换, Spark 只会在查询时执行它, 这意味着它只会在实际查询表之后应用该过滤器.
+
 
 .. _header-n1049:
 
 4.1 创建视图
 ~~~~~~~~~~~~~~~
 
-创建 View:
+对于终端用户, 视图可以被视为表, 但是数据并没有重写到新位置, 
+们只是在查询时对源数据执行转换操作, 可能是 ``filter``, ``select`` 
+或者是更大规模的 ``GROUP BY`` 或者 ``ROLLUP``.
+
+示例 1:
+   - 创建视图
 
 .. code:: sql
+
+   -- in SQL
 
    CREATE VIEW just_usa_view AS
-   SELECT *
-   FROM flights 
-   WHERE DEST_COUNTRY_NAME = 'UNITED STATES'
+      SELECT *
+      FROM flights 
+      WHERE DEST_COUNTRY_NAME = 'UNITED STATES'
+
+
+示例 2:
+   - 更规范地创建视图
 
 .. code:: sql
+
+   -- in SQL
 
    CREATE OR REPLACE TEMP VIEW just_usa_view_temp AS 
-   SELECT *
-   FROM flights
-   WHERE DEST_COUNTRY_NAME = "UNITED STATES"
+      SELECT *
+      FROM flights
+      WHERE DEST_COUNTRY_NAME = "UNITED STATES"
 
-创建临时 View:
+
+示例 3:
+   - 创建临时视图, 仅在当前会话期间可用, 且未注册到数据库的临时视图
 
 .. code:: sql
+
+   -- in SQL
 
    CREATE TEMP VIEW just_usa_view_temp AS 
-   SELECT *
-   FROM flights 
-   WHERE DEST_COUNTRY_NAME = "UNITED STATES"
+      SELECT *
+      FROM flights 
+      WHERE DEST_COUNTRY_NAME = "UNITED STATES"
 
-创建全局临时 View:
+
+示例 4:
+   - 创建全局临时视图, 全局临时视图与具体的 database 无关, 在整个 Spark 应用程序中都可查看, 但在会话结束时会删除它们
 
 .. code:: sql
 
+   -- in SQL
+
    CREATE GLOBAL TEMP VIEW just_usa_global_view_temp AS 
-   SELECT *
-   FROM flights
-   WHERE DEST_COUNTRY_NAME = "UNITED STATES"
+      SELECT *
+      FROM flights
+      WHERE DEST_COUNTRY_NAME = "UNITED STATES"
 
    SHOW TABLES
 
-.. _header-n1057:
 
-4.2 删除视图
-~~~~~~~~~~~~~~~
+示例 5:
+   - 使用显式的关键字指定你是否要覆盖视图(如果已经存在), 可以覆盖临时视图和常规视图
 
-.. code:: sql
+.. code-block:: sql
 
-   DROP VIEW IF EXISTS just_usa_view;
+   CREATE OR REPLACE TEMP VIEW just_usa_view_temp AS
+      SELECT *
+      FROM flights WHERE dest_country_name = "United States"
+
+
+.. note:: 
+
+   可以像查询数据表一样查询视图
+
+   .. code-block:: sql
+
+      SELECT *
+      FROM just_usa_view_temp
+
+
 
 .. _header-n1059:
 
-4.3 DataFrame 和 View
+4.2 DataFrame 和 View
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+实际上, 视图等同于从现有 DataFrame 创建新的 DataFrame.
+
 
 **DataFrame:**
 
 .. code:: scala
+
+   // in Scala
 
    val flights = spark.read.format("json")
        .load("/data/flight-data/json/2015-summary.json")
@@ -621,18 +703,35 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code:: sql
 
+   -- in SQL
+
    EXPLAIN SELECT * FROM just_usa_view
    EXPLAIN SELECT * FROM flights WHERE dest_country_name = "United States"
+
+
+.. _header-n1057:
+
+4.3 删除视图
+~~~~~~~~~~~~~~~
+
+可以按照删除表的方式删除视图, 只需指定要删除的内容是视图而不是表, 删除视图和删除表之前的主要区别是, 在视图中不删除基础数据, 只删除视图定义本身.
+
+.. code:: sql
+
+   -- in SQL
+
+   DROP VIEW IF EXISTS just_usa_view;
+
 
 .. _header-n1065:
 
 5. 数据库 (databases)
 -------------------------
 
-数据库是组织数据表的工具。如果没有一个提前定义好的数据库，Spark 将使用默认的数据库。
+数据库是组织数据表的工具.如果没有一个提前定义好的数据库, Spark 将使用默认的数据库.
 
-在 Spark 中执行的 SQL 语句(包括 DataFrame 命令)都在数据库的上下文中执行。
-这意味着，如果更改数据库，那么用户定义的表都将保留在先前的数据库中，
+在 Spark 中执行的 SQL 语句(包括 DataFrame 命令)都在数据库的上下文中执行.
+这意味着, 如果更改数据库, 那么用户定义的表都将保留在先前的数据库中, 
 并且需要以不同的方式进行查询.
 
 .. _header-n1066:
@@ -641,6 +740,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sql
+
+   -- in SQL
 
    CREATE DATABASE some_db;
 
@@ -653,6 +754,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
    - 选择特定的数据库以执行查询
 
 .. code-block:: sql
+
+   -- in SQL
 
    USE some_db;
 
@@ -668,6 +771,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code-block:: sql
 
+   -- in SQL
+
    SELECT *
    FROM default.flights
 
@@ -676,12 +781,16 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 
 .. code-block:: sql
 
+   -- in SQL
+
    SELECT current_database()
 
 示例 4:
    - 切换回默认数据库：
 
 .. code-block:: sql
+
+   -- in SQL
 
    USE default;
 
@@ -692,6 +801,8 @@ Hive 是首批出现的面向大数据的 SQL 系统, 而 Spark SQL 与 Hive SQL
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sql
+
+   -- in SQL
 
    DROP DATABASE IF EXISTS some_db;
 
@@ -707,6 +818,8 @@ ANSI SQL
 ~~~~~~~~~~~~~~~~~~~
 
 .. code:: sql
+
+   -- in SQL
 
    SELECT [ALL|DESTINCT] 
        named_expression[, named_expression, ...]
@@ -749,6 +862,8 @@ ANSI SQL
 
 .. code:: sql
 
+   -- in SQL
+
    SELECT 
        CASE WHEN DEST_COUNTRY_NAME = 'UNITED STATES' THEN 1
             WHEN DEST_COUNTRY_NAME = 'Egypt' THEN 0
@@ -761,40 +876,256 @@ ANSI SQL
 7. 复杂类型
 ---------------
 
+标准 SQL 中不支持复杂类型，但是支持复杂类型可以提供非常强大的功能，了解如何在 SQL 中恰当地操作它们是非常必要的. 
+
+Spark SQL 中支持了三种复杂类型：
+
+   - 结构体(struct)
+   - 列表(list)
+   - 映射(map).
+
+
 7.1 结构体
 ~~~~~~~~~~~~~~~~
+
+结构体类似映射，它们提供了一种在 Spark 中创建或查询嵌套数据的方法.
+
+示例 1: 
+   - 创建一个结构体
+
+.. code-block:: sql
+
+   -- in SQL
+
+   CREATE VIEW IF NOT EXISTS nested_data AS
+      SELECT 
+         (DEST_COUNTRY_NAME, ORIGIN_COUNTRY_NAME) as country, 
+         count
+      FROM flights
+
+.. note:: 
+   
+   可以查询此数据的形式:
+
+   .. code-block:: sql
+
+      -- in SQL
+
+      SELECT * 
+      FROM nested_data
+
+      SELECT 
+         country.DEST_COUNTRY_NAME, 
+         count 
+      FROM nested_data
+
+
+示例 2:
+   - 可以使用结构体的名字选择结构体所有的子值以及所有的子列，尽管这些并不是真正的子列，但是这种方式提供了更简单的操作方式，可以把他们当做列，完成想要的操作
+   
+
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT 
+      country.*,
+      count
+   FROM nested_data
 
 
 7.2 列表
 ~~~~~~~~~~~~~~~~
 
+Spark SQL 中有两种创建列表的方式, 这两种函数都是聚合函数，因此只能够在聚合操作中指定.:
+
+- ``collect_list`` 创建一个包含值的列表
+
+- ``collect_set`` 创建一个不含有值的列表
+
+
+示例 1:
+   - 创建两种列表
+
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT 
+      DEST_COUNTRY_NAME as new_name, 
+      collect_list(count) as flight_counts,
+      collect_set(ORIGIN_COUNTRY_NAME) as origin_set
+   FROM flights 
+   GROUP BY 
+      DEST_COUNTRY_NAME
+
+示例 2:
+   - 通过设定值的方法来手动地创建数组
+
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT 
+      DEST_COUNTRY_NAME, 
+      ARRAY(1, 2, 3)
+   FROM flights
+
+
+示例 3:
+   - 使用类似 Python 的数组查询语法，按位置查询列表
+
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT
+      DEST_COUNTRY_NAME as new_name,
+      collect_list(count)[0]
+   FROM flights
+   GROUP BY
+      DEST_COUNTRY_NAME
+
+示例 4:
+   - 执行诸如数组转换回行的操作，可以使用 ``explode`` 函数来执行此任务
+
+.. code-block:: sql
+
+   -- in SQL
+
+   CREATE OR REPLACE TEMP VIEW flights_agg AS
+      SELECT 
+         DEST_COUNTRY_NAME,
+         collect_list(count) as collected_counts
+      FROM flights
+      GROUP BY 
+         DEST_COUNTRY_NAME
+
+将复杂类型数组中的每个值作为结果中的一行。DEST_COUNTRY_NAME 将被重复复制到数组中的每个值，执行与原始 collect 相反的操作，返回一个 DataFrame:
+
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT 
+      explode(collected_counts),
+      DEST_COUNTRY_NAME
+   FROM flights_agg
 
 
 
 8. 函数
 ----------------
 
+.. code-block:: sql
+
+   -- in SQL
+
+   SHOW FUNCTIONS
+   SHOW SYSTEM FUNCTIONS
+   SHOW USER FUNCTIONS
+   SHOW FUNCTIONS "S*";
+   SHOW FUNCTIONS LIKE "collect*";
+
 
 8.1 用户自定义函数
 ~~~~~~~~~~~~~~~~~~~~
 
+.. code-block:: scala
+
+   // in Scala
+
+   def power3(number: Double): Double = number * number * number
+   spark.udf.register("power3", power3(_: Double): Double)
+
+
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT count, power3(count)
+   FROM flihgts
+   
 
 
 9. 子查询
 ----------------
 
+
+
+
+
 9.1 不相关谓词子查询
 ~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT 
+      DEST_COUNTRY_NAME
+   FROM flights
+   GROUP BY 
+      DEST_COUNTRY_NAME
+   ORDER BY 
+      sum(count) DESC
+   LIMIT 5
+
+
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT *
+   FROM flights
+   WHERE ORIGIN_COUNTRY_NAME IN (
+      SELECT 
+         DEST_COUNTRY_NAME
+      FROM flights
+      GROUP BY DEST_COUNTRY_NAME
+      ORDER BY 
+         sum(count) DESC
+      LIMIT 5
+   )
+
 
 
 9.2 相关谓词子查询
 ~~~~~~~~~~~~~~~~~~~~
 
+.. code-block:: sql
+
+   -- in SQL
+
+   SELECT 
+      *
+   FROM flights f1
+   WHERE 
+      EXISTS (
+         SELECT 
+            1
+         FROM flights f2
+         WHERE f1.DEST_COUNTRY_NAME = f2.DEST_COUNTRY_NAME) AND
+      EXISTS (
+         SELECT 
+            1 
+         FROM flights f2
+         WHERE f2.DEST_COUNTRY_NAME = f1.ORIGIN_COUNTRY_NAME
+      ) 
+
+
 
 9.3 不相关标量查询
 ~~~~~~~~~~~~~~~~~~~~
 
+.. code-block:: sql
 
+   -- in SQL
+
+   SELECT 
+      *,
+      (SELECT max(count) FROM flights) AS maximum
+   FROM flights
 
 
 .. _header-n1104:
@@ -805,26 +1136,40 @@ ANSI SQL
 10.1 配置
 ~~~~~~~~~~~~~~~~~~~~
 
-Spark SQL 应用程序配置如下表，可以在应用程序初始化或应用程序执行过程中设置.
+Spark SQL 应用程序配置如下表, 可以在应用程序初始化或应用程序执行过程中设置.
 
 
-+----------------------------------------------+-----------------------+------------------------------+
-| Property Name                                | Default               | Meaning                      |
-+==============================================+=======================+==============================+
-| spark.sql.inMemoryColumnarStorage.compressed | ``true``              |                              |
-+----------------------------------------------+-----------------------+------------------------------+
-| spark.sql.inMemoryColumnarStorage.batchSize  | ``10000``             |                              |
-+----------------------------------------------+-----------------------+------------------------------+
-| spark.sql.files.maxPartitionBytes            | ``134217728(128 MB)`` |                              |
-+----------------------------------------------+-----------------------+------------------------------+
-| spark.sql.files.openCostInBytes              | ``4194304(4MB)``      |                              |
-+----------------------------------------------+-----------------------+------------------------------+
-| spark.sql.broadcastTimeout                   | ``300``               |                              |
-+----------------------------------------------+-----------------------+------------------------------+
-| spark.sql.autoBroadcastJoinThreshold         | ``10485760(10 MB)``   |                              |
-+----------------------------------------------+-----------------------+------------------------------+
-| spark.sql.shuffle.partitions                 | ``200``               |                              |
-+----------------------------------------------+-----------------------+------------------------------+
++----------------------------------------------+-----------------------+---------------------------------------------------------------------+
+| Property Name                                | Default               | Meaning                                                             |
++==============================================+=======================+=====================================================================+
+| spark.sql.inMemoryColumnarStorage.compressed | ``true``              | When set to true, Spark SQL automatically selects a                 |
+|                                              |                       | compression codec for each column based on statistics of the data   |
++----------------------------------------------+-----------------------+---------------------------------------------------------------------+
+| spark.sql.inMemoryColumnarStorage.batchSize  | ``10000``             | Controls the size of batches for columnar caching. Large batch size |
+|                                              |                       | can improve memery utilization and compression,                     |
+|                                              |                       | but risk OutOfMemoryErrors(OOMs) when caching data.                 |
++----------------------------------------------+-----------------------+---------------------------------------------------------------------+
+| spark.sql.files.maxPartitionBytes            | ``134217728(128 MB)`` | The maximum number of bytes to pack into                            |
+|                                              |                       | a single partition when reading files                               |
++----------------------------------------------+-----------------------+---------------------------------------------------------------------+
+| spark.sql.files.openCostInBytes              | ``4194304(4MB)``      | The estimated cost to open a file, measured by the number of bytes  |
+|                                              |                       | that could be scanned in the same time. This is used when putting   |
+|                                              |                       | multiple files into a partition. It is better to overestimate; that |
+|                                              |                       | way the partitions with small files will be faster than partitions  |
+|                                              |                       | with bigger files (which is schedulled first).                      |
++----------------------------------------------+-----------------------+---------------------------------------------------------------------+
+| spark.sql.broadcastTimeout                   | ``300``               | Timeout in seconds for the broadcast wait time in broadcast joins   |
++----------------------------------------------+-----------------------+---------------------------------------------------------------------+
+| spark.sql.autoBroadcastJoinThreshold         | ``10485760(10 MB)``   | Configures the maximum size in bytes for a table that will be       |
+|                                              |                       | broadcast to all worker nodes when performing a join. You can       |
+|                                              |                       | disable broadcasting by setting this value to -1. Note that         |
+|                                              |                       | currently statistics are supported only for Hive Metastore tables   |
+|                                              |                       | for which the command ANALYZE TABLE COMPUTE STATISTICS              |
+|                                              |                       | noscan has been run.                                                |
++----------------------------------------------+-----------------------+---------------------------------------------------------------------+
+| spark.sql.shuffle.partitions                 | ``200``               | Configures the number of partitions to use when shuffling data for  |
+|                                              |                       | joins or aggregations.                                              |
++----------------------------------------------+-----------------------+---------------------------------------------------------------------+
 
 
 10.2 在 SQL 中设置配置值
@@ -834,6 +1179,8 @@ Spark SQL 应用程序配置如下表，可以在应用程序初始化或应用�
    - 从 SQL 中设置 shuffle 分区:
 
 .. code-block:: sql
+
+   -- in SQL
 
    SET spark.sql.shuffle.partitions=20
 
